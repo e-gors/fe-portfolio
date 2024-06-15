@@ -1,10 +1,15 @@
-import "./App.css";
-
+import React from "react";
+import { Paper } from "@mui/material";
+import NavBar from "./components/NavBar";
 function App() {
   return (
-    <div className="App">
-      <h1>This is an Initial Setup</h1>
-    </div>
+    <Paper
+      className="App"
+      elevation={0}
+      sx={{ position: "relative", overflow: "hidden" }}
+    >
+      <NavBar />
+    </Paper>
   );
 }
 
