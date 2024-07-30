@@ -21,7 +21,7 @@ const pages = ["Home", "About", "Services", "Portfolio", "Contact"];
 
 function NavBar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [selectedPage, setSelectedPage] = React.useState("");
+  const [selectedPage, setSelectedPage] = React.useState("Home");
 
   const handleOpenNavMenu = () => {
     setDrawerOpen(true);
