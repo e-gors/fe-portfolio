@@ -1,8 +1,13 @@
 const routes = [
   {
     path: "/",
-    component: "modules/public/pages/Homepage",
+    component: "pages/Homepage",
   },
+  {
+    path: "/dashboard",
+    component: "pages/Dashboard",
+    auth: true
+  }
 ];
 
 export default routes;

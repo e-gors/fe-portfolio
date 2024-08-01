@@ -8,6 +8,7 @@
     "@faker-js/faker": "^8.4.1",
     "@iconify/react": "^5.0.2",
     "@mui/icons-material": "^5.15.20",
+    "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",

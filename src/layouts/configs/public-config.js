@@ -16,18 +16,23 @@ const publicConfig = [
     icon: icon("ic_dashboard"),
   },
   {
-    title: "Services",
-    path: "#services",
-    icon: icon("ic_services"),
-  },
-  {
     title: "About",
     path: "#about",
     icon: icon("ic_services"),
   },
   {
-    title: "Blog",
-    path: "#blog",
+    title: "Services",
+    path: "#services",
+    icon: icon("ic_services"),
+  },
+  {
+    title: "Portfolio",
+    path: "#portfolio",
+    icon: icon("ic_blog"),
+  },
+  {
+    title: "Testimonials",
+    path: "#testimonials",
     icon: icon("ic_blog"),
   },
   {
@@ -36,6 +41,5 @@ const publicConfig = [
     icon: icon("ic_blog"),
   },
 ];
-
 
 export default publicConfig;

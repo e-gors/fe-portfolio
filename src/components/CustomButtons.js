@@ -1,25 +1,24 @@
 import { Button, styled } from "@mui/material";
 
 const ContainedButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "#5ABED5",
-  color: "white",
+  backgroundColor: "#10fddd",
+  color: "black",
   textTransform: "none",
 
   "&:hover": {
-    backgroundColor: "#5ABED5",
-    borderColor: "#5ABED5",
+    backgroundColor: "#00dfc0",
+    borderColor: "#00dfc0",
   },
 }));
 
 const OutlinedButton = styled(Button)(({ theme }) => ({
-  borderColor: "#5ABED5",
-  color: "#5ABED5",
+  borderColor: "#10fddd",
+  color: "black",
   textTransform: "none",
 
   "&:hover": {
-    backgroundColor: "#5ABED5",
-    borderColor: "white",
-    color: "white",
+    backgroundColor: "#10fddd",
+    borderColor: "#10fddd",
     boxShadow: 5,
   },
 }));
