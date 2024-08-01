@@ -25,6 +25,7 @@ import Flowbite from "../../../assets/svg/flowbite.svg";
 import Github from "../../../assets/svg/github.svg";
 import Layers from "../../../assets/svg/layers.svg";
 import Reddit from "../../../assets/svg/reddit.svg";
+import { useSelector } from "react-redux";
 
 const services = [
   {
@@ -66,6 +67,8 @@ const services = [
 ];
 
 function HomepageView() {
+  const theme = useSelector((state) => state.theme.theme);
+
   return (
     <>
       <Box
@@ -76,6 +79,8 @@ function HomepageView() {
           position: "relative",
           overflow: "none",
           padding: { xs: "70px 5%", md: "3% 10%" },
+          backgroundColor:
+            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
         }}
       >
         <Grid
@@ -296,7 +301,7 @@ function HomepageView() {
         }}
       >
         <Box mb={2}>
-          <Box sx={{ textAlign: {xs: 'left', sm: 'center'} }}>
+          <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
             <Typography variant="h3">My Services</Typography>
             <Typography variant="subtitle1" color="text.secondary">
               Here you will find some of my services that I can offer with my

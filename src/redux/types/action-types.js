@@ -2,8 +2,7 @@ export const ActionTypes = {
   // Set types
   SET_USERS: "SET_USERS",
   SET_USER: "SET_USER",
-  SET_CATEGORIES: "SET_CATEGORIES",
-  SET_SELECTED_CATEGORIES: "SET_SELECTED_CATEGORIES",
+  SET_THEME: "SET_THEME",
   
   // Update types
   UPDATE_USERS: "UPDATE_USERS",

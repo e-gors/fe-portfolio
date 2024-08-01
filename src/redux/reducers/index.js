@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { userReducer } from "./userReducer";
-import { categoryReducer } from "./categoryReducer";
+import { themeReducer } from "./themeReducer";
 
 // Define persist config
 const persistConfig = {
@@ -13,7 +13,7 @@ const persistConfig = {
 // Combine reducers
 const rootReducer = combineReducers({
   users: userReducer,
-  categories: categoryReducer,
+  theme: themeReducer
 });
 
 // Create a persisted reducer

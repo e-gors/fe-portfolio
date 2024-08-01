@@ -4,9 +4,9 @@ import {
   Box,
   Toolbar,
   IconButton,
-  Typography,
   Container,
   Button,
+  Stack,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useHistory } from "react-router-dom";
@@ -15,6 +15,7 @@ import publicConfig from "./configs/public-config";
 import Nav from "./dashboard/nav";
 import { usePathname } from "../routes/hooks";
 import { OutlinedButton } from "../components/CustomButtons";
+import CustomSwitch from "../components/CustomSwitch";
 
 function PublicAppBar() {
   const history = useHistory();
@@ -50,7 +51,7 @@ function PublicAppBar() {
   const handlePageClick = (page) => {
     setDrawerOpen(false);
     setSelectedPage(page);
-      scrollToSection(page.toLowerCase());
+    scrollToSection(page.toLowerCase());
   };
 
   React.useEffect(() => {
@@ -100,6 +101,7 @@ function PublicAppBar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [history, currentPath]);
+
 
   return (
     <AppBar
@@ -178,7 +180,12 @@ function PublicAppBar() {
               </Button>
             ))}
           </Box>
-          <OutlinedButton variant="outlined">Download CV</OutlinedButton>
+          <Stack direction="row" spacing={2}>
+            <OutlinedButton variant="outlined" size="small">
+              Download CV
+            </OutlinedButton>
+            <CustomSwitch noLabel />
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>
