@@ -4,6 +4,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Paper,
   Rating,
   Stack,
   Typography,
@@ -18,6 +19,17 @@ import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import ServiceCard from "../components/ServiceCard";
+import Dribble from "../../../assets/svg/dribble.svg";
+
+const services = [
+  {
+    title: "Dribble",
+    descriptions:
+      "This is the dribble that we are talking about to spend more time.",
+    icon: Dribble,
+  },
+];
 
 function HomepageView() {
   return (
@@ -26,9 +38,10 @@ function HomepageView() {
         id="home"
         sx={{
           minHeight: `calc(100vh - 60px)`,
+          height: "auto",
           position: "relative",
           overflow: "none",
-          padding: { xs: "3% 5%", md: "3% 10%" },
+          padding: { xs: "70px 5%", md: "3% 10%" },
         }}
       >
         <Grid
@@ -48,9 +61,11 @@ function HomepageView() {
                 color="text.secondary"
                 gutterBottom
               >
-                A dedicated developer with a passion for developing modern and
-                user-friendly websites that not only look beautiful but also
-                function seamlessly.
+                A dedicated developer passionate about creating modern,
+                user-friendly, and optimized websites with robust
+                functionalities. Committed to learning new trends and
+                technologies to continuously improve skills. Aims to deliver
+                high-quality web solutions tailored to your needs.
               </Typography>
               <Stack direction="row" spacing={2}>
                 <ContainedButton variant="contained">
@@ -101,9 +116,10 @@ function HomepageView() {
         id="about"
         sx={{
           minHeight: `calc(100vh - 60px)`,
+          height: "auto",
           position: "relative",
           overflow: "none",
-          padding: { xs: "3% 5%", md: "3% 10%" },
+          padding: { xs: "5%", md: "3% 10%" },
           backgroundColor: "#f9fafb",
         }}
       >
@@ -172,7 +188,9 @@ function HomepageView() {
               </Typography>
               <Stack direction="row" spacing={3} alignItems="center" mt={2}>
                 <ContainedButton variant="contained">Hire Me</ContainedButton>
-                <Divider sx={{ display: {xs: 'none', md: 'block'} }}>Follow Me</Divider>
+                <Divider sx={{ display: { xs: "none", md: "block" } }}>
+                  Follow Me
+                </Divider>
                 <Stack direction="row" spacing={1}>
                   <IconButton
                     sx={{
@@ -231,6 +249,47 @@ function HomepageView() {
             </Box>
           </Grid>
         </Grid>
+      </Box>
+      <Box
+        id="services"
+        sx={{
+          minHeight: `calc(100vh - 60px)`,
+          height: "auto",
+          position: "relative",
+          overflow: "none",
+          padding: { xs: "5%", md: "3% 10%" },
+          backgroundColor: "white",
+        }}
+      >
+        <Box>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h3">My Services</Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              Here you will find some of my services that I can offer with my
+              skills and some other technologies.
+            </Typography>
+          </Box>
+          <Grid container rowSpacing={5} columnSpacing={2} mt={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard />
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </>
   );
