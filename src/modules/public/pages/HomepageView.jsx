@@ -4,7 +4,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  Paper,
   Rating,
   Stack,
   Typography,
@@ -21,6 +20,11 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import ServiceCard from "../components/ServiceCard";
 import Dribble from "../../../assets/svg/dribble.svg";
+import Dropbox from "../../../assets/svg/dropbox.svg";
+import Flowbite from "../../../assets/svg/flowbite.svg";
+import Github from "../../../assets/svg/github.svg";
+import Layers from "../../../assets/svg/layers.svg";
+import Reddit from "../../../assets/svg/reddit.svg";
 
 const services = [
   {
@@ -28,6 +32,36 @@ const services = [
     descriptions:
       "This is the dribble that we are talking about to spend more time.",
     icon: Dribble,
+  },
+  {
+    title: "Dropbox",
+    descriptions:
+      "This is the dropbox that we are talking about to spend more time.",
+    icon: Dropbox,
+  },
+  {
+    title: "Flowbite",
+    descriptions:
+      "This is the flowbite that we are talking about to spend more time.",
+    icon: Flowbite,
+  },
+  {
+    title: "Github",
+    descriptions:
+      "This is the github that we are talking about to spend more time.",
+    icon: Github,
+  },
+  {
+    title: "Layers",
+    descriptions:
+      "This is the layers that we are talking about to spend more time.",
+    icon: Layers,
+  },
+  {
+    title: "Reddit",
+    descriptions:
+      "This is the reddit that we are talking about to spend more time.",
+    icon: Reddit,
   },
 ];
 
@@ -261,8 +295,8 @@ function HomepageView() {
           backgroundColor: "white",
         }}
       >
-        <Box>
-          <Box sx={{ textAlign: "center" }}>
+        <Box mb={2}>
+          <Box sx={{ textAlign: {xs: 'left', sm: 'center'} }}>
             <Typography variant="h3">My Services</Typography>
             <Typography variant="subtitle1" color="text.secondary">
               Here you will find some of my services that I can offer with my
@@ -270,24 +304,15 @@ function HomepageView() {
             </Typography>
           </Box>
           <Grid container rowSpacing={5} columnSpacing={2} mt={2}>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <ServiceCard />
-            </Grid>
+            {services?.map((service, i) => (
+              <Grid key={i} item xs={12} sm={6} md={4}>
+                <ServiceCard
+                  title={service.title}
+                  descriptions={service.descriptions}
+                  icon={service.icon}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Box>
       </Box>

@@ -1,10 +1,10 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
-import Dribble from "../../../assets/svg/dribble.svg";
+import PropTypes from 'prop-types';
 
 function ServiceCard(props) {
-  const { title = "Title", description = "Descriptions...", icon } = props;
+  const { title = "Title", descriptions = "Descriptions...", icon } = props;
   return (
     <Paper
       sx={{
@@ -21,19 +21,19 @@ function ServiceCard(props) {
       <Box
         sx={{
           position: "absolute",
-          top: "-25%",
-          left: "45%",
+          top: "-20%",
+          left: "40%",
           backgroundColor: "white",
           border: "1px solid #10fddd",
           borderRadius: "50%",
-          width: 50,
-          height: 50,
+          width: 60,
+          height: 60,
           boxShadow: 5,
         }}
       >
-        <img src={Dribble} alt="SVG" width={50} height={50} />
+        <img src={icon} alt="SVG" width={60} height={60} />
       </Box>
-      <Box gutterBottom>
+      <Box mb={2}>
         <Typography variant="subtitle2" gutterBottom>
           {title}
         </Typography>
@@ -44,10 +44,11 @@ function ServiceCard(props) {
             overflow: "hidden",
             textOverflow: "ellipsis",
             WebkitLineClamp: 4,
+            maxWidth: 340,
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {descriptions}
           </Typography>
         </Box>
       </Box>
@@ -56,4 +57,9 @@ function ServiceCard(props) {
   );
 }
 
+ServiceCard.propTypes = {
+  title: PropTypes.string,
+  descriptions: PropTypes.string,
+  icon: PropTypes.node,
+};
 export default ServiceCard;
