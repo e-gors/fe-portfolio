@@ -5,8 +5,8 @@ import {
   Toolbar,
   IconButton,
   Container,
-  Button,
   Stack,
+  ListItemButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useHistory } from "react-router-dom";
@@ -16,45 +16,22 @@ import Nav from "./dashboard/nav";
 import { usePathname } from "../routes/hooks";
 import { OutlinedButton } from "../components/CustomButtons";
 import CustomSwitch from "../components/CustomSwitch";
+import { alpha } from "@mui/material/styles";
 
 function PublicAppBar() {
   const history = useHistory();
   const pathname = usePathname();
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-  const currentPath = pathname.slice(1).toLowerCase();
-  const initialPage =
-    publicConfig.find((page) => page.title.toLowerCase() === currentPath) ||
-    "Home";
-  const [selectedPage, setSelectedPage] = React.useState(initialPage);
-
-  const handleOpenNavMenu = () => {
-    setDrawerOpen(true);
-  };
-
-  const scrollToSection = (section) => {
-    const element = document.getElementById(section);
-    if (element) {
-      const offset = -60;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition + offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handlePageClick = (page) => {
-    setDrawerOpen(false);
-    setSelectedPage(page);
-    scrollToSection(page.toLowerCase());
-  };
+  const [selectedPage, setSelectedPage] = React.useState("Home");
 
   React.useEffect(() => {
+    const currentPath = pathname.slice(1).toLowerCase();
+    const initialPage =
+      publicConfig.find((page) => page.title.toLowerCase() === currentPath) ||
+      "Home";
+    setSelectedPage(initialPage);
+
     const handleScroll = () => {
       const sectionOffsets = publicConfig.map((page) => {
         const link = page.title;
@@ -100,8 +77,32 @@ function PublicAppBar() {
       unlisten();
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [history, currentPath]);
+  }, [history, pathname]);
 
+  const scrollToSection = (section) => {
+    const element = document.getElementById(section);
+    if (element) {
+      const offset = -60;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition + offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleOpenNavMenu = () => {
+    setDrawerOpen(true);
+  };
+
+  const handlePageClick = (page) => {
+    setDrawerOpen(false);
+    setSelectedPage(page);
+    scrollToSection(page.toLowerCase());
+  };
 
   return (
     <AppBar
@@ -147,39 +148,45 @@ function PublicAppBar() {
             />
           </Box>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-              justifyContent: "center",
-            }}
+          <Stack
+            direction="row"
+            component="nav"
+            spacing={1}
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
-            {publicConfig.map((page, i) => (
-              <Button
-                key={i}
-                onClick={() => handlePageClick(page.title)}
-                sx={{
-                  my: 2,
-                  color: "black",
-                  display: "block",
-                  mx: 2,
-                  textTransform: "none",
-                  backgroundColor:
-                    currentPath !== "login" && selectedPage === page.title
-                      ? "#10fddd"
-                      : "transparent",
-                  "&::first-letter": {
-                    textTransform: "uppercase",
-                  },
-                  "&:hover": {
-                    backgroundColor: "#00dfc0",
-                  },
-                }}
-              >
-                {page.title}
-              </Button>
-            ))}
-          </Box>
+            {publicConfig.map((page, i) => {
+              const title = page.title;
+              const selected = selectedPage === title;
+              return (
+                <ListItemButton
+                  key={i}
+                  onClick={() => handlePageClick(page.title)}
+                  selected={selected}
+                  sx={{
+                    borderRadius: 0.75,
+                    typography: "body1",
+                    color: "text.secondary",
+                    textTransform: "none",
+                    fontWeight: "fontWeightMedium",
+                    transition: '0.3s',
+
+                    ...(selected && {
+                      color: "primary.main",
+                      fontWeight: "fontWeightSemiBold",
+                      bgcolor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.08),
+                      "&:hover": {
+                        bgcolor: (theme) =>
+                          alpha(theme.palette.primary.main, 0.16),
+                      },
+                    }),
+                  }}
+                >
+                  {page.title}
+                </ListItemButton>
+              );
+            })}
+          </Stack>
           <Stack direction="row" spacing={2}>
             <OutlinedButton variant="outlined" size="small">
               Download CV

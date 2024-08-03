@@ -179,7 +179,7 @@ function HomepageView() {
           height: "auto",
           position: "relative",
           overflow: "none",
-          padding: { xs: "70px 5%", md: "3% 10%" },
+          padding: { xs: "60px 5%", md: "3% 10%" },
           backgroundColor:
             theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
         }}
@@ -194,7 +194,7 @@ function HomepageView() {
           <Grid item xs={12} md={5}>
             <Box>
               <Typography variant="h1" gutterBottom>
-                Hello, I’m <br /> Efren a Front-end Web Developer
+                Hello, I’m <br /> Efren a Fullstack Software Developer
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -502,6 +502,16 @@ function HomepageView() {
             </Grid>
           ))}
         </Grid>
+      </Box>
+      <Box
+        id="contact"
+        sx={{
+          overflow: "none",
+          padding: { xs: "5%", md: "3% 10%" },
+          backgroundColor: "white",
+        }}
+      >
+      Contact
       </Box>
     </>
   );
