@@ -29,6 +29,7 @@ import { useSelector } from "react-redux";
 import ProjectCard from "../components/ProjectCard";
 import Project from "../../../assets/bookease-not-finish.png";
 import CustomTimeline from "../../../components/CustomTimeline";
+import FeedbackCard from "../components/FeedbackCard";
 
 const services = [
   {
@@ -122,6 +123,50 @@ const experiences = [
     icon: null,
   },
 ];
+
+const feedbacks = [
+  {
+    name: "Efren Goron",
+    gender: "male",
+    description:
+      "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
+    image: null,
+    rating: 5.0,
+  },
+  {
+    name: "John Doe",
+    gender: "male",
+    description:
+      "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
+    image: null,
+    rating: 4.8,
+  },
+  {
+    name: "Criscilla Gumanid",
+    gender: "female",
+    description:
+      "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
+    image: null,
+    rating: 5.0,
+  },
+  {
+    name: "Alberto Lausa",
+    gender: "male",
+    description:
+      "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
+    image: null,
+    rating: 5.0,
+  },
+  {
+    name: "Charie Lausa",
+    gender: "female",
+    description:
+      "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
+    image: null,
+    rating: 5.0,
+  },
+];
+
 function HomepageView() {
   const theme = useSelector((state) => state.theme.theme);
 
@@ -423,6 +468,39 @@ function HomepageView() {
           <Grid item xs={12} md={8}>
             <CustomTimeline experiences={experiences} position="right" />
           </Grid>
+        </Grid>
+      </Box>
+      <Box
+        id="testimonials"
+        sx={{
+          overflow: "none",
+          padding: { xs: "5%", md: "3% 10%" },
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Box maxWidth={400}>
+              <Typography variant="h3">
+                Hear what they say about me?
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                gutterBottom
+              >
+                We love our client and our clients loved us, see all feedback.
+              </Typography>
+              <ContainedButton variant="contained">
+                See all Feedback
+              </ContainedButton>
+            </Box>
+          </Grid>
+          {feedbacks?.map((feedback, i) => (
+            <Grid key={i} item xs={12} md={6}>
+              <FeedbackCard {...feedback} index={i} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </>

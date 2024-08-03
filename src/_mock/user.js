@@ -1,17 +1,8 @@
 import { sample } from "lodash";
 import { faker } from "@faker-js/faker";
+import { getUrl } from "../utils/heplers";
 
 // ----------------------------------------------------------------------
-
-const getUrl = (gender, index) => {
-  let url;
-  if (gender === "male") {
-    url = `/assets/images/avatars/m_avatar_${index}.jpg`;
-  } else {
-    url = `/assets/images/avatars/f_avatar_${index}.jpg`;
-  }
-  return url;
-};
 
 export const users = [...Array(24)].map((_, index) => {
   const gender = sample(["female", "male"]);

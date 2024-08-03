@@ -123,3 +123,15 @@ export const debounce = (func) => {
     }, 500);
   };
 };
+
+
+// generate image url if not provided
+export const getUrl = (gender, index) => {
+  let url;
+  if (gender === "male") {
+    url = `/assets/images/avatars/m_avatar_${index}.jpg`;
+  } else {
+    url = `/assets/images/avatars/f_avatar_${index}.jpg`;
+  }
+  return url;
+};
