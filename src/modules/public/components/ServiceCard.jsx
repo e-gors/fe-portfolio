@@ -1,10 +1,13 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-function ServiceCard(props) {
-  const { title = "Title", descriptions = "Descriptions...", icon } = props;
+function ServiceCard({
+  title = "Title",
+  descriptions = "Descriptions...",
+  icon,
+}) {
   return (
     <Paper
       sx={{

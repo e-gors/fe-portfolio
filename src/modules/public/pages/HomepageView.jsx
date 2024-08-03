@@ -26,6 +26,9 @@ import Github from "../../../assets/svg/github.svg";
 import Layers from "../../../assets/svg/layers.svg";
 import Reddit from "../../../assets/svg/reddit.svg";
 import { useSelector } from "react-redux";
+import ProjectCard from "../components/ProjectCard";
+import Project from "../../../assets/bookease-not-finish.png";
+import CustomTimeline from "../../../components/CustomTimeline";
 
 const services = [
   {
@@ -66,6 +69,59 @@ const services = [
   },
 ];
 
+const projects = [
+  {
+    type: "Landing Page",
+    title: "Medical Service",
+    description:
+      "The most powerful software & app landing page for any kind of app and software marketing business.",
+    link: "localhost:3000",
+    img: Project,
+  },
+  {
+    type: "Landing Page",
+    title: "Digital Banking",
+    description:
+      "The most powerful software & app landing page for any kind of app and software marketing business.",
+    link: "localhost:3000",
+    img: Project,
+  },
+  {
+    type: "Landing Page",
+    title: "Branding Website",
+    description:
+      "The most powerful software & app landing page for any kind of app and software marketing business.",
+    link: "localhost:3000",
+    img: Project,
+  },
+];
+
+const experiences = [
+  {
+    date: "Dec 2021 - Now",
+    title: "Frontend Developer",
+    company: "ABC Company",
+    description:
+      "As a junior Front-End Developer at CreativeDevLabs, I started my journey by immersing myself in the world of modern technology. I have work closely with our development. My tasks have involve assisting in the creation of web components, translating design concepts into code, and optimizing user interfaces for responsiveness and speed. This level is all about learning and gaining hands-on experience.",
+    icon: null,
+  },
+  {
+    date: "Feb - May 2021",
+    title: "Frontend Developer React TypeScript",
+    company: "ABC Company",
+    description:
+      "As a junior Front-End Developer at CreativeDevLabs, I started my journey by immersing myself in the world of modern technology. I have work closely with our development. My tasks have involve assisting in the creation of web components, translating design concepts into code, and optimizing user interfaces for responsiveness and speed. This level is all about learning and gaining hands-on experience.",
+    icon: null,
+  },
+  {
+    date: "Oct 2020 - Jan 2021",
+    title: "Backend Developer",
+    company: "ABC Company",
+    description:
+      "As a junior Front-End Developer at CreativeDevLabs, I started my journey by immersing myself in the world of modern technology. I have work closely with our development.",
+    icon: null,
+  },
+];
 function HomepageView() {
   const theme = useSelector((state) => state.theme.theme);
 
@@ -156,7 +212,6 @@ function HomepageView() {
         sx={{
           minHeight: `calc(100vh - 60px)`,
           height: "auto",
-          position: "relative",
           overflow: "none",
           padding: { xs: "5%", md: "3% 10%" },
           backgroundColor: "#f9fafb",
@@ -294,7 +349,6 @@ function HomepageView() {
         sx={{
           minHeight: `calc(100vh - 60px)`,
           height: "auto",
-          position: "relative",
           overflow: "none",
           padding: { xs: "5%", md: "3% 10%" },
           backgroundColor: "white",
@@ -311,15 +365,65 @@ function HomepageView() {
           <Grid container rowSpacing={5} columnSpacing={2} mt={2}>
             {services?.map((service, i) => (
               <Grid key={i} item xs={12} sm={6} md={4}>
-                <ServiceCard
-                  title={service.title}
-                  descriptions={service.descriptions}
-                  icon={service.icon}
-                />
+                <ServiceCard {...service} />
               </Grid>
             ))}
           </Grid>
         </Box>
+      </Box>
+      <Box
+        id="portfolio"
+        sx={{
+          minHeight: `calc(100vh - 60px)`,
+          height: "auto",
+          overflow: "none",
+          padding: { xs: "5%", md: "3% 10%" },
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
+          <Typography variant="h3">My Projects</Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Here you will find some of my projects that I developed during my
+            past years of being a software developer.
+          </Typography>
+        </Box>
+        <Box mt={2}>
+          {projects?.map((project, i) => (
+            <ProjectCard key={i} {...project} />
+          ))}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          height: "auto",
+          overflow: "none",
+          padding: { xs: "5%", md: "3% 10%" },
+          backgroundColor: "white",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <Box>
+              <Typography variant="h3" gutterBottom>
+                My Experiences
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                gutterBottom
+              >
+                I have had the pleasure to work with companies across a variety
+                of industries. I’m always interested in new, exciting, and
+                challenging adventures.
+              </Typography>
+              <ContainedButton variant="contained">Download CV</ContainedButton>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <CustomTimeline experiences={experiences} position="right" />
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
