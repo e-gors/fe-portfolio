@@ -68,12 +68,10 @@ export default function CustomSwitch({ noLabel = false, label = "Switch Label" }
         <FormControlLabel
           control={
             <MaterialUISwitch
-              sx={{ m: 1 }}
               checked={currentTheme === 'dark'}
               onChange={handleChange}
             />
           }
-          label={noLabel ? "" : label}
         />
       </FormGroup>
     );

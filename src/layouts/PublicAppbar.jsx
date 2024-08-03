@@ -184,7 +184,7 @@ function PublicAppBar() {
             <OutlinedButton variant="outlined" size="small">
               Download CV
             </OutlinedButton>
-            <CustomSwitch noLabel />
+            {/* <CustomSwitch noLabel /> */}
           </Stack>
         </Toolbar>
       </Container>
