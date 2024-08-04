@@ -1,14 +1,23 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Divider, ListItemButton, Stack, Typography } from "@mui/material";
 import React from "react";
+import { ContainedButton } from "../components/CustomButtons";
+import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import SocialCards from "../modules/public/components/SocialCards";
+import publicConfig from "./configs/public-config";
+import { socials } from "../_mock/socials";
+import { alpha } from "@mui/material/styles";
 
-function Footer() {
+function Footer({ publicConfig, selectedPage, handlePageClick }) {
   return (
-    <Box sx={{ p: { xs: "10px 25px", md: "20px 50px" } }}>
+    <Box sx={{ p: { xs: "150px 10px 25px", md: "150px 20px 50px" } }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5" sx={{ fontSize: { xs: 19, md: 36 } }}>
           Let's Work Together
         </Typography>
-        <Button variant="contained">Let's Talk</Button>
+        <ContainedButton variant="contained">Let's Talk</ContainedButton>
       </Box>
       <Box
         sx={{
@@ -17,12 +26,44 @@ function Footer() {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex" }}>
-          <Typography sx={{ mx: 1 }}>Home</Typography>
-          <Typography sx={{ mx: 1 }}>About</Typography>
-          <Typography sx={{ mx: 1 }}>Services</Typography>
-          <Typography sx={{ mx: 1 }}>Contact</Typography>
-        </Box>
+        {/* <Stack
+          direction="row"
+          component="nav"
+          spacing={1}
+          sx={{ flexWrap: "wrap" }}
+        >
+          {publicConfig?.map((page, i) => {
+            const title = page.title;
+            const selected = selectedPage === title;
+            return (
+              <ListItemButton
+                key={i}
+                onClick={() => handlePageClick(page.title)}
+                selected={selected}
+                sx={{
+                  borderRadius: 0.75,
+                  typography: "body1",
+                  color: "text.secondary",
+                  textTransform: "none",
+                  fontWeight: "fontWeightMedium",
+                  transition: "0.3s",
+
+                  ...(selected && {
+                    color: "primary.main",
+                    fontWeight: "fontWeightSemiBold",
+                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                    "&:hover": {
+                      bgcolor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.16),
+                    },
+                  }),
+                }}
+              >
+                {page.title}
+              </ListItemButton>
+            );
+          })}
+        </Stack> */}
         <Box
           sx={{
             display: { sm: "block", md: "flex" },
@@ -46,48 +87,17 @@ function Footer() {
           justifyContent: "space-between",
         }}
       >
-        <Typography sx={{ my: { xs: 1, md: 0 } }}>Efren Goron</Typography>
-        <Typography sx={{ my: { xs: 1, md: 0 } }}>
+        <Typography
+          sx={{ my: { xs: 1, md: 0 }, textAlign: { xs: "center", md: "left" } }}
+        >
+          Efren Goron
+        </Typography>
+        <Typography
+          sx={{ my: { xs: 1, md: 0 }, textAlign: { xs: "center", md: "left" } }}
+        >
           Copyright @2023. All rights reserved
         </Typography>
-        <Box sx={{ display: "flex", my: { xs: 1, md: 0 } }}>
-          <Box
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              backgroundColor: "black",
-              mx: 1,
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              backgroundColor: "black",
-              mx: 1,
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              backgroundColor: "black",
-              mx: 1,
-            }}
-          ></Box>
-          <Box
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              backgroundColor: "black",
-              mx: 1,
-            }}
-          ></Box>
-        </Box>
+        <SocialCards buttonText="Hire Me" text="Follow Me" socials={socials} />
       </Box>
     </Box>
   );

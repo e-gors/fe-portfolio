@@ -9,101 +9,20 @@ import {
   ListItemButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useHistory } from "react-router-dom";
 import Logo from "../components/logo";
-import publicConfig from "./configs/public-config";
 import Nav from "./dashboard/nav";
-import { usePathname } from "../routes/hooks";
 import { OutlinedButton } from "../components/CustomButtons";
-import CustomSwitch from "../components/CustomSwitch";
 import { alpha } from "@mui/material/styles";
+import PropTypes from 'prop-types';
 
-function PublicAppBar() {
-  const history = useHistory();
-  const pathname = usePathname();
-
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [selectedPage, setSelectedPage] = React.useState("Home");
-
-  React.useEffect(() => {
-    const currentPath = pathname.slice(1).toLowerCase();
-    const initialPage =
-      publicConfig.find((page) => page.title.toLowerCase() === currentPath) ||
-      "Home";
-    setSelectedPage(initialPage);
-
-    const handleScroll = () => {
-      const sectionOffsets = publicConfig.map((page) => {
-        const link = page.title;
-        const section = document.getElementById(link.toLowerCase());
-        return {
-          link,
-          offsetTop: section?.offsetTop || 0,
-        };
-      });
-
-      const scrollPosition = window.scrollY + 80;
-
-      for (let i = sectionOffsets.length - 1; i >= 0; i--) {
-        if (scrollPosition >= sectionOffsets[i].offsetTop) {
-          setSelectedPage(sectionOffsets[i].link);
-          break;
-        }
-      }
-    };
-
-    const unlisten = history.listen((location) => {
-      if (location.hash) {
-        const section = location.hash.slice(1);
-        scrollToSection(section);
-        setSelectedPage(
-          publicConfig.find((page) => page.title.toLowerCase() === section) ||
-            "Home"
-        );
-      }
-    });
-
-    if (currentPath && currentPath !== "login" && currentPath !== "register") {
-      scrollToSection(currentPath);
-      setSelectedPage(
-        publicConfig.find((page) => page.title.toLowerCase() === currentPath) ||
-          "Home"
-      );
-    }
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      unlisten();
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [history, pathname]);
-
-  const scrollToSection = (section) => {
-    const element = document.getElementById(section);
-    if (element) {
-      const offset = -60;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition + offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleOpenNavMenu = () => {
-    setDrawerOpen(true);
-  };
-
-  const handlePageClick = (page) => {
-    setDrawerOpen(false);
-    setSelectedPage(page);
-    scrollToSection(page.toLowerCase());
-  };
-
+function PublicAppBar({
+  publicConfig,
+  handleOpenNavMenu,
+  handlePageClick,
+  selectedPage,
+  drawerOpen,
+  onDrawerOpen,
+}) {
   return (
     <AppBar
       enableColorOnDark
@@ -144,7 +63,7 @@ function PublicAppBar() {
               selectedPage={selectedPage}
               navConfig={publicConfig}
               openNav={drawerOpen}
-              onCloseNav={() => setDrawerOpen(false)}
+              onCloseNav={() => onDrawerOpen(false)}
             />
           </Box>
 
@@ -154,7 +73,7 @@ function PublicAppBar() {
             spacing={1}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
-            {publicConfig.map((page, i) => {
+            {publicConfig?.map((page, i) => {
               const title = page.title;
               const selected = selectedPage === title;
               return (
@@ -168,7 +87,7 @@ function PublicAppBar() {
                     color: "text.secondary",
                     textTransform: "none",
                     fontWeight: "fontWeightMedium",
-                    transition: '0.3s',
+                    transition: "0.3s",
 
                     ...(selected && {
                       color: "primary.main",
@@ -197,6 +116,15 @@ function PublicAppBar() {
       </Container>
     </AppBar>
   );
+}
+
+PublicAppBar.propTypes = {
+  publicConfig: PropTypes.array,
+  handleOpenNavMenu: PropTypes.func,
+  handlePageClick: PropTypes.func,
+  selectedPage: PropTypes.string,
+  drawerOpen: PropTypes.bool,
+  onDrawerOpen: PropTypes.func,
 }
 
 export default PublicAppBar;

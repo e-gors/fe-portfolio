@@ -1,4 +1,4 @@
-// import ReeValidate from "ree-validate-18";
+import ReeValidate from "ree-validate-18";
 import PropTypes from "prop-types";
 import { options, ToastNotification } from "./toastConfig";
 
@@ -26,39 +26,39 @@ export const handleErrorResponse = (err) => {
 };
 
 // validate fields
-// export const Validator = (fields) => {
-//   const validator = new ReeValidate.Validator(fields);
+export const Validator = (fields) => {
+  const validator = new ReeValidate.Validator(fields);
 
-//   const formatFieldName = (field) => {
-//     // Replace camelCase with spaces
-//     field = field.replace(/([a-z])([A-Z])/g, "$1 $2");
-//     // Replace underscores with spaces and capitalize the first letter
-//     return field
-//       .replace(/_/g, " ")
-//       .replace(/\b\w/g, (char) => char.toUpperCase());
-//   };
+  const formatFieldName = (field) => {
+    // Replace camelCase with spaces
+    field = field.replace(/([a-z])([A-Z])/g, "$1 $2");
+    // Replace underscores with spaces and capitalize the first letter
+    return field
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
 
-//   const dictionary = {
-//     en: {
-//       messages: {
-//         required: (field) => `${formatFieldName(field)} is required!`,
-//         email: (field) =>
-//           `${formatFieldName(field)} must be a valid email address!`,
-//         number: (field) => `${formatFieldName(field)} must be a number!`,
-//         regex: (field) => `${formatFieldName(field)} format is invalid!`,
-//         min: (field) =>
-//           `${formatFieldName(field)} must be at least 6 chars length!`,
-//         max: (field) =>
-//           `${formatFieldName(field)} must only be 20 chars length!`,
-//         length: (field) => `${formatFieldName(field)} length must be 11`,
-//       },
-//     },
-//   };
+  const dictionary = {
+    en: {
+      messages: {
+        required: (field) => `${formatFieldName(field)} is required!`,
+        email: (field) =>
+          `${formatFieldName(field)} must be a valid email address!`,
+        number: (field) => `${formatFieldName(field)} must be a number!`,
+        regex: (field) => `${formatFieldName(field)} format is invalid!`,
+        min: (field) =>
+          `${formatFieldName(field)} must be at least 6 chars length!`,
+        max: (field) =>
+          `${formatFieldName(field)} must only be 20 chars length!`,
+        length: (field) => `${formatFieldName(field)} length must be 11`,
+      },
+    },
+  };
 
-//   validator.localize(dictionary);
+  validator.localize(dictionary);
 
-//   return validator;
-// };
+  return validator;
+};
 
 // validate state values
 export const handleValidate = async (state, validator, set) => {
