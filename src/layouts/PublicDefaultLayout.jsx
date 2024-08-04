@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { useHistory } from "react-router-dom";
 import { usePathname } from "../routes/hooks";
 import publicConfig from "./configs/public-config";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 function PublicDefaultLayout({ children }) {
   const history = useHistory();
@@ -103,11 +104,8 @@ function PublicDefaultLayout({ children }) {
         onDrawerOpen={setDrawerOpen}
       />
       <Paper>{children}</Paper>
-      <Footer
-        publicConfig={publicConfig}
-        selectedPage={selectedPage}
-        handlePageClick={handlePageClick}
-      />
+      <Footer />
+      <ScrollToTopButton />
     </Box>
   );
 }

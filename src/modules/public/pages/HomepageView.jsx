@@ -396,7 +396,7 @@ function HomepageView() {
                 position: "absolute",
                 mt: 2,
                 left: 15,
-                bottom: { xs: -400, md: -150 },
+                bottom: { xs: -400, md: -200 },
                 backgroundColor: "white",
               }}
             >
