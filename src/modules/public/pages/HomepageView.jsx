@@ -59,7 +59,6 @@ function HomepageView() {
 
     const { errors } = contactInfoValidator;
 
-    console.log(errors);
     contactInfoValidator.validate(name, value).then((success) => {
       if (!success) {
         setContactInfo((prev) => ({
@@ -67,6 +66,17 @@ function HomepageView() {
           errors,
         }));
       }
+    });
+  };
+
+  const handleValidate = () => {
+    contactInfoValidator.validateAll(contactInfo.values).then((success) => {
+      if (success) handleSubmit();
+      else
+        setContactInfo((prev) => ({
+          ...prev,
+          errors: contactInfoValidator.errors,
+        }));
     });
   };
 
@@ -435,6 +445,7 @@ function HomepageView() {
                 disabled={loading}
                 fullWidth
                 sx={{ mt: 2 }}
+                onClick={handleValidate}
               >
                 Submit Message
               </ContainedButton>
