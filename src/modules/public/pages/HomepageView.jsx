@@ -29,6 +29,7 @@ import { socials } from "../../../_mock/socials";
 import { services } from "../../../_mock/services";
 import { projects } from "../../../_mock/projects";
 import { experiences } from "../../../_mock/experiences";
+import { WifiTetheringErrorSharp } from "@mui/icons-material";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -56,22 +57,23 @@ function HomepageView() {
       values: { ...prev.values, [name]: value },
     }));
 
-    const { errors } = contactInfo.errors;
+    const { errors } = contactInfoValidator;
 
+    console.log(errors);
     contactInfoValidator.validate(name, value).then((success) => {
       if (!success) {
         setContactInfo((prev) => ({
           ...prev,
-          errors: errors,
+          errors,
         }));
       }
     });
   };
 
   const handleSubmit = () => {
-    loading(true);
+    setLoading(true);
     console.log(contactInfo);
-    loading(false);
+    setLoading(false);
   };
 
   return (
