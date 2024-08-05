@@ -3,11 +3,7 @@ import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
 import PropTypes from "prop-types";
 
-function ServiceCard({
-  title = "Title",
-  descriptions = "Descriptions...",
-  icon,
-}) {
+function ServiceCard({ title = "Title", descriptions = [], icon }) {
   return (
     <Paper
       sx={{
@@ -24,7 +20,7 @@ function ServiceCard({
       <Box
         sx={{
           position: "absolute",
-          top: "-20%",
+          top: "-15%",
           left: "40%",
           backgroundColor: "white",
           border: "1px solid #10fddd",
@@ -34,9 +30,20 @@ function ServiceCard({
           boxShadow: 5,
         }}
       >
-        <img src={icon} alt="SVG" width={60} height={60} />
+        <img
+          src={icon}
+          alt="SVG"
+          width={35}
+          height={35}
+          style={{
+            position: "relative",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
       </Box>
-      <Box mb={2}>
+      <Box sx={{ my: 2 }}>
         <Typography variant="subtitle2" gutterBottom>
           {title}
         </Typography>
@@ -46,13 +53,23 @@ function ServiceCard({
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            WebkitLineClamp: 4,
-            maxWidth: 340,
+            WebkitLineClamp: 3,
+            minHeight: 80,
+            height: "auto",
+            maxHeight: 100,
           }}
         >
-          <Typography variant="body2" color="text.secondary">
-            {descriptions}
-          </Typography>
+          {descriptions?.map((description, i) => (
+            <Typography
+              key={i}
+              variant="body2"
+              color="text.secondary"
+              sx={{ my: 1 }}
+              component="li"
+            >
+              {description}
+            </Typography>
+          ))}
         </Box>
       </Box>
       <OutlinedButton variant="outlined">Read More</OutlinedButton>
@@ -62,7 +79,7 @@ function ServiceCard({
 
 ServiceCard.propTypes = {
   title: PropTypes.string,
-  descriptions: PropTypes.string,
+  descriptions: PropTypes.array,
   icon: PropTypes.node,
 };
 export default ServiceCard;

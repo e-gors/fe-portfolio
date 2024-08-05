@@ -29,7 +29,6 @@ import { socials } from "../../../_mock/socials";
 import { services } from "../../../_mock/services";
 import { projects } from "../../../_mock/projects";
 import { experiences } from "../../../_mock/experiences";
-import { WifiTetheringErrorSharp } from "@mui/icons-material";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -95,7 +94,7 @@ function HomepageView() {
           height: "auto",
           position: "relative",
           overflow: "none",
-          padding: { xs: "60px 5%", md: "3% 10%" },
+          padding: { xs: "60px 5%", md: "3% 8%" },
           backgroundColor:
             theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
         }}
@@ -107,7 +106,7 @@ function HomepageView() {
           alignItems="center"
           sx={{ minHeight: "90vh" }}
         >
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={5.5}>
             <Box>
               <Typography variant="h1" gutterBottom>
                 Hello, I’m <br /> Efren a Fullstack Software Developer
@@ -131,7 +130,7 @@ function HomepageView() {
               </Stack>
             </Box>
           </Grid>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} sm={12} md={6.5}>
             <Box
               sx={{
                 display: "flex",
@@ -185,7 +184,7 @@ function HomepageView() {
           alignItems="center"
           sx={{ minHeight: "90vh" }}
         >
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} sm={12} md={5}>
             <Box
               sx={{
                 display: "flex",
@@ -209,37 +208,44 @@ function HomepageView() {
                 About Me
               </Typography>
               <Typography
-                variant="subtitle1"
+                variant="body1"
                 color="text.secondary"
                 gutterBottom
               >
-                A dedicated developer with a passion for developing modern and
-                user-friendly websites that not only look beautiful but also
-                function seamlessly. A dedicated developer with a passion for
-                developing modern and user-friendly websites that not only look
-                beautiful but also function seamlessly.
+                I graduated last year with a Bachelor of Science in Information
+                Technology, majoring in Programming (Web Development), and
+                earned Cum Laude honors. My academic journey was marked by a
+                deep commitment to learning and a strong dedication to my craft.
+                The rigorous curriculum and hands-on projects have equipped me
+                with a solid foundation in web development, setting the stage
+                for a successful career in this dynamic field.
               </Typography>
               <Typography
-                variant="subtitle1"
+                variant="body1"
                 color="text.secondary"
                 gutterBottom
               >
-                A dedicated developer with a passion for developing modern and
-                user-friendly websites that not only look beautiful but also
-                function seamlessly. A dedicated developer with a passion for
-                developing modern and user-friendly websites that not only look
-                beautiful but also function seamlessly. A dedicated developer
-                with a passion for developing modern and user-friendly websites
-                that not only look beautiful but also function seamlessly.
+                My passion for software development drives me to continuously
+                improve and innovate. I've immersed myself in various
+                technologies, including React.js and Laravel, which have become
+                central to my development toolkit. Additionally, I am proficient
+                in Git for version control, NPM for package management, and have
+                a good grasp of HTML, CSS, and PHP. I also have experience with
+                Redux Toolkit for state management and have dabbled in
+                JavaScript to enhance interactivity on the web.
               </Typography>
               <Typography
-                variant="subtitle1"
+                variant="body1"
                 color="text.secondary"
                 gutterBottom
               >
-                A dedicated developer with a passion for developing modern and
-                user-friendly websites that not only look beautiful but also
-                function seamlessly.
+                I am dedicated and hardworking, always eager to tackle new
+                challenges and expand my skill set. My enthusiasm for building
+                engaging and responsive web applications motivates me to stay
+                current with industry trends and technologies. My ultimate goal
+                is to leverage my skills and passion to contribute to impactful
+                projects and achieve my dream of becoming a skilled web
+                developer.
               </Typography>
               <SocialCards
                 buttonText="Hire Me"
