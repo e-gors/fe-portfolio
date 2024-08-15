@@ -16,9 +16,9 @@ const navConfig = [
     icon: icon("ic_dashboard"),
   },
   {
-    title: "Categories",
-    path: "/categories",
-    icon: icon("ic_services"),
+    title: "profile",
+    path: "/profile",
+    icon: icon("ic_profile"),
   },
   {
     title: "services",
@@ -26,24 +26,29 @@ const navConfig = [
     icon: icon("ic_services"),
   },
   {
-    title: "appointments",
-    path: "/appointments",
+    title: "projects",
+    path: "/projects",
+    icon: icon("ic_blog"),
+  },
+  {
+    title: "experiences",
+    path: "/experiences",
     icon: icon("ic_calendar"),
   },
   {
-    title: "users",
-    path: "/users",
+    title: "testimonials",
+    path: "/testimonials",
     icon: icon("ic_outlined_users_group"),
   },
   {
-    title: "products",
-    path: "/products",
-    icon: icon("ic_cart"),
+    title: "messages",
+    path: "/messages",
+    icon: icon("ic_outlined_messages"),
   },
   {
-    title: "blogs",
-    path: "/blogs",
-    icon: icon("ic_blog"),
+    title: "setttings",
+    path: "/setttings",
+    icon: icon("ic_adjustment"),
   },
 ];
 

@@ -14,7 +14,7 @@ import {
 import Profile from "../../../assets/hero-photo.png";
 import AboutPhoto from "../../../assets/about-photo.jpg";
 import ServiceCard from "../components/ServiceCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProjectCard from "../components/ProjectCard";
 import CustomTimeline from "../../../components/CustomTimeline";
 import FeedbackCard from "../components/FeedbackCard";
@@ -29,6 +29,8 @@ import { socials } from "../../../_mock/socials";
 import { services } from "../../../_mock/services";
 import { projects } from "../../../_mock/projects";
 import { experiences } from "../../../_mock/experiences";
+import { setPage } from "../../../redux/actions/pageActions";
+import { scrollToSection } from "../../../hooks/use-scroll-to-section";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -38,6 +40,7 @@ const contactInfoValidator = Validator({
 
 function HomepageView() {
   const theme = useSelector((state) => state.theme.theme);
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = React.useState(false);
   const [contactInfo, setContactInfo] = React.useState({
@@ -85,6 +88,11 @@ function HomepageView() {
     setLoading(false);
   };
 
+  const handleViewPage = (page) => {
+    dispatch(setPage(page));
+    scrollToSection(page.toLowerCase());
+  };
+
   return (
     <>
       <Box
@@ -123,10 +131,18 @@ function HomepageView() {
                 high-quality web solutions tailored to your needs.
               </Typography>
               <Stack direction="row" spacing={2}>
-                <ContainedButton variant="contained">
-                  My Projects
+                <ContainedButton
+                  variant="contained"
+                  onClick={() => handleViewPage("Services")}
+                >
+                  My Services
                 </ContainedButton>
-                <OutlinedButton variant="outlined">My Projects</OutlinedButton>
+                <OutlinedButton
+                  variant="outlined"
+                  onClick={() => handleViewPage("Portfolio")}
+                >
+                  My Projects
+                </OutlinedButton>
               </Stack>
             </Box>
           </Grid>
@@ -207,11 +223,7 @@ function HomepageView() {
               <Typography variant="h3" gutterBottom>
                 About Me
               </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                gutterBottom
-              >
+              <Typography variant="body1" color="text.secondary" gutterBottom>
                 I graduated last year with a Bachelor of Science in Information
                 Technology, majoring in Programming (Web Development), and
                 earned Cum Laude honors. My academic journey was marked by a
@@ -220,11 +232,7 @@ function HomepageView() {
                 with a solid foundation in web development, setting the stage
                 for a successful career in this dynamic field.
               </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                gutterBottom
-              >
+              <Typography variant="body1" color="text.secondary" gutterBottom>
                 My passion for software development drives me to continuously
                 improve and innovate. I've immersed myself in various
                 technologies, including React.js and Laravel, which have become
@@ -234,11 +242,7 @@ function HomepageView() {
                 Redux Toolkit for state management and have dabbled in
                 JavaScript to enhance interactivity on the web.
               </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                gutterBottom
-              >
+              <Typography variant="body1" color="text.secondary" gutterBottom>
                 I am dedicated and hardworking, always eager to tackle new
                 challenges and expand my skill set. My enthusiasm for building
                 engaging and responsive web applications motivates me to stay
@@ -356,9 +360,12 @@ function HomepageView() {
               >
                 We love our client and our clients loved us, see all feedback.
               </Typography>
-              <ContainedButton variant="contained">
-                See all Feedback
-              </ContainedButton>
+              <Stack direction="row" spacing={2}>
+                <ContainedButton variant="contained">
+                  See all Feedback
+                </ContainedButton>
+                <OutlinedButton variant="outlined">Add Feedback</OutlinedButton>
+              </Stack>
             </Box>
           </Grid>
           {feedbacks?.map((feedback, i) => (

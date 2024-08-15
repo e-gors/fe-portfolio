@@ -13,7 +13,8 @@ import Logo from "../components/logo";
 import Nav from "./dashboard/nav";
 import { OutlinedButton } from "../components/CustomButtons";
 import { alpha } from "@mui/material/styles";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import Http from "../utils/Http";
 
 function PublicAppBar({
   publicConfig,
@@ -23,6 +24,21 @@ function PublicAppBar({
   drawerOpen,
   onDrawerOpen,
 }) {
+  const handleDownloadResume = () => {
+    Http.get("/resume/download", {
+      responseType: "blob",
+    }).then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Goron, Efren - Resume.pdf'); // You may want to dynamically set the file name
+            document.body.appendChild(link);
+            link.click();
+    }).catch(err => {
+      console.error(err);
+    });
+  };
+
   return (
     <AppBar
       enableColorOnDark
@@ -107,7 +123,11 @@ function PublicAppBar({
             })}
           </Stack>
           <Stack direction="row" spacing={2}>
-            <OutlinedButton variant="outlined" size="small">
+            <OutlinedButton
+              variant="outlined"
+              size="small"
+              onClick={handleDownloadResume}
+            >
               Download CV
             </OutlinedButton>
             {/* <CustomSwitch noLabel /> */}
@@ -125,6 +145,6 @@ PublicAppBar.propTypes = {
   selectedPage: PropTypes.string,
   drawerOpen: PropTypes.bool,
   onDrawerOpen: PropTypes.func,
-}
+};
 
 export default PublicAppBar;

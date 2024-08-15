@@ -4,7 +4,6 @@ import { ContainedButton } from "../components/CustomButtons";
 import SocialCards from "../modules/public/components/SocialCards";
 import { socials } from "../_mock/socials";
 
-
 function Footer() {
   return (
     <Box
@@ -16,7 +15,12 @@ function Footer() {
         <Typography variant="h5" sx={{ fontSize: { xs: 19, md: 36 } }}>
           Let's Work Together
         </Typography>
-        <ContainedButton variant="contained">Let's Talk</ContainedButton>
+        <ContainedButton
+          variant="contained"
+          sx={{ alignSelf: "center" }}
+        >
+          Let's Talk
+        </ContainedButton>
       </Box>
       <Box
         sx={{

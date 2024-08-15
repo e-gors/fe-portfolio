@@ -22,13 +22,7 @@ export default function DashboardLayout({ children }) {
 
   React.useEffect(() => {
     if (user) {
-      if (user.isVerified === false) {
-        router.push("/verify-email");
-      } else if (!user.role || user.role === null) {
-        router.push("/complete-registration");
-      } else {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   }, [user, router]);
 
@@ -36,7 +30,6 @@ export default function DashboardLayout({ children }) {
     return <Loader />;
   }
 
-  console.log(user)
   return (
     <>
       <Header onOpenNav={() => setOpenNav(true)} />

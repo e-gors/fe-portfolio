@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from '../../../../components/iconify';
 
-import AppTasks from '../components/app-tasks';
-import AppNewsUpdate from '../components/app-news-update';
-import AppOrderTimeline from '../components/app-order-timeline';
-import AppCurrentVisits from '../components/app-current-visits';
-import AppWebsiteVisits from '../components/app-website-visits';
-import AppWidgetSummary from '../components/app-widget-summary';
-import AppTrafficBySite from '../components/app-traffic-by-site';
-import AppCurrentSubject from '../components/app-current-subject';
-import AppConversionRates from '../components/app-conversion-rates';
+import AppTasks from '../components/dashboard/app-tasks';
+import AppNewsUpdate from '../components/dashboard/app-news-update';
+import AppOrderTimeline from '../components/dashboard/app-order-timeline';
+import AppCurrentVisits from '../components/dashboard/app-current-visits';
+import AppWebsiteVisits from '../components/dashboard/app-website-visits';
+import AppWidgetSummary from '../components/dashboard/app-widget-summary';
+import AppTrafficBySite from '../components/dashboard/app-traffic-by-site';
+import AppCurrentSubject from '../components/dashboard/app-current-subject';
+import AppConversionRates from '../components/dashboard/app-conversion-rates';
 
 // ----------------------------------------------------------------------
 

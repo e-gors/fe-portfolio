@@ -3,6 +3,7 @@ export const ActionTypes = {
   SET_USERS: "SET_USERS",
   SET_USER: "SET_USER",
   SET_THEME: "SET_THEME",
+  SET_SELECTED_PAGE: "SET_SELECTED_PAGE",
   
   // Update types
   UPDATE_USERS: "UPDATE_USERS",

@@ -6,13 +6,20 @@ import { useHistory } from "react-router-dom";
 import { usePathname } from "../routes/hooks";
 import publicConfig from "./configs/public-config";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import { useSelector, useDispatch } from "react-redux";
+import { setPage } from "../redux/actions/pageActions";
+import { scrollToSection } from "../hooks/use-scroll-to-section";
 
 function PublicDefaultLayout({ children }) {
   const history = useHistory();
   const pathname = usePathname();
+  
+  const dispatch = useDispatch();
+
+  const initialPage = useSelector((state) => state.page.page);
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [selectedPage, setSelectedPage] = React.useState("Home");
+  const [selectedPage, setSelectedPage] = React.useState(initialPage);
 
   React.useEffect(() => {
     const currentPath = pathname.slice(1).toLowerCase();
@@ -20,6 +27,7 @@ function PublicDefaultLayout({ children }) {
       publicConfig?.find((page) => page.title.toLowerCase() === currentPath) ||
       "Home";
     setSelectedPage(initialPage);
+    dispatch(setPage(initialPage)); // Update Redux state with initial page
 
     const handleScroll = () => {
       const sectionOffsets = publicConfig.map((page) => {
@@ -36,6 +44,7 @@ function PublicDefaultLayout({ children }) {
       for (let i = sectionOffsets.length - 1; i >= 0; i--) {
         if (scrollPosition >= sectionOffsets[i].offsetTop) {
           setSelectedPage(sectionOffsets[i].link);
+          dispatch(setPage(sectionOffsets[i].link)); // Update Redux state when scrolled to a section
           break;
         }
       }
@@ -49,6 +58,7 @@ function PublicDefaultLayout({ children }) {
           publicConfig.find((page) => page.title.toLowerCase() === section) ||
             "Home"
         );
+        dispatch(setPage(section)); // Update Redux state when hash changes
       }
     });
 
@@ -58,6 +68,7 @@ function PublicDefaultLayout({ children }) {
         publicConfig.find((page) => page.title.toLowerCase() === currentPath) ||
           "Home"
       );
+      dispatch(setPage(currentPath)); // Update Redux state when path changes
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -66,22 +77,8 @@ function PublicDefaultLayout({ children }) {
       unlisten();
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [history, pathname]);
+  }, [history, pathname, dispatch]);
 
-  const scrollToSection = (section) => {
-    const element = document.getElementById(section);
-    if (element) {
-      const offset = -60;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition + offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
 
   const handleOpenNavMenu = () => {
     setDrawerOpen(true);
@@ -91,6 +88,7 @@ function PublicDefaultLayout({ children }) {
     setDrawerOpen(false);
     setSelectedPage(page);
     scrollToSection(page.toLowerCase());
+    dispatch(setPage(page)); // Update Redux state when a page is clicked
   };
 
   return (
