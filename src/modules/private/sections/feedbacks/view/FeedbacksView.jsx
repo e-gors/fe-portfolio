@@ -1,14 +1,14 @@
 import React from "react";
 import Http from "../../../../../utils/Http";
-import ServicesTable from "../components/services-table";
+import FeedbacksTable from "../components/feedbacks-table";
 // ----------------------------------------------------------------------
 
 //custom columns for each of the table (user table)
 const columns = [
-  { id: "name", label: "Name" },
-  { id: "email", label: "Email" },
-  { id: "role", label: "Role" },
-  { id: "isVerified", label: "Verified", align: "center" },
+  { id: "profileImage", label: "Profile" },
+  { id: "project", label: "Project Title" },
+  { id: "message", label: "Feedback" },
+  { id: "rating", label: "Rating" },
   { id: "status", label: "Status" },
   { id: "" },
 ];
@@ -17,65 +17,40 @@ const columns = [
 const filterItems = [
   {
     type: "dropdown",
-    name: "role",
-    label: "Role",
-    options: ["Customer", "Service Provider"],
-    operators: ["eq"],
-  },
-  {
-    type: "dropdown",
-    name: "isVerified",
-    label: "Verified",
-    options: [
-      {
-        name: "Yes",
-        value: true,
-      },
-      {
-        name: "No",
-        value: false,
-      },
-    ],
-    operators: ["eq"],
-  },
-  {
-    type: "dropdown",
     name: "status",
     label: "Status",
     options: [
       {
-        name: "Active",
-        value: "active",
+        name: "Pending",
+        value: "pending",
       },
       {
-        name: "Inactive",
-        value: "inactive",
+        name: "Void",
+        value: "void",
       },
       {
-        name: "Banned",
-        value: "banned",
+        name: "Declined",
+        value: "declined",
       },
       {
-        name: "Deleted",
-        value: "deleted",
+        name: "Approved",
+        value: "approved",
       },
     ],
     operators: ["eq"],
   },
 ];
 
-export default function ServicesView() {
+export default function FeedbacksView() {
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = React.useState(0);
-  const [userList, setUserList] = React.useState({
+  const [feedbacks, setFeedbacks] = React.useState({
     data: [],
     meta: {},
   });
   const [filters, setFilters] = React.useState({
     limit: 10,
     search: "",
-    role: "",
-    isVerified: "",
     status: "",
   });
 
@@ -127,20 +102,20 @@ export default function ServicesView() {
 
     const queryParams = buildQueryParams(filters);
 
-    // Http.get("/users", {
-    //   params: {
-    //     ...queryParams,
-    //     ...params,
-    //   },
-    // }).then((res) => {
-    //   if (res.data.data) {
-    //     setUserList({
-    //       data: res.data.data,
-    //       meta: res.data.meta,
-    //     });
-    //   }
-    //   setLoading(false);
-    // });
+    Http.get("/feedbacks", {
+      params: {
+        ...queryParams,
+        ...params,
+      },
+    }).then((res) => {
+      if (res.data.data) {
+        setFeedbacks({
+          data: res.data.data,
+          meta: res.data.meta,
+        });
+      }
+      setLoading(false);
+    });
   };
 
   const handleChangePage = (newPage) => {
@@ -154,30 +129,28 @@ export default function ServicesView() {
       limit: value,
     }));
   };
-  
+
   const handleClearFilters = () => {
     setPage(0);
     setFilters((prev) => ({
       ...prev,
-      role: "",
-      isVerified: "",
       status: "",
     }));
   };
 
   return (
     <>
-      <ServicesTable
+      <FeedbacksTable
         withPagination
         loading={loading}
-        data={userList.data}
+        data={feedbacks.data}
         rowsPerPage={filters.limit}
-        count={userList.meta.total || 0}
-        page={userList.meta.current_page - 1 || 0}
+        count={feedbacks.meta.total || 0}
+        page={feedbacks.meta.current_page - 1 || 0}
         onChangePage={handleChangePage}
         onRowsChangePage={handleRowChange}
         columns={columns}
-        placeholder="Search Services..."
+        placeholder="Search Feedbacks..."
         filterItems={filterItems}
         filterValues={filters}
         onMultipleFilters={handleFilterChange}

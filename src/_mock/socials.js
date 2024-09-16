@@ -6,19 +6,19 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 export const socials = [
   {
-    link: "www.facebook.com",
+    link: "facebook.com",
     icon: <FacebookRoundedIcon />,
   },
   {
-    link: "www.twitter.com",
+    link: "twitter.com",
     icon: <TwitterIcon />,
   },
   {
-    link: "www.youtube.com",
+    link: "youtube.com",
     icon: <YouTubeIcon />,
   },
   {
-    link: "www.linkedin.com",
+    link: "linkedin.com",
     icon: <LinkedInIcon />,
   },
 ];

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import FormField from "../../../../../components/FormField";
-import { Validator } from "../../../../../utils/heplers";
+import { isEmpty, Validator } from "../../../../../utils/heplers";
 import { ContainedButton } from "../../../../../components/CustomButtons";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
@@ -24,7 +24,7 @@ import {
 } from "../../../../../utils/toastConfig";
 import * as service from "../../service";
 import { useRouter } from "../../../../../routes/hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../../../redux/actions/userActions";
 
 const userValidator = Validator({
@@ -35,6 +35,7 @@ const userValidator = Validator({
 function LoginView() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.users.user);
   const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [userField, setUserField] = React.useState({
@@ -44,6 +45,12 @@ function LoginView() {
     },
     errors: userValidator.errors,
   });
+
+  React.useEffect(() => {
+    if (!isEmpty(user)) {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -84,14 +91,20 @@ function LoginView() {
     service
       .login(userField.values)
       .then((res) => {
-        if (res.data.status === 200)
+        if (res.data.status === 200) {
           localStorage.setItem("accessToken", JSON.stringify(res.data.token));
-        dispatch(setUser(res.data.user));
-        ToastNotification("error", res.data.message, options);
-        router.push("/dashboard");
+          dispatch(setUser(res.data.user));
+          ToastNotification("success", res.data.message, options);
+          router.push("/dashboard");
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
       })
       .catch((error) => {
         ToastNotification("error", error.message, options);
+        setLoading(false);
+      })
+      .finally(() => {
         setLoading(false);
       });
   };

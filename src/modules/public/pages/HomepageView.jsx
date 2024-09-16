@@ -31,6 +31,7 @@ import { projects } from "../../../_mock/projects";
 import { experiences } from "../../../_mock/experiences";
 import { setPage } from "../../../redux/actions/pageActions";
 import { scrollToSection } from "../../../hooks/use-scroll-to-section";
+import FeedbackForm from "../components/FeedbackForm";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -51,6 +52,9 @@ function HomepageView() {
     },
     errors: contactInfoValidator.errors,
   });
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -349,6 +353,12 @@ function HomepageView() {
           backgroundColor: "#f9fafb",
         }}
       >
+        <FeedbackForm
+          title="Say something about your experiences"
+          description="Your feedback is important for me"
+          open={open}
+          handleClose={handleClose}
+        />
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Box maxWidth={400}>
@@ -360,11 +370,13 @@ function HomepageView() {
               >
                 We love our client and our clients loved us, see all feedback.
               </Typography>
-              <Stack direction="row" spacing={2}>
+              <Stack direction="row" spacing={2} sx={{ my: { xs: 1, md: 0 } }}>
                 <ContainedButton variant="contained">
                   See all Feedback
                 </ContainedButton>
-                <OutlinedButton variant="outlined">Add Feedback</OutlinedButton>
+                <OutlinedButton variant="outlined" onClick={handleOpen}>
+                  Add Feedback
+                </OutlinedButton>
               </Stack>
             </Box>
           </Grid>

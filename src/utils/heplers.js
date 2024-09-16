@@ -2,6 +2,17 @@ import ReeValidate from "ree-validate-18";
 import PropTypes from "prop-types";
 import { options, ToastNotification } from "./toastConfig";
 
+// get the api from .env
+export const getApi = () => {
+  const api = process.env.REACT_APP_API_DOMAIN;
+
+  if (isEmpty(api)) {
+    console.error("Error: No API set in .env file!");
+    throw new Error("No API set in .env file!");
+  }
+  return api;
+};
+
 // handle errors response
 export const handleErrorResponse = (err) => {
   if (
@@ -124,14 +135,28 @@ export const debounce = (func) => {
   };
 };
 
-
-// generate image url if not provided
-export const getUrl = (gender, index) => {
+//get profile of the user to be display in the table
+export const getProfile = (imageUrl, gender, index) => {
   let url;
-  if (gender === "male") {
-    url = `/assets/images/avatars/m_avatar_${index}.jpg`;
+
+  if (!isEmpty(imageUrl)) {
+    url = imageUrl;
   } else {
-    url = `/assets/images/avatars/f_avatar_${index}.jpg`;
+    // Determine the maximum index based on gender
+    const maxIndex = gender === "male" ? 7 : 8;
+
+    // Calculate the actual index using modulus to loop within 0-8 range
+    const avatarIndex = index % maxIndex;
+
+    // Construct the URL based on gender and avatar index
+    if (gender === "male") {
+      url = `/assets/images/avatars/m_avatar_${avatarIndex}.jpg`;
+    } else if (gender === "female") {
+      url = `/assets/images/avatars/f_avatar_${avatarIndex}.jpg`;
+    } else {
+      url = `/assets/images/avatars/m_avatar_5.jpg`;
+    }
   }
+
   return url;
 };

@@ -26,6 +26,11 @@ const navConfig = [
     icon: icon("ic_services"),
   },
   {
+    title: "Feedbacks",
+    path: "/feedbacks",
+    icon: icon("ic_services"),
+  },
+  {
     title: "projects",
     path: "/projects",
     icon: icon("ic_blog"),

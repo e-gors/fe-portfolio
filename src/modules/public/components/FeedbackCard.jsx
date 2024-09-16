@@ -2,7 +2,7 @@ import { Avatar, Box, Rating, Typography } from "@mui/material";
 import React from "react";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import PropTypes from "prop-types";
-import { getUrl } from "../../../utils/heplers";
+import { getProfile } from "../../../utils/heplers";
 
 function FeedbackCard({
   description = "What they say?...",
@@ -46,7 +46,7 @@ function FeedbackCard({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar alt={name} src={image ?? getUrl(gender, index + 1)} />
+          <Avatar alt={name} src={image ?? getProfile("", gender, index + 1)} />
           <Box sx={{ ml: 1 }}>
             <Typography variant="body2">{name}</Typography>
             <Typography variant="caption" color="text.secondary">
