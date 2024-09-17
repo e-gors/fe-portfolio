@@ -1,20 +1,22 @@
 import React from "react";
-import ServicesTable from "../components/services-table";
+import ProjectsTable from "../components/projects-table";
 import publicHttp from "../../../../../utils/publicHttp";
 // ----------------------------------------------------------------------
 
 //custom columns for each of the table (user table)
 const columns = [
-  { id: "image", label: "Image" },
-  { id: "service", label: "Service" },
-  { id: "descriptions", label: "Descriptions" },
+  { id: "picture", label: "Picture" },
+  { id: "type", label: "Type" },
+  { id: "name", label: "Project Name" },
+  { id: "link", label: "Link" },
+  { id: "description", label: "Description" },
   { id: "" },
 ];
 
-export default function ServicesView() {
+export default function ProjectsView() {
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = React.useState(0);
-  const [userList, setUserList] = React.useState({
+  const [projects, setProjects] = React.useState({
     data: [],
     meta: {},
   });
@@ -47,7 +49,6 @@ export default function ServicesView() {
 
   const buildQueryParams = (filters) => {
     const params = {};
-
     if (filters.search) {
       params.search = filters.search;
     }
@@ -62,14 +63,14 @@ export default function ServicesView() {
 
     const queryParams = buildQueryParams(filters);
 
-    publicHttp.get("/services", {
+    publicHttp.get("/projects", {
       params: {
         ...queryParams,
         ...params,
       },
     })
       .then((res) => {
-        setUserList({
+        setProjects({
           data: res.data.data,
           meta: res.data.meta,
         });
@@ -96,17 +97,17 @@ export default function ServicesView() {
 
   return (
     <>
-      <ServicesTable
+      <ProjectsTable
         withPagination
         loading={loading}
-        data={userList.data}
+        data={projects.data}
         rowsPerPage={filters.limit}
-        count={userList.meta.total || 0}
-        page={userList.meta.current_page - 1 || 0}
+        count={projects.meta.total || 0}
+        page={projects.meta.current_page - 1 || 0}
         onChangePage={handleChangePage}
         onRowsChangePage={handleRowChange}
         columns={columns}
-        placeholder="Search Services..."
+        placeholder="Search Projects..."
         filterValues={filters}
         onMultipleFilters={handleFilterChange}
         customPage={page}

@@ -17,7 +17,7 @@ import {
 } from "../../../components/CustomButtons";
 import SendIcon from "@mui/icons-material/Send";
 import RatingComp from "./RatingComp";
-import { getApi, Validator } from "../../../utils/heplers";
+import { Validator } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import {
   options,
@@ -55,7 +55,7 @@ const stringAvatar = (name) => {
 
 //validation rules
 const validator = Validator({
-  guest_name: "required",
+  guestName: "required",
   project: "required",
   message: "required",
   rating: "required",
@@ -73,20 +73,21 @@ function FeedbackForm({
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      guest_name: "",
+      guestName: "",
       project: "",
       message: "",
       rating: 0,
     },
     errors: validator.errors,
   });
-  const [profile, setProfile] = React.useState(null);
+  const [profileImage, setProfileImage] = React.useState(null);
   const [messageCustomError, setMessageCustomError] = React.useState("");
+  const [ratingCustomError, setRatingCustomError] = React.useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setProfile(file);
-    else setProfile(null);
+    if (file) setProfileImage(file);
+    else setProfileImage(null);
   };
 
   const handleChange = (e) => {
@@ -124,17 +125,33 @@ function FeedbackForm({
         setMessageCustomError("");
       }
     }
+
+    if (name === "rating") {
+      if (value < 0) {
+        setRatingCustomError(
+          "Rating must be between 0 and 5. You can also rate with decimal."
+        );
+      } else {
+        setRatingCustomError("");
+      }
+    }
   };
 
   const handleValidate = () => {
     validator.validateAll(formValues.values).then((success) => {
-      if (success && !messageCustomError) {
-        handleSubmit();
+      if (formValues.values.rating > 0) {
+        if (success && !messageCustomError && !ratingCustomError) {
+          handleSubmit();
+        } else {
+          setFormValues((prev) => ({
+            ...prev,
+            errors: validator.errors,
+          }));
+        }
       } else {
-        setFormValues((prev) => ({
-          ...prev,
-          errors: validator.errors,
-        }));
+        setRatingCustomError(
+          "Rating must be between 0 and 5. You can also rate with decimal."
+        );
       }
     });
   };
@@ -151,29 +168,30 @@ function FeedbackForm({
     }
 
     // Append the file to the FormData object if it exists
-    if (profile) {
-      formData.append("profile", profile);
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
     }
 
     // Perform the HTTP POST request with the FormData object
     publicHttp
-      .post(`${getApi()}/feedbacks`, formData, {
+      .post("/feedbacks", formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
         },
       })
       .then((res) => {
+        console.log(res);
         if (res.data.status === 201) {
           ToastNotification("success", res.data.message, options);
           setFormValues({
             values: {
-              guest_name: "",
+              guestName: "",
               project: "",
               message: "",
               rating: "",
             },
           });
-          setProfile(null);
+          setProfileImage(null);
           handleClose();
         } else {
           // Handle other response statuses or errors
@@ -243,7 +261,7 @@ function FeedbackForm({
               mt={2}
             >
               <Avatar
-                src={profile ? URL.createObjectURL(profile) : null}
+                src={profileImage ? URL.createObjectURL(profileImage) : null}
                 alt="Profile"
                 sx={{ width: 75, height: 75, boxShadow: 4 }}
                 {...stringAvatar(formValues.values.name)}
@@ -258,9 +276,9 @@ function FeedbackForm({
                 style={{ marginTop: "8px" }}
               />
               <FormField
-                name="guest_name"
+                name="guestName"
                 label="Guest Name"
-                value={formValues.values.guest_name}
+                value={formValues.values.guestName}
                 onChange={handleChange}
                 errors={formValues.errors}
                 type="text"
@@ -301,6 +319,9 @@ function FeedbackForm({
               name="rating"
               errors={formValues.errors}
             />
+            <FormHelperText error>
+              {ratingCustomError && ratingCustomError}
+            </FormHelperText>
           </Box>
           <Stack direction="row" spacing={2}>
             <ContainedButton

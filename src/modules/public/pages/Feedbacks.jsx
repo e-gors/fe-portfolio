@@ -34,8 +34,6 @@ function Feedbacks() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const api = process.env.REACT_APP_API_DOMAIN;
-
   const [feedbackList, setFeedbackList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -50,7 +48,7 @@ function Feedbacks() {
   const fetchFeedbacks = (controller) => {
     setLoading(true);
     publicHttp
-      .get(`${api}/feedbacks`, { signal: controller.signal })
+      .get('/feedbacks?status=approved', { signal: controller.signal })
       .then((res) => {
         if (!isEmpty(res)) {
           setFeedbackList(res.data.data);
@@ -64,7 +62,7 @@ function Feedbacks() {
       });
   };
 
-  const feeds = feedbackList || feedbacks;
+  const feeds = !isEmpty(feedbackList) ? feedbackList : feedbacks;
 
   return (
     <Box

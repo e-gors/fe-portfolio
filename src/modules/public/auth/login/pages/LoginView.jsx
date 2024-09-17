@@ -24,7 +24,7 @@ import {
 } from "../../../../../utils/toastConfig";
 import * as service from "../../service";
 import { useRouter } from "../../../../../routes/hooks";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../../../../redux/actions/userActions";
 
 const userValidator = Validator({
@@ -35,7 +35,7 @@ const userValidator = Validator({
 function LoginView() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.user);
+  const accessToken = localStorage.getitem('accessToken');
   const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [userField, setUserField] = React.useState({
@@ -47,10 +47,10 @@ function LoginView() {
   });
 
   React.useEffect(() => {
-    if (!isEmpty(user)) {
+    if (!isEmpty(accessToken)) {
       router.push("/dashboard");
     }
-  }, [user, router]);
+  }, [accessToken, router]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);

@@ -1,9 +1,17 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Paper, Typography } from "@mui/material";
 import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
 import PropTypes from "prop-types";
 
 function ServiceCard({ service = "Title", descriptions = [], image }) {
+  // State to track if descriptions are expanded or not
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
+  // Handle toggle between expand/collapse
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <Paper
       sx={{
@@ -30,16 +38,16 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
           boxShadow: 5,
         }}
       >
-        <img
+        <Avatar
           src={image}
           alt={service}
-          width={35}
-          height={35}
-          style={{
+          sx={{
             position: "relative",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
+            width: "70%",
+            height: "70%",
           }}
         />
       </Box>
@@ -53,10 +61,11 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            WebkitLineClamp: 3,
+            WebkitLineClamp: isExpanded ? "none" : 3, // Show full or truncate text
             minHeight: 80,
             height: "auto",
-            maxHeight: 100,
+            maxHeight: isExpanded ? "none" : 100, // Control height based on expand state
+            transition: "0.3s all ease",
           }}
         >
           {descriptions?.map((description, i) => (
@@ -64,7 +73,6 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
               key={i}
               variant="body2"
               color="text.secondary"
-              sx={{ my: 1 }}
               component="li"
             >
               {description}
@@ -72,7 +80,9 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
           ))}
         </Box>
       </Box>
-      <OutlinedButton variant="outlined">Read More</OutlinedButton>
+      <OutlinedButton variant="outlined" onClick={toggleExpand}>
+        {isExpanded ? "Show Less" : "Read More"} {/* Toggle button text */}
+      </OutlinedButton>
     </Paper>
   );
 }
@@ -82,4 +92,5 @@ ServiceCard.propTypes = {
   descriptions: PropTypes.array,
   icon: PropTypes.node,
 };
+
 export default ServiceCard;

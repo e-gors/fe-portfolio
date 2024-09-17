@@ -23,6 +23,11 @@ const routes = [
     component: "pages/Feedbacks",
     auth: true
   },
+  {
+    path: "/projects",
+    component: "pages/Projects",
+    auth: true
+  },
 ];
 
 export default routes;

@@ -10,6 +10,10 @@ Http.defaults.headers.common["Authorization"] = `Bearer ${JSON.parse(
 )}`;
 
 Http.interceptors.response.use(
+  function (config) {
+    const token = JSON.parse(localStorage.getItem("accessToken"));
+    config.headers.Authorization = `Bearer ${token}`;
+  },
   function (response) {
     return response;
   },

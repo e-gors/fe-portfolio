@@ -8,18 +8,19 @@ import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
 import MenuItem from "@mui/material/MenuItem";
 import TableCell from "@mui/material/TableCell";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
 import Iconify from "../../../../../components/iconify";
 
 // ----------------------------------------------------------------------
 
-export default function ServicesTableRow({
+export default function ProjectsTableRow({
   selected,
-  service,
-  descriptions = [],
-  image,
+  type,
+  name,
+  link,
+  description,
+  picture,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -39,24 +40,13 @@ export default function ServicesTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={service} src={image} />
-          </Stack>
+        <TableCell component="th" scope="row" padding="none" sx={{ p: 2 }}>
+          <img alt={name} src={picture} style={{ width: 240 }} />
         </TableCell>
-        <TableCell>
-          <Typography variant="subtitle2" noWrap>
-            {service}
-          </Typography>
-        </TableCell>
-        <TableCell>
-          {descriptions?.map((des, i) => (
-            <li key={i}>{des}</li>
-          ))}
-        </TableCell>
-        {/* <TableCell>
-          <Label color={statusColors[status]}>{status}</Label>
-        </TableCell> */}
+        <TableCell>{type}</TableCell>
+        <TableCell>{name}</TableCell>
+        <TableCell>{link}</TableCell>
+        <TableCell>{description}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -88,13 +78,14 @@ export default function ServicesTableRow({
   );
 }
 
-ServicesTableRow.propTypes = {
+ProjectsTableRow.propTypes = {
   avatarUrl: PropTypes.any,
-  company: PropTypes.any,
-  handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  selected: PropTypes.any,
+  profileImage: PropTypes.any,
+  guestName: PropTypes.string,
+  project: PropTypes.string,
+  message: PropTypes.string,
   status: PropTypes.string,
+  rating: PropTypes.number,
+  selected: PropTypes.any,
+  handleClick: PropTypes.func,
 };

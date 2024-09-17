@@ -14,7 +14,7 @@ const properties = [
   },
   {
     variant: "rectangular",
-    width: '100%',
+    width: "100%",
     height: 100,
   },
   {
@@ -25,10 +25,8 @@ const properties = [
 ];
 
 function Services() {
-  const api = process.env.REACT_APP_API_DOMAIN;
-
   const [serviceList, setServiceList] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -40,7 +38,7 @@ function Services() {
   const fetchService = (controller) => {
     setLoading(true);
     publicHttp
-      .get(`${api}/services`, { signal: controller.signal })
+      .get('services', { signal: controller.signal })
       .then((res) => {
         if (!isEmpty(res)) {
           setServiceList(res.data.data);
@@ -50,11 +48,11 @@ function Services() {
         console.error(err.message);
       })
       .finally(() => {
-        // setLoading(false);
+        setLoading(false);
       });
   };
 
-  const servs = serviceList || services;
+  const servs = !isEmpty(serviceList) ? serviceList : services;
 
   return (
     <Box

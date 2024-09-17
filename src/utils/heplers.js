@@ -1,17 +1,5 @@
 import ReeValidate from "ree-validate-18";
-import PropTypes from "prop-types";
 import { options, ToastNotification } from "./toastConfig";
-
-// get the api from .env
-export const getApi = () => {
-  const api = process.env.REACT_APP_API_DOMAIN;
-
-  if (isEmpty(api)) {
-    console.error("Error: No API set in .env file!");
-    throw new Error("No API set in .env file!");
-  }
-  return api;
-};
 
 // handle errors response
 export const handleErrorResponse = (err) => {
@@ -159,4 +147,15 @@ export const getProfile = (imageUrl, gender, index) => {
   }
 
   return url;
+};
+
+// link regex
+export const linkRegex = () => {
+  return /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/;
+};
+
+// test if link is valid
+export const validateLink = (link) => {
+  const regex = linkRegex();
+  return regex.test(link);
 };

@@ -12,7 +12,7 @@ publicHttp.defaults.headers.common["Content-Type"] = "application/json";
 publicHttp.interceptors.request.use(
   function (config) {
     // Check if there's an access token in local storage
-    const token = localStorage.getItem("accessToken");
+    const token = JSON.parse(localStorage.getItem("accessToken"));
 
     if (token) {
       // Attach the token to the request headers if it exists

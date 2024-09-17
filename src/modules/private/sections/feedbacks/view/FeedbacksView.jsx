@@ -1,6 +1,6 @@
 import React from "react";
-import Http from "../../../../../utils/Http";
 import FeedbacksTable from "../components/feedbacks-table";
+import publicHttp from "../../../../../utils/publicHttp";
 // ----------------------------------------------------------------------
 
 //custom columns for each of the table (user table)
@@ -102,20 +102,24 @@ export default function FeedbacksView() {
 
     const queryParams = buildQueryParams(filters);
 
-    Http.get("/feedbacks", {
+    publicHttp.get("/feedbacks", {
       params: {
         ...queryParams,
         ...params,
       },
-    }).then((res) => {
-      if (res.data.data) {
+    })
+      .then((res) => {
         setFeedbacks({
           data: res.data.data,
           meta: res.data.meta,
         });
-      }
-      setLoading(false);
-    });
+      })
+      .catch((err) => {
+        console.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleChangePage = (newPage) => {

@@ -1,15 +1,19 @@
 import React from "react";
-import { isEmpty, Validator } from "../../../../../utils/heplers";
+import {
+  isEmpty,
+  validateLink,
+  Validator,
+} from "../../../../../utils/heplers";
 import {
   options,
   ToastNotification,
   ToastNotificationContainer,
 } from "../../../../../utils/toastConfig";
 import {
-  Avatar,
   Box,
   CircularProgress,
   FormHelperText,
+  Grid,
   IconButton,
   Modal,
   Stack,
@@ -36,29 +40,17 @@ const style = {
   p: { xs: 2, md: 4 },
 };
 
-// get the string of Avatar Component
-const stringAvatar = (name) => {
-  if (typeof name === "string" && name.trim() !== "") {
-    const names = name.split(" ");
-    const initials =
-      names.length > 1 ? `${names[0][0]}${names[1][0]}` : names[0][0];
-    return {
-      children: initials.toUpperCase(),
-    };
-  } else {
-    return {
-      children: "DP",
-    };
-  }
-};
-
 //validation rules
 const validator = Validator({
-  service: "required",
+  type: "required",
+  name: "required",
+  link: "",
   description: "required",
 });
 
-function ServiceForm({
+const MIN_CHARS = 50;
+const MAX_CHARS = 150;
+function ProjectForm({
   title = "Modal Title",
   description = "Modal Description...",
   open,
@@ -67,15 +59,16 @@ function ServiceForm({
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      service: "",
+      type: "",
+      name: "",
+      link: "",
       description: "",
-      descriptions: [],
     },
     errors: validator.errors,
   });
-  const [image, setImage] = React.useState(null);
+  const [picture, setImage] = React.useState(null);
   const [customError, setCustomError] = React.useState("");
-  const [customErrorDes, setCustomErrorDes] = React.useState("");
+  const [customErrorLink, setCustomErrorLink] = React.useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -105,54 +98,33 @@ function ServiceForm({
     });
 
     if (name === "description") {
-      if (value.length >= 20 && value.length <= 100) {
+      if (value.length >= MIN_CHARS && value.length <= MAX_CHARS) {
         setCustomError("");
       } else {
-        setCustomError("Description must be between 20 and 100 characters.");
+        setCustomError(
+          `Description must be between ${MIN_CHARS} and ${MAX_CHARS} characters.`
+        );
+      }
+    }
+
+    if (name === "link") {
+      if (validateLink(value)) {
+        setCustomErrorLink("");
+      } else {
+        setCustomErrorLink("Invalid link!");
       }
     }
   };
 
-  const handleAddNewDescription = () => {
-    const { description, descriptions } = formValues.values;
-
-    // First, trim the description to remove any extra whitespace
-    const trimmedDescription = description.trim();
-
-    // Check if the trimmed description has a value, and its length is between 20 and 100 characters
-    if (
-      trimmedDescription &&
-      trimmedDescription.length >= 20 &&
-      trimmedDescription.length <= 100
-    ) {
-      // Add the description to the array and reset the description field
-      setFormValues((prev) => ({
-        ...prev,
-        values: {
-          ...prev.values,
-          descriptions: [...descriptions, trimmedDescription],
-          description: "", // Clear the description field
-        },
-      }));
-    }
-  };
-
   const handleValidate = () => {
-    const descriptions = formValues.values.descriptions;
-
     validator.validateAll(formValues.values).then((success) => {
-      if (isEmpty(descriptions) && descriptions.length > 1) {
-        setCustomErrorDes("You should add atleast 2 to 3 descriptions!");
+      if (success && !customError && !customErrorLink) {
+        handleSubmit();
       } else {
-        setCustomErrorDes("");
-        if (success && !customError) {
-          handleSubmit();
-        } else {
-          setFormValues((prev) => ({
-            ...prev,
-            errors: validator.errors,
-          }));
-        }
+        setFormValues((prev) => ({
+          ...prev,
+          errors: validator.errors,
+        }));
       }
     });
   };
@@ -160,17 +132,12 @@ function ServiceForm({
   const handleSubmit = () => {
     setLoading(true);
 
-    if (isEmpty(image?.name)) {
+    if (isEmpty(picture?.name)) {
       setLoading(false);
       ToastNotification("error", "You must upload an image!", options);
     } else {
       // Create a new FormData object
       const formData = new FormData();
-
-      // push last added description
-      if (!isEmpty(formValues.values.description)) {
-        formValues.values.descriptions.push(formValues.values.description);
-      }
 
       // Append form values to the FormData object
       for (const [key, value] of Object.entries(formValues.values)) {
@@ -178,12 +145,12 @@ function ServiceForm({
       }
 
       // Append the file to the FormData object if it exists
-      if (image) {
-        formData.append("image", image);
+      if (picture) {
+        formData.append("picture", picture);
       }
 
       // Perform the HTTP POST request with the FormData object
-      Http.post("/services", formData, {
+      Http.post('/projects', formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
         },
@@ -193,9 +160,10 @@ function ServiceForm({
             ToastNotification("success", res.data.message, options);
             setFormValues({
               values: {
-                service: "",
+                type: "",
+                name: "",
+                link: "",
                 description: "",
-                descriptions: [],
               },
             });
             setImage(null);
@@ -264,11 +232,15 @@ function ServiceForm({
               alignItems="center"
               mt={2}
             >
-              <Avatar
-                src={image ? URL.createObjectURL(image) : null}
-                alt="Profile"
-                sx={{ width: 75, height: 75, boxShadow: 4 }}
-                {...stringAvatar(formValues.values.name)}
+              <img
+                src={picture ? URL.createObjectURL(picture) : null}
+                alt="Website"
+                style={{
+                  width: "100%",
+                  height: 150,
+                  border: "1px dotted black",
+                  boxShadow: 4,
+                }}
               />
               <Typography variant="body2" mt={2}>
                 Upload Image:
@@ -279,17 +251,47 @@ function ServiceForm({
                 onChange={handleFileChange}
                 style={{ marginTop: "8px" }}
               />
-              <FormField
-                name="service"
-                label="Service Name"
-                value={formValues.values.service}
-                onChange={handleChange}
-                errors={formValues.errors}
-                type="text"
-                fullWidth
-                margin="dense"
-              />
             </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="type"
+                  label="Page Type"
+                  value={formValues.values.type}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="name"
+                  label="Project Name"
+                  value={formValues.values.name}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+            </Grid>
+
+            <FormField
+              name="link"
+              label="Page Link"
+              value={formValues.values.link}
+              onChange={handleChange}
+              errors={formValues.errors}
+              type="text"
+              fullWidth
+              margin="dense"
+            />
+            <FormHelperText error>
+              {customErrorLink && customErrorLink}
+            </FormHelperText>
             <FormField
               name="description"
               label="Description"
@@ -299,25 +301,11 @@ function ServiceForm({
               type="text"
               multiline
               fullWidth
-              minRows={1}
-              maxRows={3}
+              minRows={2}
+              maxRows={4}
               margin="dense"
             />
-            <FormHelperText error>
-              {customErrorDes && customErrorDes}
-            </FormHelperText>
             <FormHelperText error>{customError && customError}</FormHelperText>
-            <ul>
-              {formValues?.values?.descriptions?.map((desc, index) => (
-                <li key={index}>{desc}</li>
-              ))}
-            </ul>
-            <ContainedButton
-              variant="contained"
-              onClick={handleAddNewDescription}
-            >
-              Add New Description
-            </ContainedButton>
           </Box>
           <Stack direction="row" spacing={2}>
             <ContainedButton
@@ -338,4 +326,4 @@ function ServiceForm({
   );
 }
 
-export default ServiceForm;
+export default ProjectForm;
