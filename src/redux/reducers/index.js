@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import { userReducer } from "./userReducer";
 import { themeReducer } from "./themeReducer";
 import { pageReducer } from "./pageReducer";
+import { feedbackReducer } from "./feedbackReducer";
 
 // Define persist config for the `users` reducer
 const usersPersistConfig = {
@@ -21,15 +22,13 @@ const themePersistConfig = {
 
 // Combine reducers with individual persist configs
 const rootReducer = combineReducers({
-  users: persistReducer(usersPersistConfig, userReducer), // Persisted `user` part of `users`
-  theme: persistReducer(themePersistConfig, themeReducer), // Persisted `theme`
-  page: pageReducer, // Non-persisted `page`
+  users: persistReducer(usersPersistConfig, userReducer), // Persisted
+  theme: persistReducer(themePersistConfig, themeReducer), // Persisted
+  page: pageReducer, // Non-persisted
+  feedbacks: feedbackReducer, // Non-persisted
 });
 
 // Create a persisted reducer
-const persistedReducer = persistReducer(
-  { key: "root", storage }, 
-  rootReducer
-);
+const persistedReducer = persistReducer({ key: "root", storage }, rootReducer);
 
 export default persistedReducer;

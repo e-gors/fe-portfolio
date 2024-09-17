@@ -42,7 +42,6 @@ export default function ServicesTableRow({
     pending: "secondary",
     approved: "success",
   };
-  console.log(avatarUrl);
 
   return (
     <>

@@ -3,7 +3,7 @@ import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
 import PropTypes from "prop-types";
 
-function ServiceCard({ title = "Title", descriptions = [], icon }) {
+function ServiceCard({ service = "Title", descriptions = [], image }) {
   return (
     <Paper
       sx={{
@@ -31,8 +31,8 @@ function ServiceCard({ title = "Title", descriptions = [], icon }) {
         }}
       >
         <img
-          src={icon}
-          alt="SVG"
+          src={image}
+          alt={service}
           width={35}
           height={35}
           style={{
@@ -45,7 +45,7 @@ function ServiceCard({ title = "Title", descriptions = [], icon }) {
       </Box>
       <Box sx={{ my: 2 }}>
         <Typography variant="subtitle2" gutterBottom>
-          {title}
+          {service}
         </Typography>
         <Box
           sx={{
@@ -78,7 +78,7 @@ function ServiceCard({ title = "Title", descriptions = [], icon }) {
 }
 
 ServiceCard.propTypes = {
-  title: PropTypes.string,
+  service: PropTypes.string,
   descriptions: PropTypes.array,
   icon: PropTypes.node,
 };

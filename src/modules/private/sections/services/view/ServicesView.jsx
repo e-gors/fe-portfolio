@@ -5,63 +5,10 @@ import ServicesTable from "../components/services-table";
 
 //custom columns for each of the table (user table)
 const columns = [
-  { id: "name", label: "Name" },
-  { id: "email", label: "Email" },
-  { id: "role", label: "Role" },
-  { id: "isVerified", label: "Verified", align: "center" },
-  { id: "status", label: "Status" },
+  { id: "image", label: "Image" },
+  { id: "service", label: "Service" },
+  { id: "descriptions", label: "Descriptions" },
   { id: "" },
-];
-
-//custom filters for each of the table (user table)
-const filterItems = [
-  {
-    type: "dropdown",
-    name: "role",
-    label: "Role",
-    options: ["Customer", "Service Provider"],
-    operators: ["eq"],
-  },
-  {
-    type: "dropdown",
-    name: "isVerified",
-    label: "Verified",
-    options: [
-      {
-        name: "Yes",
-        value: true,
-      },
-      {
-        name: "No",
-        value: false,
-      },
-    ],
-    operators: ["eq"],
-  },
-  {
-    type: "dropdown",
-    name: "status",
-    label: "Status",
-    options: [
-      {
-        name: "Active",
-        value: "active",
-      },
-      {
-        name: "Inactive",
-        value: "inactive",
-      },
-      {
-        name: "Banned",
-        value: "banned",
-      },
-      {
-        name: "Deleted",
-        value: "deleted",
-      },
-    ],
-    operators: ["eq"],
-  },
 ];
 
 export default function ServicesView() {
@@ -74,9 +21,6 @@ export default function ServicesView() {
   const [filters, setFilters] = React.useState({
     limit: 10,
     search: "",
-    role: "",
-    isVerified: "",
-    status: "",
   });
 
   React.useEffect(() => {
@@ -103,16 +47,7 @@ export default function ServicesView() {
 
   const buildQueryParams = (filters) => {
     const params = {};
-    filterItems.forEach((filterItem) => {
-      const key = filterItem.name;
-      const operators = filterItem.operators;
-      if (filters[key] !== "") {
-        operators.forEach((operator) => {
-          params[`${key}[${operator}]`] = filters[key];
-        });
-      }
-    });
-
+    
     if (filters.search) {
       params.search = filters.search;
     }
@@ -127,20 +62,20 @@ export default function ServicesView() {
 
     const queryParams = buildQueryParams(filters);
 
-    // Http.get("/users", {
-    //   params: {
-    //     ...queryParams,
-    //     ...params,
-    //   },
-    // }).then((res) => {
-    //   if (res.data.data) {
-    //     setUserList({
-    //       data: res.data.data,
-    //       meta: res.data.meta,
-    //     });
-    //   }
-    //   setLoading(false);
-    // });
+    Http.get("/services", {
+      params: {
+        ...queryParams,
+        ...params,
+      },
+    }).then((res) => {
+      if (res.data.data) {
+        setUserList({
+          data: res.data.data,
+          meta: res.data.meta,
+        });
+      }
+      setLoading(false);
+    });
   };
 
   const handleChangePage = (newPage) => {
@@ -155,15 +90,6 @@ export default function ServicesView() {
     }));
   };
   
-  const handleClearFilters = () => {
-    setPage(0);
-    setFilters((prev) => ({
-      ...prev,
-      role: "",
-      isVerified: "",
-      status: "",
-    }));
-  };
 
   return (
     <>
@@ -178,10 +104,8 @@ export default function ServicesView() {
         onRowsChangePage={handleRowChange}
         columns={columns}
         placeholder="Search Services..."
-        filterItems={filterItems}
         filterValues={filters}
         onMultipleFilters={handleFilterChange}
-        onClearFilters={handleClearFilters}
         customPage={page}
       />
     </>

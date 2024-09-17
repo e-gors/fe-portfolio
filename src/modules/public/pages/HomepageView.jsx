@@ -13,25 +13,22 @@ import {
 } from "../../../components/CustomButtons";
 import Profile from "../../../assets/hero-photo.png";
 import AboutPhoto from "../../../assets/about-photo.jpg";
-import ServiceCard from "../components/ServiceCard";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectCard from "../components/ProjectCard";
 import CustomTimeline from "../../../components/CustomTimeline";
-import FeedbackCard from "../components/FeedbackCard";
 import ContactCard from "../components/ContactCard";
 import { Validator } from "../../../utils/heplers";
 import FormField from "../../../components/FormField";
 import SendIcon from "@mui/icons-material/Send";
 import SocialCards from "../components/SocialCards";
 import { contacts } from "../../../_mock/contacts";
-import { feedbacks } from "../../../_mock/feedbacks";
 import { socials } from "../../../_mock/socials";
-import { services } from "../../../_mock/services";
 import { projects } from "../../../_mock/projects";
 import { experiences } from "../../../_mock/experiences";
 import { setPage } from "../../../redux/actions/pageActions";
 import { scrollToSection } from "../../../hooks/use-scroll-to-section";
-import FeedbackForm from "../components/FeedbackForm";
+import Feedbacks from "./Feedbacks";
+import Services from "./Services";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -44,6 +41,7 @@ function HomepageView() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = React.useState(false);
+
   const [contactInfo, setContactInfo] = React.useState({
     values: {
       name: "",
@@ -52,9 +50,6 @@ function HomepageView() {
     },
     errors: contactInfoValidator.errors,
   });
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -264,33 +259,7 @@ function HomepageView() {
           </Grid>
         </Grid>
       </Box>
-      <Box
-        id="services"
-        sx={{
-          minHeight: `calc(100vh - 60px)`,
-          height: "auto",
-          overflow: "none",
-          padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "white",
-        }}
-      >
-        <Box mb={2}>
-          <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-            <Typography variant="h3">My Services</Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Here you will find some of my services that I can offer with my
-              skills and some other technologies.
-            </Typography>
-          </Box>
-          <Grid container rowSpacing={5} columnSpacing={2} mt={2}>
-            {services?.map((service, i) => (
-              <Grid key={i} item xs={12} sm={6} md={4}>
-                <ServiceCard {...service} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Box>
+      <Services />
       <Box
         id="portfolio"
         sx={{
@@ -345,48 +314,7 @@ function HomepageView() {
           </Grid>
         </Grid>
       </Box>
-      <Box
-        id="testimonials"
-        sx={{
-          overflow: "none",
-          padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "#f9fafb",
-        }}
-      >
-        <FeedbackForm
-          title="Say something about your experiences"
-          description="Your feedback is important for me"
-          open={open}
-          handleClose={handleClose}
-        />
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Box maxWidth={400}>
-              <Typography variant="h3">Hear what they say about me?</Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                gutterBottom
-              >
-                We love our client and our clients loved us, see all feedback.
-              </Typography>
-              <Stack direction="row" spacing={2} sx={{ my: { xs: 1, md: 0 } }}>
-                <ContainedButton variant="contained">
-                  See all Feedback
-                </ContainedButton>
-                <OutlinedButton variant="outlined" onClick={handleOpen}>
-                  Add Feedback
-                </OutlinedButton>
-              </Stack>
-            </Box>
-          </Grid>
-          {feedbacks?.map((feedback, i) => (
-            <Grid key={i} item xs={12} md={6}>
-              <FeedbackCard {...feedback} index={i} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      <Feedbacks />
       <Box
         id="contact"
         sx={{

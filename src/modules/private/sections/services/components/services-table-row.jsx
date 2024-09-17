@@ -11,19 +11,15 @@ import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
-import Label from "../../../../../components/label";
 import Iconify from "../../../../../components/iconify";
 
 // ----------------------------------------------------------------------
 
 export default function ServicesTableRow({
   selected,
-  name,
-  email,
-  role,
-  status,
-  avatarUrl,
-  isVerified,
+  service,
+  descriptions = [],
+  image,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -36,13 +32,7 @@ export default function ServicesTableRow({
     setOpen(null);
   };
 
-  const statusColors = {
-    deleted: "error",
-    banned: "warning",
-    inactive: "secondary",
-    active: "success",
-  };
-
+  console.log(descriptions);
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -52,18 +42,22 @@ export default function ServicesTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
+            <Avatar alt={service} src={image} />
           </Stack>
         </TableCell>
-        <TableCell>{email}</TableCell>
-        <TableCell>{role}</TableCell>
-        <TableCell align="center">{isVerified ? "Yes" : "No"}</TableCell>
         <TableCell>
-          <Label color={statusColors[status]}>{status}</Label>
+          <Typography variant="subtitle2" noWrap>
+            {service}
+          </Typography>
         </TableCell>
+        <TableCell>
+          {descriptions?.map((des, i) => (
+            <li key={i}>{des}</li>
+          ))}
+        </TableCell>
+        {/* <TableCell>
+          <Label color={statusColors[status]}>{status}</Label>
+        </TableCell> */}
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />

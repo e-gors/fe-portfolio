@@ -25,6 +25,7 @@ import {
   getComparator,
 } from "../../../common-components/utils";
 import ServicesTableRow from "./services-table-row";
+import ServiceForm from "./ServiceForm";
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ export default function ServicesTable(props) {
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
+  const [open, setOpen] = useState(false);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === "asc";
@@ -111,88 +113,94 @@ export default function ServicesTable(props) {
   };
 
   return (
-    <Container>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        mb={5}
-      >
-        <Typography variant="h4">Users</Typography>
-
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="eva:plus-fill" />}
+    <>
+      <ServiceForm
+        title="Adding new Service"
+        description="This service will be added to your services for them to see your skills and services you offer."
+        open={open}
+        handleClose={() => setOpen(false)}
+      />
+      <Container>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
         >
-          New User
-        </Button>
-      </Stack>
+          <Typography variant="h4">Services</Typography>
 
-      <Card>
-        <CommonToolbar
-          numSelected={selected.length}
-          filterValues={filterValues}
-          placeholder={placeholder}
-          filterItems={filterItems}
-          onMultipleFilters={onMultipleFilters}
-          onClearFilters={onClearFilters}
-        />
+          <Button
+            variant="contained"
+            color="inherit"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => setOpen(true)}
+          >
+            New Service
+          </Button>
+        </Stack>
 
-        <Scrollbar>
-          <TableContainer sx={{ overflow: "unset" }}>
-            <Table sx={{ minWidth: 360 }}>
-              <ServicesTableHead
-                order={order}
-                orderBy={orderBy}
-                rowCount={data.length}
-                numSelected={selected.length}
-                onRequestSort={handleSort}
-                onSelectAllClick={handleSelectAllClick}
-                headLabel={columns}
-              />
-              <TableBody>
-                {dataFiltered.map((row, i) => (
-                  <ServicesTableRow
-                    key={i}
-                    name={row.name}
-                    email={row.email}
-                    role={row.role}
-                    status={row.status}
-                    avatarUrl
-                    isVerified={row.isVerified}
-                    selected={selected.indexOf(row.name) !== -1}
-                    handleClick={(event) => handleClick(event, row.name)}
-                  />
-                ))}
-
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(customPage, rowsPerPage, data.length)}
-                />
-
-                {notFound && !loading && (
-                  <TableNoData query={filterValues.search} />
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Scrollbar>
-
-        {withPagination && (
-          <TablePagination
-            rowsPerPage={rowsPerPage}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            {...paginationProps}
+        <Card>
+          <CommonToolbar
+            numSelected={selected.length}
+            filterValues={filterValues}
+            placeholder={placeholder}
+            filterItems={filterItems}
+            onMultipleFilters={onMultipleFilters}
+            onClearFilters={onClearFilters}
           />
-        )}
-        {loading && (
-          <Grid container justifyContent="center">
-            <CircularProgress />
-          </Grid>
-        )}
-      </Card>
-    </Container>
+
+          <Scrollbar>
+            <TableContainer sx={{ overflow: "unset" }}>
+              <Table sx={{ minWidth: 360 }}>
+                <ServicesTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  rowCount={data.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleSort}
+                  onSelectAllClick={handleSelectAllClick}
+                  headLabel={columns}
+                />
+                <TableBody>
+                  {dataFiltered.map((row, i) => (
+                    <ServicesTableRow
+                      key={i}
+                      service={row.service}
+                      descriptions={row.descriptions}
+                      image={row.image}
+                      selected={selected.indexOf(row.name) !== -1}
+                      handleClick={(event) => handleClick(event, row.name)}
+                    />
+                  ))}
+
+                  <TableEmptyRows
+                    height={77}
+                    emptyRows={emptyRows(customPage, rowsPerPage, data.length)}
+                  />
+
+                  {notFound && !loading && (
+                    <TableNoData query={filterValues.search} />
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          {withPagination && (
+            <TablePagination
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              {...paginationProps}
+            />
+          )}
+          {loading && (
+            <Grid container justifyContent="center">
+              <CircularProgress />
+            </Grid>
+          )}
+        </Card>
+      </Container>
+    </>
   );
 }

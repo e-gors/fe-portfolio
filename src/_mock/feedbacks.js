@@ -1,43 +1,47 @@
-
 export const feedbacks = [
   {
-    name: "Efren Goron",
+    guestName: "Efren Goron",
     gender: "male",
-    description:
+    message:
       "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
-    image: null,
+    profileImage: null,
     rating: 5.0,
+    createdAt: "September 16, 2024",
   },
   {
-    name: "John Doe",
+    guestName: "John Doe",
     gender: "male",
-    description:
+    message:
       "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
-    image: null,
+    profileImage: null,
     rating: 4.8,
+    createdAt: "September 16, 2024",
   },
   {
-    name: "Criscilla Gumanid",
+    guestName: "Criscilla Gumanid",
     gender: "female",
-    description:
+    message:
       "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
-    image: null,
+    profileImage: null,
     rating: 5.0,
+    createdAt: "September 16, 2024",
   },
   {
-    name: "Alberto Lausa",
+    guestName: "Alberto Lausa",
     gender: "male",
-    description:
+    message:
       "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
-    image: null,
+    profileImage: null,
     rating: 5.0,
+    createdAt: "September 16, 2024",
   },
   {
-    name: "Charie Lausa",
+    guestName: "Charie Lausa",
     gender: "female",
-    description:
+    message:
       "I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget. I was impressed by the quality of work and the professionalism of the team. They delivered the project on time and within budget.",
-    image: null,
+    profileImage: null,
     rating: 5.0,
+    createdAt: "September 16, 2024",
   },
 ];

@@ -87,7 +87,7 @@ export const servicesContent = [
 ];
 
 export const services = servicesContent?.map((_, index) => ({
-  title: servicesContent[index].title,
+  service: servicesContent[index].title,
   descriptions: servicesContent[index].descriptions,
-  icon: `/assets/icons/services/${servicesContent[index].iconName}.svg`,
+  image: `/assets/icons/services/${servicesContent[index].iconName}.svg`,
 }));

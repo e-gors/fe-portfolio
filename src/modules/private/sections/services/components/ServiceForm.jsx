@@ -1,29 +1,28 @@
-import * as React from "react";
-import {
-  Box,
-  Modal,
-  Typography,
-  IconButton,
-  Stack,
-  FormHelperText,
-  CircularProgress,
-  Avatar,
-} from "@mui/material";
-import FormField from "../../../components/FormField";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  ContainedButton,
-  OutlinedButton,
-} from "../../../components/CustomButtons";
-import SendIcon from "@mui/icons-material/Send";
-import RatingComp from "./RatingComp";
-import { getApi, Validator } from "../../../utils/heplers";
-import publicHttp from "../../../utils/publicHttp";
+import React from "react";
+import { getApi, isEmpty, Validator } from "../../../../../utils/heplers";
 import {
   options,
   ToastNotification,
   ToastNotificationContainer,
-} from "../../../utils/toastConfig";
+} from "../../../../../utils/toastConfig";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  FormHelperText,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import FormField from "../../../../../components/FormField";
+import {
+  ContainedButton,
+  OutlinedButton,
+} from "../../../../../components/CustomButtons";
+import SendIcon from "@mui/icons-material/Send";
+import Http from "../../../../../utils/Http";
 
 const style = {
   position: "absolute",
@@ -55,16 +54,11 @@ const stringAvatar = (name) => {
 
 //validation rules
 const validator = Validator({
-  guest_name: "required",
-  project: "required",
-  message: "required",
-  rating: "required",
+  service: "required",
+  description: "required",
 });
 
-const MAX_LENGTH = 600;
-const MIN_LENGTH = 400;
-
-function FeedbackForm({
+function ServiceForm({
   title = "Modal Title",
   description = "Modal Description...",
   open,
@@ -73,20 +67,20 @@ function FeedbackForm({
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      guest_name: "",
-      project: "",
-      message: "",
-      rating: 0,
+      service: "",
+      description: "",
+      descriptions: [],
     },
     errors: validator.errors,
   });
-  const [profile, setProfile] = React.useState(null);
-  const [messageCustomError, setMessageCustomError] = React.useState("");
+  const [image, setImage] = React.useState(null);
+  const [customError, setCustomError] = React.useState("");
+  const [customErrorDes, setCustomErrorDes] = React.useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setProfile(file);
-    else setProfile(null);
+    if (file) setImage(file);
+    else setImage(null);
   };
 
   const handleChange = (e) => {
@@ -110,31 +104,55 @@ function FeedbackForm({
       }
     });
 
-    // Custom validation for the message field
-    if (name === "message") {
-      if (value.length + 1 <= MIN_LENGTH) {
-        setMessageCustomError(
-          `Message must be at least ${MIN_LENGTH} characters.`
-        );
-      } else if (value.length + 1 > MAX_LENGTH + 1) {
-        setMessageCustomError(
-          `Message cannot exceed ${MAX_LENGTH} characters.`
-        );
+    if (name === "description") {
+      if (value.length >= 20 && value.length <= 100) {
+        setCustomError("");
       } else {
-        setMessageCustomError("");
+        setCustomError("Description must be between 20 and 100 characters.");
       }
     }
   };
 
+  const handleAddNewDescription = () => {
+    const { description, descriptions } = formValues.values;
+
+    // First, trim the description to remove any extra whitespace
+    const trimmedDescription = description.trim();
+
+    // Check if the trimmed description has a value, and its length is between 20 and 100 characters
+    if (
+      trimmedDescription &&
+      trimmedDescription.length >= 20 &&
+      trimmedDescription.length <= 100
+    ) {
+      // Add the description to the array and reset the description field
+      setFormValues((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          descriptions: [...descriptions, trimmedDescription],
+          description: "", // Clear the description field
+        },
+      }));
+    }
+  };
+
   const handleValidate = () => {
+    const descriptions = formValues.values.descriptions;
+
     validator.validateAll(formValues.values).then((success) => {
-      if (success && !messageCustomError) {
-        handleSubmit();
+      if (isEmpty(descriptions) && descriptions.length > 1) {
+        setCustomErrorDes("You should add atleast 2 to 3 descriptions!");
       } else {
-        setFormValues((prev) => ({
-          ...prev,
-          errors: validator.errors,
-        }));
+        setCustomErrorDes("");
+        if (success && !customError) {
+          handleSubmit();
+        } else {
+          setFormValues((prev) => ({
+            ...prev,
+            errors: validator.errors,
+          }));
+        }
       }
     });
   };
@@ -142,51 +160,60 @@ function FeedbackForm({
   const handleSubmit = () => {
     setLoading(true);
 
-    // Create a new FormData object
-    const formData = new FormData();
+    if (isEmpty(image?.name)) {
+      setLoading(false);
+      ToastNotification("error", "You must upload an image!", options);
+    } else {
+      // Create a new FormData object
+      const formData = new FormData();
 
-    // Append form values to the FormData object
-    for (const [key, value] of Object.entries(formValues.values)) {
-      formData.append(key, value);
-    }
+      // push last added description
+      if (!isEmpty(formValues.values.description)) {
+        formValues.values.descriptions.push(formValues.values.description);
+      }
 
-    // Append the file to the FormData object if it exists
-    if (profile) {
-      formData.append("profile", profile);
-    }
+      // Append form values to the FormData object
+      for (const [key, value] of Object.entries(formValues.values)) {
+        formData.append(key, value);
+      }
 
-    // Perform the HTTP POST request with the FormData object
-    publicHttp
-      .post(`${getApi()}/feedbacks`, formData, {
+      // Append the file to the FormData object if it exists
+      if (image) {
+        formData.append("image", image);
+      }
+      console.log(formData);
+
+      // Perform the HTTP POST request with the FormData object
+      Http.post(`${getApi()}/services`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
         },
       })
-      .then((res) => {
-        if (res.data.status === 201) {
-          ToastNotification("success", res.data.message, options);
-          setFormValues({
-            values: {
-              guest_name: "",
-              project: "",
-              message: "",
-              rating: "",
-            },
-          });
-          setProfile(null);
-          handleClose();
-        } else {
-          // Handle other response statuses or errors
-          ToastNotification("error", res.data.message, options);
-        }
-      })
-      .catch((err) => {
-        // Handle request errors
-        ToastNotification("error", err.message, options);
-      })
-      .finally(() => {
-        setLoading(false); // Set loading to false when done
-      });
+        .then((res) => {
+          if (res.data.status === 201) {
+            ToastNotification("success", res.data.message, options);
+            setFormValues({
+              values: {
+                service: "",
+                description: "",
+                descriptions: [],
+              },
+            });
+            setImage(null);
+            handleClose();
+          } else {
+            // Handle other response statuses or errors
+            ToastNotification("error", res.data.message, options);
+          }
+        })
+        .catch((err) => {
+          // Handle request errors
+          ToastNotification("error", err.message, options);
+        })
+        .finally(() => {
+          setLoading(false); // Set loading to false when done
+        });
+    }
   };
 
   return (
@@ -226,10 +253,6 @@ function FeedbackForm({
             >
               {description}
             </Typography>
-            <FormHelperText sx={{ color: "red" }}>
-              Note: Your feedback needs to be approved first before it will be
-              display live.
-            </FormHelperText>
           </Box>
           <Box
             component="form"
@@ -243,13 +266,13 @@ function FeedbackForm({
               mt={2}
             >
               <Avatar
-                src={profile ? URL.createObjectURL(profile) : null}
+                src={image ? URL.createObjectURL(image) : null}
                 alt="Profile"
                 sx={{ width: 75, height: 75, boxShadow: 4 }}
                 {...stringAvatar(formValues.values.name)}
               />
               <Typography variant="body2" mt={2}>
-                Upload Profile (optional):
+                Upload Image:
               </Typography>
               <input
                 type="file"
@@ -258,9 +281,9 @@ function FeedbackForm({
                 style={{ marginTop: "8px" }}
               />
               <FormField
-                name="guest_name"
-                label="Guest Name"
-                value={formValues.values.guest_name}
+                name="service"
+                label="Service Name"
+                value={formValues.values.service}
                 onChange={handleChange}
                 errors={formValues.errors}
                 type="text"
@@ -269,38 +292,33 @@ function FeedbackForm({
               />
             </Box>
             <FormField
-              name="project"
-              label="Project Title"
-              value={formValues.values.project}
-              onChange={handleChange}
-              errors={formValues.errors}
-              type="text"
-              fullWidth
-              margin="dense"
-            />
-            <FormField
-              name="message"
-              label="Your Feedback"
-              value={formValues.values.message}
+              name="description"
+              label="Description"
+              value={formValues.values.description}
               onChange={handleChange}
               errors={formValues.errors}
               type="text"
               multiline
               fullWidth
-              minRows={4}
-              maxRows={5}
+              minRows={1}
+              maxRows={3}
               margin="dense"
             />
-            <FormHelperText error>{messageCustomError}</FormHelperText>
-            <FormHelperText>
-              {formValues.values.message.length} / {MAX_LENGTH}
+            <FormHelperText error>
+              {customErrorDes && customErrorDes}
             </FormHelperText>
-            <RatingComp
-              value={formValues.values.rating}
-              onChange={handleChange}
-              name="rating"
-              errors={formValues.errors}
-            />
+            <FormHelperText error>{customError && customError}</FormHelperText>
+            <ul>
+              {formValues?.values?.descriptions?.map((desc, index) => (
+                <li key={index}>{desc}</li>
+              ))}
+            </ul>
+            <ContainedButton
+              variant="contained"
+              onClick={handleAddNewDescription}
+            >
+              Add New Description
+            </ContainedButton>
           </Box>
           <Stack direction="row" spacing={2}>
             <ContainedButton
@@ -321,4 +339,4 @@ function FeedbackForm({
   );
 }
 
-export default FeedbackForm;
+export default ServiceForm;
