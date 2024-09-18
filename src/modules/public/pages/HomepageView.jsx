@@ -29,6 +29,8 @@ import { setPage } from "../../../redux/actions/pageActions";
 import { scrollToSection } from "../../../hooks/use-scroll-to-section";
 import Feedbacks from "./Feedbacks";
 import Services from "./Services";
+import publicHttp from "../../../utils/publicHttp";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -83,8 +85,29 @@ function HomepageView() {
 
   const handleSubmit = () => {
     setLoading(true);
-    console.log(contactInfo);
-    setLoading(false);
+    publicHttp
+      .post("/contacts", contactInfo.values)
+      .then((res) => {
+        if (res.data.status === 201) {
+          ToastNotification("success", res.data.message, options);
+          setContactInfo({
+            values: {
+              name: "",
+              email: "",
+              message: "",
+            },
+          });
+        } else {
+          ToastNotification("error", res.data.message, options);
+          console.error(res.data.error);
+        }
+      })
+      .catch((err) => {
+        ToastNotification("error", err.message, options);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleViewPage = (page) => {
@@ -393,7 +416,7 @@ function HomepageView() {
               <ContainedButton
                 variant="contained"
                 endIcon={
-                  loading ? <CircularProgress size="small" /> : <SendIcon />
+                  loading ? <CircularProgress size={24} /> : <SendIcon />
                 }
                 disabled={loading}
                 fullWidth
