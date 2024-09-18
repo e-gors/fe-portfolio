@@ -14,8 +14,6 @@ import {
 import Profile from "../../../assets/hero-photo.png";
 import AboutPhoto from "../../../assets/about-photo.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import ProjectCard from "../components/ProjectCard";
-import CustomTimeline from "../../../components/CustomTimeline";
 import ContactCard from "../components/ContactCard";
 import { Validator } from "../../../utils/heplers";
 import FormField from "../../../components/FormField";
@@ -23,14 +21,14 @@ import SendIcon from "@mui/icons-material/Send";
 import SocialCards from "../components/SocialCards";
 import { contacts } from "../../../_mock/contacts";
 import { socials } from "../../../_mock/socials";
-import { projects } from "../../../_mock/projects";
-import { experiences } from "../../../_mock/experiences";
 import { setPage } from "../../../redux/actions/pageActions";
 import { scrollToSection } from "../../../hooks/use-scroll-to-section";
 import Feedbacks from "./Feedbacks";
 import Services from "./Services";
 import publicHttp from "../../../utils/publicHttp";
 import { options, ToastNotification } from "../../../utils/toastConfig";
+import Projects from "./Projects";
+import Experiences from "./Experiences";
 
 const contactInfoValidator = Validator({
   name: "required",
@@ -283,60 +281,8 @@ function HomepageView() {
         </Grid>
       </Box>
       <Services />
-      <Box
-        id="portfolio"
-        sx={{
-          minHeight: `calc(100vh - 60px)`,
-          height: "auto",
-          overflow: "none",
-          padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "#f9fafb",
-        }}
-      >
-        <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-          <Typography variant="h3">My Projects</Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Here you will find some of my projects that I developed during my
-            past years of being a software developer.
-          </Typography>
-        </Box>
-        <Box mt={2}>
-          {projects?.map((project, i) => (
-            <ProjectCard key={i} {...project} />
-          ))}
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          height: "auto",
-          overflow: "none",
-          padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "white",
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
-            <Box>
-              <Typography variant="h3" gutterBottom>
-                My Experiences
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                gutterBottom
-              >
-                I have had the pleasure to work with companies across a variety
-                of industries. I’m always interested in new, exciting, and
-                challenging adventures.
-              </Typography>
-              <ContainedButton variant="contained">Download CV</ContainedButton>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <CustomTimeline experiences={experiences} position="right" />
-          </Grid>
-        </Grid>
-      </Box>
+      <Projects />
+      <Experiences />
       <Feedbacks />
       <Box
         id="contact"
