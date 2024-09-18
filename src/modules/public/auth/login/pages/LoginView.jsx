@@ -35,7 +35,7 @@ const userValidator = Validator({
 function LoginView() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = localStorage.getitem('accessToken');
+  const accessToken = JSON.parse(localStorage.getItem('accessToken'));
   const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [userField, setUserField] = React.useState({

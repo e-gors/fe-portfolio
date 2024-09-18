@@ -150,7 +150,7 @@ function FeedbackForm({
         }
       } else {
         setRatingCustomError(
-          "Rating must be between 0 and 5. You can also rate with decimal."
+          "Rating must be between 0.5 and 5.0. You can also rate with decimal."
         );
       }
     });

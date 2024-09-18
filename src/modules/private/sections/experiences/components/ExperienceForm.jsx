@@ -24,7 +24,10 @@ import {
 } from "../../../../../components/CustomButtons";
 import SendIcon from "@mui/icons-material/Send";
 import Http from "../../../../../utils/Http";
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -38,7 +41,7 @@ const style = {
   p: { xs: 2, md: 4 },
 };
 
-//validation rules
+// validation rules
 const validator = Validator({
   jobPosition: "required",
   companyName: "required",
@@ -48,6 +51,7 @@ const validator = Validator({
 
 const MIN_CHARS = 350;
 const MAX_CHARS = 700;
+
 function ExperienceForm({
   title = "Modal Title",
   description = "Modal Description...",
@@ -65,12 +69,10 @@ function ExperienceForm({
     errors: validator.errors,
   });
   const [picture, setImage] = React.useState(null);
-  const [dates, setDates] = React.useState({
-    values: {
-      startDate: "",
-      endDate: "",
-    },
-  });
+
+  // dates
+  const [startDate, setStartDate] = React.useState(null);
+  const [endDate, setEndDate] = React.useState(null);
 
   const [customError, setCustomError] = React.useState("");
   const [customErrorLink, setCustomErrorLink] = React.useState("");
@@ -151,8 +153,16 @@ function ExperienceForm({
       formData.append("websiteLogo", picture);
     }
 
+    // Append formatted start date and end date
+    if (startDate) {
+      formData.append("startDate", dayjs(startDate).format("MMM YYYY"));
+    }
+    if (endDate) {
+      formData.append("endDate", dayjs(endDate).format("MMM YYYY"));
+    }
+
     // Perform the HTTP POST request with the FormData object
-    Http.post("/projects", formData, {
+    Http.post("/experiences", formData, {
       headers: {
         "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
       },
@@ -169,6 +179,8 @@ function ExperienceForm({
             },
           });
           setImage(null);
+          setStartDate(null);
+          setEndDate(null);
           handleClose();
         } else {
           // Handle other response statuses or errors
@@ -274,52 +286,86 @@ function ExperienceForm({
                 />
               </Grid>
             </Grid>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12} sm={6}>
+                  <DatePicker
+                    label="Start Month & Year"
+                    views={["year", "month"]}
+                    value={startDate}
+                    onChange={(value) => setStartDate(value)}
+                    renderInput={(params) => (
+                      <FormField {...params} fullWidth />
+                    )}
+                    sx={{ width: "100%" }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DatePicker
+                    label="End Month & Year"
+                    views={["year", "month"]}
+                    value={endDate}
+                    onChange={(value) => setEndDate(value)}
+                    renderInput={(params) => (
+                      <FormField {...params} fullWidth />
+                    )}
+                    sx={{ width: "100%" }}
+                  />
+                </Grid>
+              </Grid>
+            </LocalizationProvider>
+
             <FormField
               name="description"
               label="Description"
               value={formValues.values.description}
               onChange={handleChange}
               errors={formValues.errors}
-              type="text"
-              multiline
               fullWidth
-              minRows={3}
-              maxRows={5}
-              margin="dense"
+              multiline
+              rows={4}
+              margin="normal"
             />
             <FormHelperText>
               {formValues.values.description.length} / {MAX_CHARS}
             </FormHelperText>
-            <FormHelperText error>{customError && customError}</FormHelperText>
-            <DateTimePicker />
+            {customError && (
+              <FormHelperText error={!!customError}>
+                {customError}
+              </FormHelperText>
+            )}
+
             <FormField
               name="link"
-              label="Page Link"
+              label="Link"
               value={formValues.values.link}
               onChange={handleChange}
               errors={formValues.errors}
-              type="text"
               fullWidth
               margin="dense"
             />
-            <FormHelperText error>
-              {customErrorLink && customErrorLink}
-            </FormHelperText>
-          </Box>
+            {customErrorLink && (
+              <FormHelperText error={!!customErrorLink}>
+                {customErrorLink}
+              </FormHelperText>
+            )}
 
-          <Stack direction="row" spacing={2}>
-            <ContainedButton
-              variant="contained"
-              onClick={handleValidate}
-              disabled={loading}
-              endIcon={loading ? <CircularProgress size={24} /> : <SendIcon />}
-            >
-              Submit
-            </ContainedButton>
-            <OutlinedButton variant="outlined" onClick={handleClose}>
-              Cancel
-            </OutlinedButton>
-          </Stack>
+            <Stack direction="row" spacing={2} mt={2}>
+              <ContainedButton
+                variant="contained"
+                onClick={handleValidate}
+                disabled={loading}
+                endIcon={
+                  loading ? <CircularProgress size={24} /> : <SendIcon />
+                }
+              >
+                Submit
+              </ContainedButton>
+              <OutlinedButton variant="outlined" onClick={handleClose}>
+                Cancel
+              </OutlinedButton>
+            </Stack>
+          </Box>
         </Box>
       </Modal>
     </div>

@@ -164,8 +164,8 @@ export default function FeedbacksTable(props) {
                     )}
                     status={row.status}
                     rating={row.rating}
-                    selected={selected.indexOf(row.name) !== -1}
-                    handleClick={(event) => handleClick(event, row.name)}
+                    selected={selected.indexOf(row.project) !== -1}
+                    handleClick={(event) => handleClick(event, row.project)}
                   />
                 ))}
 

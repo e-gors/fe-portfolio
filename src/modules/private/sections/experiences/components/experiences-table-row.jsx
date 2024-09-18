@@ -9,16 +9,18 @@ import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 
 import Iconify from "../../../../../components/iconify";
+import { Avatar } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
 export default function ExperiencesTableRow({
   selected,
-  type,
-  name,
-  link,
+  companyLogo,
+  jobPosition,
+  companyName,
+  startDate,
+  endDate,
   description,
-  picture,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -38,12 +40,13 @@ export default function ExperiencesTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none" sx={{ p: 2 }}>
-          <img alt={name} src={picture} style={{ width: 240 }} />
+        <TableCell component="th" padding="none" sx={{ p: 2 }}>
+          <Avatar alt={companyName} src={companyLogo} />
         </TableCell>
-        <TableCell>{type}</TableCell>
-        <TableCell>{name}</TableCell>
-        <TableCell>{link}</TableCell>
+        <TableCell>{jobPosition}</TableCell>
+        <TableCell>{companyName}</TableCell>
+        <TableCell>{startDate}</TableCell>
+        <TableCell>{endDate}</TableCell>
         <TableCell>{description}</TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

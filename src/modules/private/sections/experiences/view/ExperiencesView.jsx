@@ -10,6 +10,7 @@ const columns = [
   { id: "companyName", label: "Company Name" },
   { id: "startDate", label: "Start Date" },
   { id: "endDate", label: "End Date" },
+  { id: "description", label: "Description" },
   { id: "" },
 ];
 
@@ -63,12 +64,13 @@ export default function ExperiencesView() {
 
     const queryParams = buildQueryParams(filters);
 
-    publicHttp.get("/experiences", {
-      params: {
-        ...queryParams,
-        ...params,
-      },
-    })
+    publicHttp
+      .get("/experiences", {
+        params: {
+          ...queryParams,
+          ...params,
+        },
+      })
       .then((res) => {
         setExperiences({
           data: res.data.data,

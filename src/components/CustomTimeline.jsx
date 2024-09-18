@@ -43,7 +43,7 @@ export default function CustomTimeline({
               sx={{ m: "auto 0", flex: "1 1 0" }}
               variant="body2"
             >
-              {experience.date}
+              {experience.startDate} - {experience.endDate}
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineConnector />
@@ -54,8 +54,8 @@ export default function CustomTimeline({
             </TimelineSeparator>
             <TimelineContent sx={{ flex: "3 1 0", px: { xs: 1, md: 3 } }}>
               <Typography variant="h6" component="span" gutterBottom>
-                {experience.title}{" "}
-                {experience.company ? `at ${experience.company}` : ""}
+                {experience.jobPosition}{" "}
+                {experience.companyName}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {experience.description}

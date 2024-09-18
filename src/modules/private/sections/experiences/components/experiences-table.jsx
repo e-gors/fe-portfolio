@@ -165,13 +165,14 @@ export default function ExperiencesTable(props) {
                   {dataFiltered.map((row, i) => (
                     <ExperiencesTableRow
                       key={i}
-                      type={row.type}
-                      name={row.name}
-                      link={row.link}
+                      companyLogo={row.companyLogo}
+                      jobPosition={row.jobPosition}
+                      companyName={row.companyName}
+                      startDate={row.startDate}
+                      endDate={row.endDate}
                       description={row.description}
-                      picture={row.picture}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      selected={selected.indexOf(row.jobPosition) !== -1}
+                      handleClick={(event) => handleClick(event, row.jobPosition)}
                     />
                   ))}
 

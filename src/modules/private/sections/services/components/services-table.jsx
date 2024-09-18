@@ -168,8 +168,8 @@ export default function ServicesTable(props) {
                       service={row.service}
                       descriptions={row.descriptions}
                       image={row.image}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      selected={selected.indexOf(row.service) !== -1}
+                      handleClick={(event) => handleClick(event, row.service)}
                     />
                   ))}
 

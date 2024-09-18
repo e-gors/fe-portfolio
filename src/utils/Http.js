@@ -9,11 +9,16 @@ Http.defaults.headers.common["Authorization"] = `Bearer ${JSON.parse(
   localStorage.getItem("accessToken")
 )}`;
 
-Http.interceptors.response.use(
-  function (config) {
-    const token = JSON.parse(localStorage.getItem("accessToken"));
+Http.interceptors.request.use(function (config) {
+  const token = JSON.parse(localStorage.getItem("accessToken"));
+
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-  },
+  }
+  return config;
+});
+
+Http.interceptors.response.use(
   function (response) {
     return response;
   },

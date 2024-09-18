@@ -297,10 +297,11 @@ function HomepageView() {
           <Grid item xs={12} md={6}>
             <Typography variant="h3">Get in Touch</Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-              tempora incidunt, voluptates architecto pariatur eveniet esse
-              doloremque repellendus nam, rem impedit cumque tenetur fugiat
-              fugit maxime ducimus, voluptate illum et?
+              Feel free to get in touch! Whether you have questions, feedback,
+              or just want to say hello, I’d be happy to hear from you. Don't
+              hesitate to reach out using the contact information provided
+              below. I’m always open to connecting and discussing ideas, so
+              let’s chat!
             </Typography>
             <Box mt={2}>
               {contacts?.map((contact, i) => (
