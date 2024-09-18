@@ -1,29 +1,30 @@
-import * as React from "react";
-import {
-  Box,
-  Modal,
-  Typography,
-  IconButton,
-  Stack,
-  FormHelperText,
-  CircularProgress,
-  Avatar,
-} from "@mui/material";
-import FormField from "../../../components/FormField";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  ContainedButton,
-  OutlinedButton,
-} from "../../../components/CustomButtons";
-import SendIcon from "@mui/icons-material/Send";
-import RatingComp from "./RatingComp";
-import { Validator } from "../../../utils/heplers";
-import publicHttp from "../../../utils/publicHttp";
+import React from "react";
+import { isEmpty, validateLink, Validator } from "../../../../../utils/heplers";
 import {
   options,
   ToastNotification,
   ToastNotificationContainer,
-} from "../../../utils/toastConfig";
+} from "../../../../../utils/toastConfig";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  FormHelperText,
+  Grid,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import FormField from "../../../../../components/FormField";
+import {
+  ContainedButton,
+  OutlinedButton,
+} from "../../../../../components/CustomButtons";
+import SendIcon from "@mui/icons-material/Send";
+import Http from "../../../../../utils/Http";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 const style = {
   position: "absolute",
@@ -37,34 +38,17 @@ const style = {
   p: { xs: 2, md: 4 },
 };
 
-// get the string of Avatar Component
-const stringAvatar = (name) => {
-  if (typeof name === "string" && name.trim() !== "") {
-    const names = name.split(" ");
-    const initials =
-      names.length > 1 ? `${names[0][0]}${names[1][0]}` : names[0][0];
-    return {
-      children: initials.toUpperCase(),
-    };
-  } else {
-    return {
-      children: "DP",
-    };
-  }
-};
-
 //validation rules
 const validator = Validator({
-  guestName: "required",
-  project: "required",
-  message: "required",
-  rating: "required",
+  jobPosition: "required",
+  companyName: "required",
+  description: "required",
+  link: "",
 });
 
-const MAX_LENGTH = 600;
-const MIN_LENGTH = 400;
-
-function FeedbackForm({
+const MIN_CHARS = 350;
+const MAX_CHARS = 700;
+function ExperienceForm({
   title = "Modal Title",
   description = "Modal Description...",
   open,
@@ -73,21 +57,28 @@ function FeedbackForm({
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      guestName: "",
-      project: "",
-      message: "",
-      rating: 0,
+      jobPosition: "",
+      companyName: "",
+      description: "",
+      link: "",
     },
     errors: validator.errors,
   });
-  const [profileImage, setProfileImage] = React.useState(null);
-  const [messageCustomError, setMessageCustomError] = React.useState("");
-  const [ratingCustomError, setRatingCustomError] = React.useState("");
+  const [picture, setImage] = React.useState(null);
+  const [dates, setDates] = React.useState({
+    values: {
+      startDate: "",
+      endDate: "",
+    },
+  });
+
+  const [customError, setCustomError] = React.useState("");
+  const [customErrorLink, setCustomErrorLink] = React.useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setProfileImage(file);
-    else setProfileImage(null);
+    if (file) setImage(file);
+    else setImage(null);
   };
 
   const handleChange = (e) => {
@@ -111,54 +102,42 @@ function FeedbackForm({
       }
     });
 
-    // Custom validation for the message field
-    if (name === "message") {
-      if (value.length + 1 <= MIN_LENGTH) {
-        setMessageCustomError(
-          `Message must be at least ${MIN_LENGTH} characters.`
-        );
-      } else if (value.length + 1 > MAX_LENGTH + 1) {
-        setMessageCustomError(
-          `Message cannot exceed ${MAX_LENGTH} characters.`
-        );
+    if (name === "description") {
+      if (value.length >= MIN_CHARS && value.length <= MAX_CHARS) {
+        setCustomError("");
       } else {
-        setMessageCustomError("");
+        setCustomError(
+          `Description must be between ${MIN_CHARS} and ${MAX_CHARS} characters.`
+        );
       }
     }
 
-    if (name === "rating") {
-      if (value < 0) {
-        setRatingCustomError(
-          "Rating must be between 0 and 5. You can also rate with decimal."
-        );
-      } else {
-        setRatingCustomError("");
+    if (name === "link") {
+      if (!isEmpty(value)) {
+        if (validateLink(value)) {
+          setCustomErrorLink("");
+        } else {
+          setCustomErrorLink("Invalid link!");
+        }
       }
     }
   };
 
   const handleValidate = () => {
     validator.validateAll(formValues.values).then((success) => {
-      if (formValues.values.rating > 0) {
-        if (success && !messageCustomError && !ratingCustomError) {
-          handleSubmit();
-        } else {
-          setFormValues((prev) => ({
-            ...prev,
-            errors: validator.errors,
-          }));
-        }
+      if (success && !customError && !customErrorLink) {
+        handleSubmit();
       } else {
-        setRatingCustomError(
-          "Rating must be between 0 and 5. You can also rate with decimal."
-        );
+        setFormValues((prev) => ({
+          ...prev,
+          errors: validator.errors,
+        }));
       }
     });
   };
 
   const handleSubmit = () => {
     setLoading(true);
-
     // Create a new FormData object
     const formData = new FormData();
 
@@ -168,30 +147,28 @@ function FeedbackForm({
     }
 
     // Append the file to the FormData object if it exists
-    if (profileImage) {
-      formData.append("profileImage", profileImage);
+    if (picture) {
+      formData.append("websiteLogo", picture);
     }
 
     // Perform the HTTP POST request with the FormData object
-    publicHttp
-      .post("/feedbacks", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
-        },
-      })
+    Http.post("/projects", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
+      },
+    })
       .then((res) => {
-        console.log(res);
         if (res.data.status === 201) {
           ToastNotification("success", res.data.message, options);
           setFormValues({
             values: {
-              guestName: "",
-              project: "",
-              message: "",
-              rating: "",
+              jobPosition: "",
+              companyName: "",
+              description: "",
+              link: "",
             },
           });
-          setProfileImage(null);
+          setImage(null);
           handleClose();
         } else {
           // Handle other response statuses or errors
@@ -244,10 +221,6 @@ function FeedbackForm({
             >
               {description}
             </Typography>
-            <FormHelperText sx={{ color: "red" }}>
-              Note: Your feedback needs to be approved first before it will be
-              display live.
-            </FormHelperText>
           </Box>
           <Box
             component="form"
@@ -261,13 +234,12 @@ function FeedbackForm({
               mt={2}
             >
               <Avatar
-                src={profileImage ? URL.createObjectURL(profileImage) : null}
-                alt="Profile"
+                src={picture ? URL.createObjectURL(picture) : null}
+                alt="Website Logo"
                 sx={{ width: 75, height: 75, boxShadow: 4 }}
-                {...stringAvatar(formValues.values.name)}
               />
               <Typography variant="body2" mt={2}>
-                Upload Profile (optional):
+                Upload Image:
               </Typography>
               <input
                 type="file"
@@ -275,54 +247,66 @@ function FeedbackForm({
                 onChange={handleFileChange}
                 style={{ marginTop: "8px" }}
               />
-              <FormField
-                name="guestName"
-                label="Guest Name"
-                value={formValues.values.guestName}
-                onChange={handleChange}
-                errors={formValues.errors}
-                type="text"
-                fullWidth
-                margin="dense"
-              />
             </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="jobPosition"
+                  label="Job Position"
+                  value={formValues.values.jobPosition}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="companyName"
+                  label="Company Name"
+                  value={formValues.values.companyName}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+            </Grid>
             <FormField
-              name="project"
-              label="Project Title"
-              value={formValues.values.project}
-              onChange={handleChange}
-              errors={formValues.errors}
-              type="text"
-              fullWidth
-              margin="dense"
-            />
-            <FormField
-              name="message"
-              label="Your Feedback"
-              value={formValues.values.message}
+              name="description"
+              label="Description"
+              value={formValues.values.description}
               onChange={handleChange}
               errors={formValues.errors}
               type="text"
               multiline
               fullWidth
-              minRows={4}
+              minRows={3}
               maxRows={5}
               margin="dense"
             />
             <FormHelperText>
-              {formValues.values.message.length} / {MAX_LENGTH}
+              {formValues.values.description.length} / {MAX_CHARS}
             </FormHelperText>
-            <FormHelperText error>{messageCustomError}</FormHelperText>
-            <RatingComp
-              value={formValues.values.rating}
+            <FormHelperText error>{customError && customError}</FormHelperText>
+            <DateTimePicker />
+            <FormField
+              name="link"
+              label="Page Link"
+              value={formValues.values.link}
               onChange={handleChange}
-              name="rating"
               errors={formValues.errors}
+              type="text"
+              fullWidth
+              margin="dense"
             />
             <FormHelperText error>
-              {ratingCustomError && ratingCustomError}
+              {customErrorLink && customErrorLink}
             </FormHelperText>
           </Box>
+
           <Stack direction="row" spacing={2}>
             <ContainedButton
               variant="contained"
@@ -342,4 +326,4 @@ function FeedbackForm({
   );
 }
 
-export default FeedbackForm;
+export default ExperienceForm;

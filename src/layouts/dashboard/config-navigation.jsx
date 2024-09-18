@@ -28,7 +28,7 @@ const navConfig = [
   {
     title: "feedbacks",
     path: "/feedbacks",
-    icon: icon("ic_services"),
+    icon: icon("ic_outlined_users_group"),
   },
   {
     title: "projects",
@@ -38,21 +38,11 @@ const navConfig = [
   {
     title: "experiences",
     path: "/experiences",
-    icon: icon("ic_calendar"),
+    icon: icon("ic_web_development"),
   },
   {
-    title: "testimonials",
-    path: "/testimonials",
-    icon: icon("ic_outlined_users_group"),
-  },
-  {
-    title: "messages",
-    path: "/messages",
-    icon: icon("ic_outlined_messages"),
-  },
-  {
-    title: "setttings",
-    path: "/setttings",
+    title: "settings",
+    path: "/settings",
     icon: icon("ic_adjustment"),
   },
 ];

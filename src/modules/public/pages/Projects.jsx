@@ -7,7 +7,24 @@ import publicHttp from "../../../utils/publicHttp";
 import CardSkeleton from "../../../components/CardSkeleton";
 
 const properties = [
-
+  {
+    variant: "text",
+    width: 50,
+    height: 10,
+  },
+  {
+    variant: "text",
+    width: 100,
+    height: 10,
+  },
+  {
+    variant: "h1",
+  },
+  {
+    variant: "rounded",
+    width: 200,
+    height: 30,
+  },
 ];
 
 function Projects() {
@@ -59,7 +76,7 @@ function Projects() {
       <Box mt={2}>
         {projs?.map((project, i) =>
           loading ? (
-            <CardSkeleton properties={properties} />
+            <CardSkeleton key={i} properties={properties} />
           ) : (
             <ProjectCard key={i} {...project} />
           )

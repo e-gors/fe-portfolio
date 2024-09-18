@@ -14,6 +14,11 @@ const routes = [
     auth: true
   },
   {
+    path: "/profile",
+    component: "pages/Profile",
+    auth: true
+  },
+  {
     path: "/services",
     component: "pages/Services",
     auth: true
@@ -26,6 +31,16 @@ const routes = [
   {
     path: "/projects",
     component: "pages/Projects",
+    auth: true
+  },
+  {
+    path: "/experiences",
+    component: "pages/Experiences",
+    auth: true
+  },
+  {
+    path: "/settings",
+    component: "pages/Settings",
     auth: true
   },
 ];
