@@ -5,8 +5,11 @@ import CustomTimeline from "../../../components/CustomTimeline";
 import { experiences } from "../../../_mock/experiences";
 import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
+import { useDispatch } from "react-redux";
+import { setTotalExperiences } from "../../../redux/actions/totalsActions";
 
 function Experiences() {
+  const dispatch = useDispatch();
   const [expList, setExpList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -23,6 +26,7 @@ function Experiences() {
       .get("experiences", { signal: controller.signal })
       .then((res) => {
         setExpList(res.data.data);
+        dispatch(setTotalExperiences(res.data?.data[0]?.totalExperience));
       })
       .catch((err) => {
         console.error(err.message);

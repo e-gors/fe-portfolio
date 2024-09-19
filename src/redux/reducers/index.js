@@ -5,6 +5,7 @@ import { userReducer } from "./userReducer";
 import { themeReducer } from "./themeReducer";
 import { pageReducer } from "./pageReducer";
 import { feedbackReducer } from "./feedbackReducer";
+import { totalsReducers } from "./totalsReducer";
 
 // Define persist config for the `users` reducer
 const usersPersistConfig = {
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   theme: persistReducer(themePersistConfig, themeReducer), // Persisted
   page: pageReducer, // Non-persisted
   feedbacks: feedbackReducer, // Non-persisted
+  totals: totalsReducers
 });
 
 // Create a persisted reducer

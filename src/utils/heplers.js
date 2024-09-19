@@ -159,3 +159,14 @@ export const validateLink = (link) => {
   const regex = linkRegex();
   return regex.test(link);
 };
+
+// format numbers, if 10000 display as 10k, if 10000000 then display as 1M
+export const formatNumberToStr = (number) => {
+  if (number >= 1000000) {
+    return `${Math.floor(number / 1000000)}M`;
+  } else if (number >= 1000) {
+    return `${Math.floor(number / 1000)}k`;
+  } else {
+    return number;
+  }
+};

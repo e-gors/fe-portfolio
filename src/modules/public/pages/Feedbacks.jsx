@@ -10,6 +10,11 @@ import FeedbackCard from "../components/FeedbackCard";
 import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
 import CardSkeleton from "../../../components/CardSkeleton";
+import { useDispatch } from "react-redux";
+import {
+  setRates,
+  setTotalReviuews,
+} from "../../../redux/actions/totalsActions";
 
 const properties = [
   {
@@ -30,6 +35,7 @@ const properties = [
 ];
 
 function Feedbacks() {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -52,6 +58,8 @@ function Feedbacks() {
       .then((res) => {
         if (!isEmpty(res)) {
           setFeedbackList(res.data.data);
+          dispatch(setTotalReviuews(res.data?.data[0]?.reviews));
+          dispatch(setRates(res.data?.data[0]?.rates));
         }
       })
       .catch((err) => {

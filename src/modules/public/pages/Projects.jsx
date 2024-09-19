@@ -5,6 +5,8 @@ import { projects } from "../../../_mock/projects";
 import { isEmpty } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import CardSkeleton from "../../../components/CardSkeleton";
+import { useDispatch } from "react-redux";
+import { setTotalProjects } from "../../../redux/actions/totalsActions";
 
 const properties = [
   {
@@ -28,6 +30,7 @@ const properties = [
 ];
 
 function Projects() {
+  const dispatch = useDispatch();
   const [projectList, setProjectList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -44,6 +47,7 @@ function Projects() {
       .get("projects", { signal: controller.signal })
       .then((res) => {
         setProjectList(res.data.data);
+        dispatch(setTotalProjects(res.data?.data[0]?.totalProjects));
       })
       .catch((err) => {
         console.error(err.message);
@@ -67,7 +71,9 @@ function Projects() {
       }}
     >
       <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-        <Typography variant="h3" gutterBottom>My Projects</Typography>
+        <Typography variant="h3" gutterBottom>
+          My Projects
+        </Typography>
         <Typography variant="subtitle1" color="text.secondary">
           Here you will find some of my projects that I developed during my past
           years of being a software developer.

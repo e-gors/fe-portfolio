@@ -15,7 +15,7 @@ import Profile from "../../../assets/hero-photo.png";
 import AboutPhoto from "../../../assets/about-photo.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import ContactCard from "../components/ContactCard";
-import { Validator } from "../../../utils/heplers";
+import { formatNumberToStr, Validator } from "../../../utils/heplers";
 import FormField from "../../../components/FormField";
 import SendIcon from "@mui/icons-material/Send";
 import SocialCards from "../components/SocialCards";
@@ -38,6 +38,12 @@ const contactInfoValidator = Validator({
 
 function HomepageView() {
   const theme = useSelector((state) => state.theme.theme);
+  const exp = useSelector((state) => state.totals.totalExperience);
+  const rating = useSelector((state) => state.totals.rates);
+  const reviews = useSelector((state) => state.totals.totalReviews);
+  const projects = useSelector((state) => state.totals.totalProjects);
+
+
   const dispatch = useDispatch();
 
   const [loading, setLoading] = React.useState(false);
@@ -181,7 +187,7 @@ function HomepageView() {
               />
               <Box sx={{ textAlign: "right" }}>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">12+</Typography>
+                  <Typography variant="h5">{exp ?? 12}+</Typography>
                   <Typography>Years of Experience</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
@@ -189,13 +195,13 @@ function HomepageView() {
                   <Typography>Client on Worldwide</Typography>
                 </Box>
                 <Box sx={{ mb: 5 }}>
-                  <Typography variant="h5">769</Typography>
+                  <Typography variant="h5">{ formatNumberToStr(projects) ?? 769}</Typography>
                   <Typography>Projects Done</Typography>
                 </Box>
                 <Box>
-                  <Rating precision={0.5} value={4.5} />
+                  <Rating precision={0.5} value={Number(rating)} />
                   <Typography variant="h6">
-                    5 Star Ratings (2k+ reviews)
+                    {rating} Star Ratings ({formatNumberToStr(reviews)}+ reviews)
                   </Typography>
                 </Box>
               </Box>
@@ -295,7 +301,9 @@ function HomepageView() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h3" gutterBottom>Get in Touch</Typography>
+            <Typography variant="h3" gutterBottom>
+              Get in Touch
+            </Typography>
             <Typography variant="subtitle1" color="text.secondary">
               Feel free to get in touch! Whether you have questions, feedback,
               or just want to say hello, I’d be happy to hear from you. Don't
