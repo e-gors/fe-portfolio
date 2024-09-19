@@ -295,7 +295,7 @@ function HomepageView() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h3">Get in Touch</Typography>
+            <Typography variant="h3" gutterBottom>Get in Touch</Typography>
             <Typography variant="subtitle1" color="text.secondary">
               Feel free to get in touch! Whether you have questions, feedback,
               or just want to say hello, I’d be happy to hear from you. Don't

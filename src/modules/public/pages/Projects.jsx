@@ -67,7 +67,7 @@ function Projects() {
       }}
     >
       <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-        <Typography variant="h3">My Projects</Typography>
+        <Typography variant="h3" gutterBottom>My Projects</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           Here you will find some of my projects that I developed during my past
           years of being a software developer.

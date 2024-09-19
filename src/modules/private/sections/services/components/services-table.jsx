@@ -51,7 +51,7 @@ export default function ServicesTable(props) {
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
-  const [open, setOpen] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === "asc";
@@ -63,7 +63,7 @@ export default function ServicesTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.name);
+      const newSelecteds = data.map((n) => n.service);
       setSelected(newSelecteds);
       return;
     }
@@ -73,6 +73,7 @@ export default function ServicesTable(props) {
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -117,8 +118,8 @@ export default function ServicesTable(props) {
       <ServiceForm
         title="Adding new Service"
         description="This service will be added to your services for them to see your skills and services you offer."
-        open={open}
-        handleClose={() => setOpen(false)}
+        open={openForm}
+        handleClose={() => setOpenForm(false)}
       />
       <Container>
         <Stack
@@ -133,7 +134,7 @@ export default function ServicesTable(props) {
             variant="contained"
             color="inherit"
             startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenForm(true)}
           >
             New Service
           </Button>
@@ -165,6 +166,7 @@ export default function ServicesTable(props) {
                   {dataFiltered.map((row, i) => (
                     <ServicesTableRow
                       key={i}
+                      row={row}
                       service={row.service}
                       descriptions={row.descriptions}
                       image={row.image}

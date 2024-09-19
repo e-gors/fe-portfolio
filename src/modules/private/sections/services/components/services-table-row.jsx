@@ -12,17 +12,26 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
 import Iconify from "../../../../../components/iconify";
+import UpdateServiceForm from "./UpdateServiceForm";
+import Http from "../../../../../utils/Http";
+import CustomAlert from "../../../../../components/CustomAlert";
 
 // ----------------------------------------------------------------------
 
 export default function ServicesTableRow({
   selected,
+  row = {},
   service,
   descriptions = [],
   image,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
+  const [openUpdateForm, setOpenUpdateForm] = useState(false);
+  const [selectedData, setSelectedData] = useState({});
+  const [selectedId, setSelectedId] = useState(null);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -32,8 +41,53 @@ export default function ServicesTableRow({
     setOpen(null);
   };
 
+  const handleEdit = (data) => {
+    setSelectedData(data);
+    setOpenUpdateForm(true);
+    handleCloseMenu();
+  };
+
+  const handleOnDelete = (id) => {
+    setLoading(true);
+    Http.delete(`services/${id}`)
+      .then((res) => {
+        if (res.data.status === 200) {
+          console.log("success", res.data.message);
+          setOpenAlert(false);
+        } else {
+          console.error("error", res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleDelete = (id) => {
+    setSelectedId(id);
+    handleCloseMenu();
+    setOpenAlert(true);
+  };
+
   return (
     <>
+      <CustomAlert
+        open={openAlert}
+        handleClose={() => setOpenAlert(false)}
+        handleContinue={() => handleOnDelete(selectedId)}
+        severity="warning"
+        title={`You are about to delete ${row.service}`}
+        message={`Are you sure you want to continue? Please confirm if you want to proceed or cancel to keep ${row.service}`}
+        loading={loading}
+      />
+      <UpdateServiceForm
+        open={openUpdateForm}
+        handleClose={() => setOpenUpdateForm(false)}
+        selected={selectedData}
+      />
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
@@ -74,12 +128,15 @@ export default function ServicesTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={() => handleEdit(row)}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: "error.main" }}>
+        <MenuItem
+          onClick={() => handleDelete(row.id)}
+          sx={{ color: "error.main" }}
+        >
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -89,12 +146,11 @@ export default function ServicesTableRow({
 }
 
 ServicesTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  id: PropTypes.number,
+  selected: PropTypes.bool,
+  row: PropTypes.object,
+  service: PropTypes.string,
+  descriptions: PropTypes.array,
+  image: PropTypes.string,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  selected: PropTypes.any,
-  status: PropTypes.string,
 };

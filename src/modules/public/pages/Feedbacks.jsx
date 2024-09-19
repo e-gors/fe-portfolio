@@ -48,7 +48,7 @@ function Feedbacks() {
   const fetchFeedbacks = (controller) => {
     setLoading(true);
     publicHttp
-      .get('/feedbacks?status=approved', { signal: controller.signal })
+      .get("/feedbacks?status=approved", { signal: controller.signal })
       .then((res) => {
         if (!isEmpty(res)) {
           setFeedbackList(res.data.data);
@@ -81,10 +81,14 @@ function Feedbacks() {
       />
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Box maxWidth={400}>
-            <Typography variant="h3">Hear what they say about me?</Typography>
+          <Box maxWidth={450}>
+            <Typography variant="h3" sx={{ lineHeight: 1 }} gutterBottom>
+              Hear what they say about me?
+            </Typography>
             <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              We love our client and our clients loved us, see all feedback.
+              We love our client and our clients loved us, see all feedback or
+              you can add feedback if we are collaborating recently. Your
+              feedback is important for me.
             </Typography>
             <Stack direction="row" spacing={2} sx={{ my: { xs: 1, md: 0 } }}>
               <ContainedButton variant="contained">

@@ -67,7 +67,7 @@ function Services() {
     >
       <Box mb={2}>
         <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-          <Typography variant="h3">My Services</Typography>
+          <Typography variant="h3" gutterBottom>My Services</Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Here you will find some of my services that I can offer with my
             skills and some other technologies.

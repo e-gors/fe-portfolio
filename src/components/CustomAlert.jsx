@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -25,6 +26,7 @@ export default function CustomAlert({
   handleContinue,
   title,
   message,
+  loading,
   severity,
   icon,
 }) {
@@ -66,7 +68,7 @@ export default function CustomAlert({
           </DialogContent>
           <DialogActions>
             <DangerButton onClick={handleContinue} variant="contained">
-              Yes
+              {loading ? <CircularProgress size={24} /> : "Yes"}
             </DangerButton>
             <OutlinedButton onClick={handleClose} variant="outlined">
               No
