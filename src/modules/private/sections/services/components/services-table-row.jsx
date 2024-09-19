@@ -79,8 +79,8 @@ export default function ServicesTableRow({
         handleClose={() => setOpenAlert(false)}
         handleContinue={() => handleOnDelete(selectedId)}
         severity="warning"
-        title={`You are about to delete ${row.service}`}
-        message={`Are you sure you want to continue? Please confirm if you want to proceed or cancel to keep ${row.service}`}
+        title={`You are about to delete service ${row.service}`}
+        message={`Are you sure you want to continue? Please confirm if you want to proceed or cancel to keep service ${row.service}`}
         loading={loading}
       />
       <UpdateServiceForm

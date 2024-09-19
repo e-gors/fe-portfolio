@@ -14,7 +14,8 @@ import Nav from "./dashboard/nav";
 import { OutlinedButton } from "../components/CustomButtons";
 import { alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Http from "../utils/Http";
+import publicHttp from "../utils/publicHttp";
+import axios from "axios";
 
 function PublicAppBar({
   publicConfig,
@@ -25,18 +26,54 @@ function PublicAppBar({
   onDrawerOpen,
 }) {
   const handleDownloadResume = () => {
-    Http.get("/resume/download", {
-      responseType: "blob",
-    }).then((res) => {
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Goron, Efren - Resume.pdf'); // You may want to dynamically set the file name
-            document.body.appendChild(link);
-            link.click();
-    }).catch(err => {
-      console.error(err);
-    });
+    // const response = await axios.get(
+    //   `${process.env.REACT_APP_API_DOMAIN}/resume/download`,
+    //   {
+    //     responseType: "blob",
+    //   }
+    // );
+
+    // console.log(response);
+
+    publicHttp
+      .get("/resume/download", {
+        responseType: "blob", // Receive the file as a Blob
+      })
+      .then((res) => {
+        // Extract the filename from the content-disposition header if available
+        const disposition = res.headers["content-disposition"];
+        let fileName = "Goron, Efren - Resume.docx"; // Default filename
+
+        if (disposition) {
+          const filenameMatch = disposition.match(/filename[^;=\n]*=(.*)/);
+          if (filenameMatch && filenameMatch[1]) {
+            fileName = filenameMatch[1].replace(/['"]/g, "").trim(); // Clean up the filename
+          }
+        }
+
+        // Create a new Blob from the response data
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+
+        // Create a link element and trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileName); // Use the extracted or default filename
+        document.body.appendChild(link);
+
+        // Triger download
+        link.click();
+
+        // Cleanup: Remove the link and revoke the Object URL
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((err) => {
+        console.error("Error downloading the resume:", err);
+        // Display a user-friendly error message here
+        alert(
+          "There was an error downloading the resume. Please try again later."
+        );
+      });
   };
 
   return (

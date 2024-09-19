@@ -14,6 +14,11 @@ const routes = [
     auth: true
   },
   {
+    path: "/resumes",
+    component: "pages/Resumes",
+    auth: true
+  },
+  {
     path: "/profile",
     component: "pages/Profile",
     auth: true

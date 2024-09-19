@@ -32,6 +32,38 @@ function Experiences() {
       });
   };
 
+  const handleDownloadResume = () => {
+    publicHttp
+      .get("/resume/download", {
+        responseType: "blob", // Receive the file as a Blob
+      })
+      .then((res) => {
+        // Get the filename directly from the backend response (original name from database)
+        const fileName = res.headers["content-disposition"]
+          ? res.headers["content-disposition"]
+              .split("filename=")[1]
+              .replace(/['"]/g, "")
+          : "resume.pdf"; // Fallback filename if header is missing (rare)
+
+        // Create a new Blob from the response data
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+
+        // Create a link element and trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileName); // Use the original filename
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup: Remove the link and revoke the Object URL
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((err) => {
+        console.error("Error downloading the resume:", err);
+      });
+  };
+
   const exps = !isEmpty(expList) ? expList : experiences;
 
   return (
@@ -54,7 +86,9 @@ function Experiences() {
               industries. I’m always interested in new, exciting, and
               challenging adventures.
             </Typography>
-            <ContainedButton variant="contained">Download CV</ContainedButton>
+            <ContainedButton variant="contained" onClick={handleDownloadResume}>
+              Download CV
+            </ContainedButton>
           </Box>
         </Grid>
         <Grid item xs={12} md={8}>

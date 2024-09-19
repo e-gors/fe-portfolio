@@ -16,6 +16,11 @@ const navConfig = [
     icon: icon("ic_dashboard"),
   },
   {
+    title: "resumes",
+    path: "/resumes",
+    icon: icon("ic_outlined_info"),
+  },
+  {
     title: "profile",
     path: "/profile",
     icon: icon("ic_profile"),
