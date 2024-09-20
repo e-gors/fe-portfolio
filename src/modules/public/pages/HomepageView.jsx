@@ -46,6 +46,8 @@ function HomepageView() {
   const rating = useSelector((state) => state.totals.rates);
   const reviews = useSelector((state) => state.totals.totalReviews);
   const projects = useSelector((state) => state.totals.totalProjects);
+  const local = useSelector((state) => state.totals.localPercent);
+  const worldwide = useSelector((state) => state.totals.worldwidePercent);
 
   const dispatch = useDispatch();
 
@@ -195,10 +197,14 @@ function HomepageView() {
                   <Typography>Years of Experience</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">100%</Typography>
+                  <Typography variant="h5">{worldwide ?? 0}%</Typography>
                   <Typography>Client on Worldwide</Typography>
                 </Box>
-                <Box sx={{ mb: 5 }}>
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h5">{local ?? 0}%</Typography>
+                  <Typography>Client on Local</Typography>
+                </Box>
+                <Box sx={{ mb: 3 }}>
                   <Typography variant="h5">
                     {formatNumberToStr(projects ?? 0)}
                   </Typography>

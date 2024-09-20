@@ -165,6 +165,7 @@ export default function ProjectsTable(props) {
                   {dataFiltered.map((row, i) => (
                     <ProjectsTableRow
                       key={i}
+                      clientType={row.clientType}
                       type={row.type}
                       name={row.name}
                       link={row.link}

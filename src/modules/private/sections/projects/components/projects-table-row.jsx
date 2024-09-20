@@ -16,6 +16,7 @@ import Iconify from "../../../../../components/iconify";
 
 export default function ProjectsTableRow({
   selected,
+  clientType,
   type,
   name,
   link,
@@ -43,6 +44,7 @@ export default function ProjectsTableRow({
         <TableCell component="th" scope="row" padding="none" sx={{ p: 2 }}>
           <img alt={name} src={picture} style={{ width: 240 }} />
         </TableCell>
+        <TableCell>{clientType}</TableCell>
         <TableCell>{type}</TableCell>
         <TableCell>{name}</TableCell>
         <TableCell>{link}</TableCell>

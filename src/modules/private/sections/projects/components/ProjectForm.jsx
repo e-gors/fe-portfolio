@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  isEmpty,
-  validateLink,
-  Validator,
-} from "../../../../../utils/heplers";
+import { isEmpty, validateLink, Validator } from "../../../../../utils/heplers";
 import {
   options,
   ToastNotification,
@@ -27,6 +23,7 @@ import {
 } from "../../../../../components/CustomButtons";
 import SendIcon from "@mui/icons-material/Send";
 import Http from "../../../../../utils/Http";
+import SelectDropdown from "../../../../../components/SelectDropdown";
 
 const style = {
   position: "absolute",
@@ -42,6 +39,7 @@ const style = {
 
 //validation rules
 const validator = Validator({
+  clientType: "required",
   type: "required",
   name: "required",
   link: "",
@@ -59,6 +57,7 @@ function ProjectForm({
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
+      clientType: "",
       type: "",
       name: "",
       link: "",
@@ -150,7 +149,7 @@ function ProjectForm({
       }
 
       // Perform the HTTP POST request with the FormData object
-      Http.post('/projects', formData, {
+      Http.post("/projects", formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct Content-Type for file uploads
         },
@@ -230,7 +229,7 @@ function ProjectForm({
               display="flex"
               flexDirection="column"
               alignItems="center"
-              mt={2}
+              my={2}
             >
               <img
                 src={picture ? URL.createObjectURL(picture) : null}
@@ -252,6 +251,14 @@ function ProjectForm({
                 style={{ marginTop: "8px" }}
               />
             </Box>
+            <SelectDropdown
+              options={["local", "worldwide"]}
+              label="Client Type"
+              name="clientType"
+              erorrs={formValues.errors}
+              value={formValues.values.clientType}
+              onChange={handleChange}
+            />
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <FormField

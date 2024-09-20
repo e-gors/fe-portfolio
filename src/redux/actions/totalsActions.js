@@ -22,9 +22,22 @@ export const setTotalExperiences = (experiences) => {
 };
 
 export const setTotalReviuews = (reviews) => {
-    return {
-      type: ActionTypes.SET_TOTAL_REVIEWS,
-      payload: reviews,
-    };
+  return {
+    type: ActionTypes.SET_TOTAL_REVIEWS,
+    payload: reviews,
   };
-  
+};
+
+export const setLocalPercent = (percent) => {
+  return {
+    type: ActionTypes.SET_CLIENT_LOCAL_PERCENT,
+    payload: percent,
+  };
+};
+
+export const setWorldwidePercent = (percent) => {
+  return {
+    type: ActionTypes.SET_CLIENT_WORLDWIDE_PERCENT,
+    payload: percent,
+  };
+};

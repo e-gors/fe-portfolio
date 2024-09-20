@@ -6,7 +6,7 @@ import { isEmpty } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import CardSkeleton from "../../../components/CardSkeleton";
 import { useDispatch } from "react-redux";
-import { setTotalProjects } from "../../../redux/actions/totalsActions";
+import { setLocalPercent, setTotalProjects, setWorldwidePercent } from "../../../redux/actions/totalsActions";
 
 const properties = [
   {
@@ -48,6 +48,8 @@ function Projects() {
       .then((res) => {
         setProjectList(res.data.data);
         dispatch(setTotalProjects(res.data?.data[0]?.totalProjects));
+        dispatch(setLocalPercent(res.data?.data[0]?.local));
+        dispatch(setWorldwidePercent(res.data?.data[0]?.worldwide));
       })
       .catch((err) => {
         console.error(err.message);

@@ -6,6 +6,7 @@ import publicHttp from "../../../../../utils/publicHttp";
 //custom columns for each of the table (user table)
 const columns = [
   { id: "picture", label: "Picture" },
+  { id: "clientType", label: "Client Type" },
   { id: "type", label: "Type" },
   { id: "name", label: "Project Name" },
   { id: "link", label: "Link" },
