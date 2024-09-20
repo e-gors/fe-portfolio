@@ -1,4 +1,3 @@
-
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -6,19 +5,19 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 export const socials = [
   {
-    link: "facebook.com",
+    link: "https://www.facebook.com",
     icon: <FacebookRoundedIcon />,
   },
   {
-    link: "twitter.com",
+    link: "https://www.twitter.com",
     icon: <TwitterIcon />,
   },
   {
-    link: "youtube.com",
+    link: "https://www.youtube.com",
     icon: <YouTubeIcon />,
   },
   {
-    link: "linkedin.com",
+    link: "https://www.linkedin.com",
     icon: <LinkedInIcon />,
   },
 ];

@@ -8,6 +8,7 @@ import {
   FormHelperText,
   CircularProgress,
   Avatar,
+  Grid,
 } from "@mui/material";
 import FormField from "../../../components/FormField";
 import CloseIcon from "@mui/icons-material/Close";
@@ -62,7 +63,7 @@ const validator = Validator({
 });
 
 const MAX_LENGTH = 600;
-const MIN_LENGTH = 400;
+const MIN_LENGTH = 200;
 
 function FeedbackForm({
   title = "Modal Title",
@@ -113,13 +114,9 @@ function FeedbackForm({
 
     // Custom validation for the message field
     if (name === "message") {
-      if (value.length <= MIN_LENGTH) {
+      if (value.length < MIN_LENGTH || value.length > MAX_LENGTH) {
         setMessageCustomError(
-          `Message must be at least ${MIN_LENGTH} characters.`
-        );
-      } else if (value.length >= MAX_LENGTH) {
-        setMessageCustomError(
-          `Message cannot exceed ${MAX_LENGTH} characters.`
+          `Message must be at least ${MIN_LENGTH} and cannot exceed ${MAX_LENGTH} characters.`
         );
       } else {
         setMessageCustomError("");
@@ -232,7 +229,7 @@ function FeedbackForm({
               <CloseIcon color="error" />
             </IconButton>
           </Box>
-          <Box mt={2}>
+          <Box>
             <Typography id="keep-mounted-modal-title" variant="h6">
               {title}
             </Typography>
@@ -243,7 +240,7 @@ function FeedbackForm({
             >
               {description}
             </Typography>
-            <FormHelperText sx={{ color: "red" }}>
+            <FormHelperText error>
               Note: Your feedback needs to be approved first before it will be
               display live.
             </FormHelperText>
@@ -274,27 +271,34 @@ function FeedbackForm({
                 onChange={handleFileChange}
                 style={{ marginTop: "8px" }}
               />
-              <FormField
-                name="guestName"
-                label="Guest Name"
-                value={formValues.values.guestName}
-                onChange={handleChange}
-                errors={formValues.errors}
-                type="text"
-                fullWidth
-                margin="dense"
-              />
             </Box>
-            <FormField
-              name="project"
-              label="Project Title"
-              value={formValues.values.project}
-              onChange={handleChange}
-              errors={formValues.errors}
-              type="text"
-              fullWidth
-              margin="dense"
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="guestName"
+                  label="Guest Name"
+                  value={formValues.values.guestName}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormField
+                  name="project"
+                  label="Project Title"
+                  value={formValues.values.project}
+                  onChange={handleChange}
+                  errors={formValues.errors}
+                  type="text"
+                  fullWidth
+                  margin="dense"
+                />
+              </Grid>
+            </Grid>
+
             <FormField
               name="message"
               label="Your Feedback"
@@ -304,8 +308,8 @@ function FeedbackForm({
               type="text"
               multiline
               fullWidth
-              minRows={4}
-              maxRows={5}
+              minRows={2}
+              maxRows={4}
               margin="dense"
             />
             <FormHelperText>

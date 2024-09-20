@@ -31,8 +31,7 @@ function UploadResume() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setLoading(true);
 
     if (!file || !type) {
@@ -53,6 +52,8 @@ function UploadResume() {
       .then((res) => {
         if (res.data.status === 201) {
           ToastNotification("success", res.data.message, options);
+          setFile(null);
+          setType("");
         } else {
           ToastNotification("error", res.data.message, options);
         }

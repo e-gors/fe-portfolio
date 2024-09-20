@@ -16,7 +16,7 @@ function SocialCards({
     dispatch(setPage(page));
     scrollToSection(page.toLowerCase());
   };
-  
+
   return (
     <Stack direction="row" spacing={3} alignItems="center" mt={2}>
       <ContainedButton
@@ -39,7 +39,7 @@ function SocialCards({
                 border: "1px solid white",
               },
             }}
-            onClick={() => window.open(social.link)}
+            onClick={() => window.open(social.link, "_blank")}
           >
             {social.icon}
           </IconButton>
