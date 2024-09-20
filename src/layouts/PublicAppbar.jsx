@@ -25,16 +25,9 @@ function PublicAppBar({
   drawerOpen,
   onDrawerOpen,
 }) {
+
+  // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
-    // const response = await axios.get(
-    //   `${process.env.REACT_APP_API_DOMAIN}/resume/download`,
-    //   {
-    //     responseType: "blob",
-    //   }
-    // );
-
-    // console.log(response);
-
     publicHttp
       .get("/resume/download", {
         responseType: "blob", // Receive the file as a Blob

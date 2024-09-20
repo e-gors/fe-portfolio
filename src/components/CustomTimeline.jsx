@@ -53,9 +53,13 @@ export default function CustomTimeline({
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent sx={{ flex: "3 1 0", px: { xs: 1, md: 3 } }}>
-              <Typography variant="h6" component="span" gutterBottom>
-                {experience.jobPosition}{" "}
-                {experience.companyName}
+              <Typography
+                variant="h6"
+                component="span"
+                gutterBottom
+                sx={{ lineHeight: 1.2 }}
+              >
+                {experience.jobPosition} at {experience.companyName}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {experience.description}

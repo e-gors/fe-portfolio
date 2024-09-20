@@ -36,18 +36,23 @@ function Experiences() {
       });
   };
 
+  // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
     publicHttp
       .get("/resume/download", {
         responseType: "blob", // Receive the file as a Blob
       })
       .then((res) => {
-        // Get the filename directly from the backend response (original name from database)
-        const fileName = res.headers["content-disposition"]
-          ? res.headers["content-disposition"]
-              .split("filename=")[1]
-              .replace(/['"]/g, "")
-          : "resume.pdf"; // Fallback filename if header is missing (rare)
+        // Extract the filename from the content-disposition header if available
+        const disposition = res.headers["content-disposition"];
+        let fileName = "Goron, Efren - Resume.docx"; // Default filename
+
+        if (disposition) {
+          const filenameMatch = disposition.match(/filename[^;=\n]*=(.*)/);
+          if (filenameMatch && filenameMatch[1]) {
+            fileName = filenameMatch[1].replace(/['"]/g, "").trim(); // Clean up the filename
+          }
+        }
 
         // Create a new Blob from the response data
         const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -55,8 +60,10 @@ function Experiences() {
         // Create a link element and trigger the download
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", fileName); // Use the original filename
+        link.setAttribute("download", fileName); // Use the extracted or default filename
         document.body.appendChild(link);
+
+        // Triger download
         link.click();
 
         // Cleanup: Remove the link and revoke the Object URL
@@ -65,6 +72,10 @@ function Experiences() {
       })
       .catch((err) => {
         console.error("Error downloading the resume:", err);
+        // Display a user-friendly error message here
+        alert(
+          "There was an error downloading the resume. Please try again later."
+        );
       });
   };
 

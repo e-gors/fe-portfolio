@@ -26,7 +26,11 @@ import { scrollToSection } from "../../../hooks/use-scroll-to-section";
 import Feedbacks from "./Feedbacks";
 import Services from "./Services";
 import publicHttp from "../../../utils/publicHttp";
-import { options, ToastNotification } from "../../../utils/toastConfig";
+import {
+  options,
+  ToastNotification,
+  ToastNotificationContainer,
+} from "../../../utils/toastConfig";
 import Projects from "./Projects";
 import Experiences from "./Experiences";
 
@@ -42,7 +46,6 @@ function HomepageView() {
   const rating = useSelector((state) => state.totals.rates);
   const reviews = useSelector((state) => state.totals.totalReviews);
   const projects = useSelector((state) => state.totals.totalProjects);
-
 
   const dispatch = useDispatch();
 
@@ -121,6 +124,7 @@ function HomepageView() {
 
   return (
     <>
+      <ToastNotificationContainer />
       <Box
         id="home"
         sx={{
@@ -187,7 +191,7 @@ function HomepageView() {
               />
               <Box sx={{ textAlign: "right" }}>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{exp ?? 12}+</Typography>
+                  <Typography variant="h5">{exp ?? 0}+</Typography>
                   <Typography>Years of Experience</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
@@ -195,13 +199,16 @@ function HomepageView() {
                   <Typography>Client on Worldwide</Typography>
                 </Box>
                 <Box sx={{ mb: 5 }}>
-                  <Typography variant="h5">{ formatNumberToStr(projects) ?? 769}</Typography>
+                  <Typography variant="h5">
+                    {formatNumberToStr(projects ?? 0)}
+                  </Typography>
                   <Typography>Projects Done</Typography>
                 </Box>
                 <Box>
                   <Rating precision={0.5} value={Number(rating)} />
                   <Typography variant="h6">
-                    {rating} Star Ratings ({formatNumberToStr(reviews)}+ reviews)
+                    {rating ?? 0} Star Ratings (
+                    {formatNumberToStr(reviews) ?? 0}+ reviews)
                   </Typography>
                 </Box>
               </Box>

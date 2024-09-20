@@ -113,11 +113,11 @@ function FeedbackForm({
 
     // Custom validation for the message field
     if (name === "message") {
-      if (value.length + 1 <= MIN_LENGTH) {
+      if (value.length <= MIN_LENGTH) {
         setMessageCustomError(
           `Message must be at least ${MIN_LENGTH} characters.`
         );
-      } else if (value.length + 1 > MAX_LENGTH + 1) {
+      } else if (value.length >= MAX_LENGTH) {
         setMessageCustomError(
           `Message cannot exceed ${MAX_LENGTH} characters.`
         );
@@ -129,7 +129,7 @@ function FeedbackForm({
     if (name === "rating") {
       if (value < 0) {
         setRatingCustomError(
-          "Rating must be between 0 and 5. You can also rate with decimal."
+          "Rating must be between 0.5 and 5.0 that includes decimal."
         );
       } else {
         setRatingCustomError("");
@@ -150,7 +150,7 @@ function FeedbackForm({
         }
       } else {
         setRatingCustomError(
-          "Rating must be between 0.5 and 5.0. You can also rate with decimal."
+          "Rating must be between 0.5 and 5.0 that includes decimal."
         );
       }
     });
@@ -208,8 +208,7 @@ function FeedbackForm({
   };
 
   return (
-    <div>
-      <ToastNotificationContainer />
+    <>
       <Modal
         keepMounted
         open={open}
@@ -338,7 +337,7 @@ function FeedbackForm({
           </Stack>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }
 
