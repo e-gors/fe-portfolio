@@ -138,11 +138,11 @@ export const getProfile = (imageUrl, gender, index) => {
 
     // Construct the URL based on gender and avatar index
     if (gender === "male") {
-      url = `/assets/images/avatars/m_avatar_${avatarIndex}.jpg`;
+      url = `${process.env.PUBLIC_URL}/assets/images/avatars/m_avatar_${avatarIndex}.jpg`;
     } else if (gender === "female") {
-      url = `/assets/images/avatars/f_avatar_${avatarIndex}.jpg`;
+      url = `${process.env.PUBLIC_URL}/assets/images/avatars/f_avatar_${avatarIndex}.jpg`;
     } else {
-      url = `/assets/images/avatars/m_avatar_5.jpg`;
+      url = `${process.env.PUBLIC_URL}/assets/images/avatars/m_avatar_5.jpg`;
     }
   }
 

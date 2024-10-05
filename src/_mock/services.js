@@ -89,5 +89,5 @@ export const servicesContent = [
 export const services = servicesContent?.map((_, index) => ({
   service: servicesContent[index].title,
   descriptions: servicesContent[index].descriptions,
-  image: `/assets/icons/services/${servicesContent[index].iconName}.svg`,
+  image: `${process.env.PUBLIC_URL}/assets/icons/services/${servicesContent[index].iconName}.svg`,
 }));
