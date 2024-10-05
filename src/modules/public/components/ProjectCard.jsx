@@ -4,7 +4,6 @@ import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { TextButton } from "../../../components/CustomButtons";
 import { isEmpty } from "../../../utils/heplers";
 import PropTypes from "prop-types";
-import Project from "../../../assets/bookease-not-finish.png";
 import {
   options,
   ToastNotification,
@@ -16,7 +15,7 @@ function ProjectCard({
   name = "Website Name",
   description = "Page Descriptions...",
   link,
-  picture = Project,
+  picture = "/assets/bookease-not-finish.png",
 }) {
 
   const handleNavigate = (link) => {

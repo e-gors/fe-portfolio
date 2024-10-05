@@ -68,7 +68,7 @@ function UploadResume() {
 
   return (
     <>
-      <Box sx={{ maxWidth: 500, mx: "auto", mt: 4 }}>
+      <Box sx={{ maxWidth: 500, mx: { xs: 2, md: "auto" }, mt: 4 }}>
         <Typography variant="h4" gutterBottom>
           Upload Your Resume
         </Typography>

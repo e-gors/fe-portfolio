@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import { RouterLink } from './components';
 
 import Logo from '../components/logo';
+import { ContainedButton } from '../components/CustomButtons';
 
 // ----------------------------------------------------------------------
 
@@ -63,9 +63,9 @@ export default function NotFound() {
             }}
           />
 
-          <Button href="/" size="large" variant="contained" component={RouterLink}>
+          <ContainedButton href="/" size="large" variant="contained" component={RouterLink}>
             Go to Home
-          </Button>
+          </ContainedButton>
         </Box>
       </Container>
     </>

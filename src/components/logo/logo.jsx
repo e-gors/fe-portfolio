@@ -3,8 +3,6 @@ import { forwardRef } from "react";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { RouterLink } from "../../routes/components";
-import MyLogoWhite from "../../assets/logo/logo-with-name-white.png";
-import MyLogoBlack from "../../assets/logo/logo-with-name-black.png";
 // ----------------------------------------------------------------------
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
@@ -13,7 +11,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   const logo = (
     <Box
       component="img"
-      src={MyLogoBlack}
+      src={"/assets/logo/logo-with-name-black.png"}
       alt="Bookease Logo"
       sx={{ width: 75, cursor: "pointer", ...sx }}
     />

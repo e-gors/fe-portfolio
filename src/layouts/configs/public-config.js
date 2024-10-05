@@ -13,12 +13,12 @@ const publicConfig = [
   {
     title: "Home",
     path: "#home",
-    icon: icon("ic_dashboard"),
+    icon: icon("ic_outlined_home"),
   },
   {
     title: "About",
     path: "#about",
-    icon: icon("ic_services"),
+    icon: icon("ic_outlined_info"),
   },
   {
     title: "Services",
@@ -28,12 +28,12 @@ const publicConfig = [
   {
     title: "Portfolio",
     path: "#portfolio",
-    icon: icon("ic_blog"),
+    icon: icon("ic_outlined_user"),
   },
   {
     title: "Testimonials",
     path: "#testimonials",
-    icon: icon("ic_blog"),
+    icon: icon("ic_outlined_users_group"),
   },
   {
     title: "Contact",

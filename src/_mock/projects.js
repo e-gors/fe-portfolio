@@ -1,5 +1,4 @@
-
-import Project from "../assets/bookease-not-finish.png";
+const Project = '/assets/bookease-not-finish.png';
 
 export const projects = [
   {

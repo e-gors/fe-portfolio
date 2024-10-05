@@ -10,10 +10,11 @@ import { useRouter } from "../../routes/hooks";
 import Loader from "../Loader";
 import navConfig from "./config-navigation";
 import { useSelector } from "react-redux";
+import DevelopmentMode from "../../routes/DevelopmentMode";
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({ development, children }) {
   const router = useRouter();
   const user = useSelector((state) => state.users.user);
 
@@ -47,7 +48,13 @@ export default function DashboardLayout({ children }) {
           onCloseNav={() => setOpenNav(false)}
         />
 
-        <Main>{children}</Main>
+        {development ? (
+          <Main>
+            <DevelopmentMode />
+          </Main>
+        ) : (
+          <Main>{children}</Main>
+        )}
       </Box>
     </>
   );

@@ -6,47 +6,56 @@ const routes = [
   {
     path: "/login",
     component: "pages/Login",
-    authentication: true
+    authentication: true,
   },
+
+
+  // Dashboard routes
   {
     path: "/dashboard",
     component: "pages/Dashboard",
-    auth: true
+    development: true,
+    isDashboard: true,
+    auth: true,
   },
   {
     path: "/resumes",
     component: "pages/Resumes",
-    auth: true
+    auth: true,
   },
   {
     path: "/profile",
     component: "pages/Profile",
-    auth: true
+    development: true,
+    isDashboard: true,
+    auth: true,
   },
   {
     path: "/services",
     component: "pages/Services",
-    auth: true
+    auth: true,
   },
   {
     path: "/feedbacks",
     component: "pages/Feedbacks",
-    auth: true
+    auth: true,
   },
   {
     path: "/projects",
     component: "pages/Projects",
-    auth: true
+    auth: true,
   },
   {
     path: "/experiences",
     component: "pages/Experiences",
-    auth: true
+    auth: true,
   },
   {
     path: "/settings",
     component: "pages/Settings",
-    auth: true
+    development: true,
+    isDashboard: true,
+    auth: true,
   },
 ];
 

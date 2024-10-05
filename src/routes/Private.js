@@ -8,7 +8,7 @@ import DashboardLayout from "../layouts/dashboard";
 function Private(props) {
   useScrollToTop();
 
-  const { component, ...rest } = props;
+  const { component, development, ...rest } = props;
   const Component = lazy(() => import(`../${component}`));
 
   if (!isAuth()) {
@@ -20,7 +20,7 @@ function Private(props) {
       {...rest}
       render={(props) => (
         <Suspense fallback={<Loader />}>
-          <DashboardLayout>
+          <DashboardLayout development={development}>
             <Component {...props} />
           </DashboardLayout>
         </Suspense>

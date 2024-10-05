@@ -11,8 +11,6 @@ import {
   ContainedButton,
   OutlinedButton,
 } from "../../../components/CustomButtons";
-import Profile from "../../../assets/hero-photo.png";
-import AboutPhoto from "../../../assets/about-photo.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import ContactCard from "../components/ContactCard";
 import { formatNumberToStr, Validator } from "../../../utils/heplers";
@@ -187,7 +185,7 @@ function HomepageView() {
               }}
             >
               <img
-                src={Profile}
+                src={"/assets/hero-photo.png"}
                 alt="Profile"
                 style={{ minWidth: 210, maxWidth: 450 }}
               />
@@ -248,7 +246,7 @@ function HomepageView() {
               }}
             >
               <img
-                src={AboutPhoto}
+                src={"/assets/about-photo.jpg"}
                 alt="Profile"
                 style={{
                   minWidth: 210,
