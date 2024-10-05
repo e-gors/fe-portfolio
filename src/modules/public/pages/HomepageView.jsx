@@ -191,27 +191,27 @@ function HomepageView() {
               />
               <Box sx={{ textAlign: "right" }}>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{exp ?? 0}+</Typography>
+                  <Typography variant="h5">{exp ?? 2}+</Typography>
                   <Typography>Years of Experience</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{worldwide ?? 0}%</Typography>
+                  <Typography variant="h5">{worldwide ?? 100}%</Typography>
                   <Typography>Client on Worldwide</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{local ?? 0}%</Typography>
+                  <Typography variant="h5">{local ?? 100}%</Typography>
                   <Typography>Client on Local</Typography>
                 </Box>
                 <Box sx={{ mb: 3 }}>
                   <Typography variant="h5">
-                    {formatNumberToStr(projects ?? 0)}
+                    {formatNumberToStr(projects ?? 5)}
                   </Typography>
                   <Typography>Projects Done</Typography>
                 </Box>
                 <Box>
-                  <Rating precision={0.5} value={Number(rating)} />
+                  <Rating precision={0.5} value={Number(rating) ?? 5} />
                   <Typography variant="h6">
-                    {rating ?? 0} Star Ratings (
+                    {rating ?? 5} Star Ratings (
                     {formatNumberToStr(reviews) ?? 0}+ reviews)
                   </Typography>
                 </Box>
