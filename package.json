@@ -27,7 +27,6 @@
     "redux-persist": "^6.0.0",
     "ree-validate-18": "^3.3.4",
     "simplebar-react": "^3.2.6",
-    "vitest": "^2.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

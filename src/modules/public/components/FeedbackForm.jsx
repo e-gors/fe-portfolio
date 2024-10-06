@@ -20,11 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import RatingComp from "./RatingComp";
 import { Validator } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
-import {
-  options,
-  ToastNotification,
-  ToastNotificationContainer,
-} from "../../../utils/toastConfig";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 const style = {
   position: "absolute",
