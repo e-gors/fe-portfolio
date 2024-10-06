@@ -15,6 +15,7 @@ import {
   setRates,
   setTotalReviuews,
 } from "../../../redux/actions/totalsActions";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 const properties = [
   {
@@ -45,10 +46,14 @@ function Feedbacks() {
 
   React.useEffect(() => {
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
     fetchFeedbacks(controller);
 
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timeoutId); // Clear timeout if the component unmounts before it finishes
+      controller.abort(); // Clean up and abort the request
+    };
   }, []);
 
   const fetchFeedbacks = (controller) => {
@@ -63,7 +68,15 @@ function Feedbacks() {
         }
       })
       .catch((err) => {
-        console.error(err.message);
+        if (err.name === "AbortError") {
+          ToastNotification(
+            "error",
+            "Request was aborted due to timeout.",
+            options
+          );
+        } else {
+          console.error(err.message);
+        }
       })
       .finally(() => {
         setLoading(false);

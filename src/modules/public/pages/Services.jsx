@@ -5,6 +5,7 @@ import { services } from "../../../_mock/services";
 import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
 import CardSkeleton from "../../../components/CardSkeleton";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 const properties = [
   {
@@ -30,12 +31,17 @@ function Services() {
 
   React.useEffect(() => {
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
-    fetchService(controller);
-    return () => controller.abort();
+    fetchServices(controller);
+
+    return () => {
+      clearTimeout(timeoutId); // Clear timeout if the component unmounts before it finishes
+      controller.abort(); // Clean up and abort the request
+    };
   }, []);
 
-  const fetchService = (controller) => {
+  const fetchServices = (controller) => {
     setLoading(true);
     publicHttp
       .get('services', { signal: controller.signal })
@@ -45,7 +51,15 @@ function Services() {
         }
       })
       .catch((err) => {
-        console.error(err.message);
+        if (err.name === "AbortError") {
+          ToastNotification(
+            "error",
+            "Request was aborted due to timeout.",
+            options
+          );
+        } else {
+          console.error(err.message);
+        }
       })
       .finally(() => {
         setLoading(false);

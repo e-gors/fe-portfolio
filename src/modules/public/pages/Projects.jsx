@@ -6,7 +6,12 @@ import { isEmpty } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import CardSkeleton from "../../../components/CardSkeleton";
 import { useDispatch } from "react-redux";
-import { setLocalPercent, setTotalProjects, setWorldwidePercent } from "../../../redux/actions/totalsActions";
+import {
+  setLocalPercent,
+  setTotalProjects,
+  setWorldwidePercent,
+} from "../../../redux/actions/totalsActions";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 const properties = [
   {
@@ -36,12 +41,17 @@ function Projects() {
 
   React.useEffect(() => {
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
-    fetchData(controller);
-    return () => controller.abort();
+    fetchProjects(controller);
+
+    return () => {
+      clearTimeout(timeoutId); // Clear timeout if the component unmounts before it finishes
+      controller.abort(); // Clean up and abort the request
+    };
   }, []);
 
-  const fetchData = (controller) => {
+  const fetchProjects = (controller) => {
     setLoading(true);
     publicHttp
       .get("projects", { signal: controller.signal })
@@ -52,7 +62,15 @@ function Projects() {
         dispatch(setWorldwidePercent(res.data?.data[0]?.worldwide));
       })
       .catch((err) => {
-        console.error(err.message);
+        if (err.name === "AbortError") {
+          ToastNotification(
+            "error",
+            "Request was aborted due to timeout.",
+            options
+          );
+        } else {
+          console.error(err.message);
+        }
       })
       .finally(() => {
         setLoading(false);
