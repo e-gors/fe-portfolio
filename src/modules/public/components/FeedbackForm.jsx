@@ -255,6 +255,9 @@ function FeedbackForm({
               flexDirection="column"
               alignItems="center"
               mt={2}
+              component="label" // Make the Box act as a label
+              htmlFor="profile-upload" // Associate with the input
+              sx={{ cursor: "pointer" }} // Change cursor to pointer
             >
               <Avatar
                 src={profileImage ? URL.createObjectURL(profileImage) : null}
@@ -266,12 +269,14 @@ function FeedbackForm({
                 Upload Profile (optional):
               </Typography>
               <input
+                id="profile-upload" // Add id to associate with the label
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                style={{ marginTop: "8px" }}
+                style={{ marginTop: "8px", display: "block" }}
               />
             </Box>
+
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <FormField
@@ -317,6 +322,7 @@ function FeedbackForm({
             </FormHelperText>
             <FormHelperText error>{messageCustomError}</FormHelperText>
             <RatingComp
+              precision={1}
               value={formValues.values.rating}
               onChange={handleChange}
               name="rating"

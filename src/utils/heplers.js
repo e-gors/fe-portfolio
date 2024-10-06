@@ -170,3 +170,23 @@ export const formatNumberToStr = (number) => {
     return number;
   }
 };
+
+// convert rating to only display rating precision 0f 0.5
+export const customRound = (rating) => {
+  const base = Math.floor(rating); // Get the base number
+  const decimal = rating - base; // Get the decimal part
+
+  // Determine the new decimal value based on the specified conditions
+  let newDecimal;
+
+  if (decimal >= 0.1 && decimal <= 0.4) {
+    newDecimal = 0.5; // Set to 0.5
+  } else if (decimal >= 0.6 && decimal <= 0.9) {
+    newDecimal = 1; // Set to 1
+  } else {
+    newDecimal = decimal; // Keep the decimal as is if it doesn't meet the criteria
+  }
+
+  // Return the combined value
+  return Math.min(base + newDecimal, 5);
+};

@@ -13,7 +13,7 @@ import {
 } from "../../../components/CustomButtons";
 import { useDispatch, useSelector } from "react-redux";
 import ContactCard from "../components/ContactCard";
-import { formatNumberToStr, Validator } from "../../../utils/heplers";
+import { customRound, formatNumberToStr, Validator } from "../../../utils/heplers";
 import FormField from "../../../components/FormField";
 import SendIcon from "@mui/icons-material/Send";
 import SocialCards from "../components/SocialCards";
@@ -195,11 +195,11 @@ function HomepageView() {
                   <Typography>Years of Experience</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{worldwide ?? 100}%</Typography>
+                  <Typography variant="h5">{worldwide ?? 30}%</Typography>
                   <Typography>Client on Worldwide</Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h5">{local ?? 100}%</Typography>
+                  <Typography variant="h5">{local ?? 70}%</Typography>
                   <Typography>Client on Local</Typography>
                 </Box>
                 <Box sx={{ mb: 3 }}>
@@ -209,9 +209,13 @@ function HomepageView() {
                   <Typography>Projects Done</Typography>
                 </Box>
                 <Box>
-                  <Rating precision={0.5} value={Number(rating) ?? 5} />
+                  <Rating
+                    readOnly
+                    precision={0.5}
+                    value={customRound(Number(rating.toFixed(1))) ?? 5}
+                  />
                   <Typography variant="h6">
-                    {rating ?? 5} Star Ratings (
+                    {customRound(Number(rating.toFixed(1))) ?? 5} Star Ratings (
                     {formatNumberToStr(reviews) ?? 0}+ reviews)
                   </Typography>
                 </Box>

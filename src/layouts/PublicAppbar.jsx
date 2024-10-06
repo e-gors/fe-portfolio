@@ -16,6 +16,9 @@ import { alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import publicHttp from "../utils/publicHttp";
 import axios from "axios";
+import { options, ToastNotification } from "../utils/toastConfig";
+import { setPage } from "../redux/actions/pageActions";
+import { useDispatch } from "react-redux";
 
 function PublicAppBar({
   publicConfig,
@@ -25,7 +28,8 @@ function PublicAppBar({
   drawerOpen,
   onDrawerOpen,
 }) {
-
+  const dispatch = useDispatch();
+  
   // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
     publicHttp
@@ -61,10 +65,10 @@ function PublicAppBar({
         window.URL.revokeObjectURL(url);
       })
       .catch((err) => {
-        console.error("Error downloading the resume:", err);
-        // Display a user-friendly error message here
-        alert(
-          "There was an error downloading the resume. Please try again later."
+        ToastNotification(
+          "error",
+          err?.response?.statusText ?? err.message,
+          options
         );
       });
   };
@@ -89,7 +93,7 @@ function PublicAppBar({
             justifyContent: "space-between",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }} onClick={() => dispatch(setPage("Home"))}>
             <Logo sx={{ display: { xs: "none", md: "block" } }} />
           </Box>
 

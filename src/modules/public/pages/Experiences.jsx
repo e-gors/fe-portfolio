@@ -7,6 +7,7 @@ import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
 import { useDispatch } from "react-redux";
 import { setTotalExperiences } from "../../../redux/actions/totalsActions";
+import { options, ToastNotification } from "../../../utils/toastConfig";
 
 function Experiences() {
   const dispatch = useDispatch();
@@ -15,12 +16,17 @@ function Experiences() {
 
   React.useEffect(() => {
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
-    fetchData(controller);
-    return () => controller.abort();
+    fetchExperiences(controller);
+
+    return () => {
+      clearTimeout(timeoutId); // Clear timeout if the component unmounts before it finishes
+      controller.abort(); // Clean up and abort the request
+    };
   }, []);
 
-  const fetchData = (controller) => {
+  const fetchExperiences = (controller) => {
     setLoading(true);
     publicHttp
       .get("experiences", { signal: controller.signal })
@@ -29,7 +35,15 @@ function Experiences() {
         dispatch(setTotalExperiences(res.data?.data[0]?.totalExperience));
       })
       .catch((err) => {
-        console.error(err.message);
+        if (err.name === "AbortError") {
+          ToastNotification(
+            "error",
+            "Request was aborted due to timeout.",
+            options
+          );
+        } else {
+          console.error(err.message);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -71,10 +85,10 @@ function Experiences() {
         window.URL.revokeObjectURL(url);
       })
       .catch((err) => {
-        console.error("Error downloading the resume:", err);
-        // Display a user-friendly error message here
-        alert(
-          "There was an error downloading the resume. Please try again later."
+        ToastNotification(
+          "error",
+          err?.response?.statusText ?? err.message,
+          options
         );
       });
   };

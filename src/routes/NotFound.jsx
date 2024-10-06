@@ -6,10 +6,13 @@ import { RouterLink } from './components';
 
 import Logo from '../components/logo';
 import { ContainedButton } from '../components/CustomButtons';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/actions/pageActions';
 
 // ----------------------------------------------------------------------
 
 export default function NotFound() {
+  const dispatch = useDispatch();
   const renderHeader = (
     <Box
       component="header"
@@ -21,6 +24,7 @@ export default function NotFound() {
         position: 'fixed',
         p: (theme) => ({ xs: theme.spacing(3, 3, 0), sm: theme.spacing(5, 5, 0) }),
       }}
+      onClick={() => dispatch(setPage("Home"))}
     >
       <Logo />
     </Box>

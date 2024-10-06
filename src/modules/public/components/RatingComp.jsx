@@ -5,19 +5,14 @@ import StarIcon from "@mui/icons-material/Star";
 import { FormHelperText, FormLabel } from "@mui/material";
 
 const labels = {
-  0.5: "Useless",
-  1: "Useless+",
-  1.5: "Poor",
-  2: "Poor+",
-  2.5: "Ok",
-  3: "Ok+",
-  3.5: "Good",
-  4: "Good+",
-  4.5: "Excellent",
-  5: "Excellent+",
+  1: "Useless",
+  2: "Poor",
+  3: "Ok",
+  4: "Good",
+  5: "Excellent",
 };
 
-export default function RatingComp({ value, onChange, errors }) {
+export default function RatingComp({ precision, value, onChange, errors }) {
   // Initialize error and helperText
   let error = false;
   let helperText = "";
@@ -46,7 +41,7 @@ export default function RatingComp({ value, onChange, errors }) {
         <Rating
           name="rating"
           value={value}
-          precision={0.5}
+          precision={precision ?? 1}
           onChange={onChange}
           emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
         />
