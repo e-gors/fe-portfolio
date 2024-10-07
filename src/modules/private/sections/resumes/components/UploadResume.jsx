@@ -31,7 +31,8 @@ function UploadResume() {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setLoading(true);
 
     if (!file || !type) {
