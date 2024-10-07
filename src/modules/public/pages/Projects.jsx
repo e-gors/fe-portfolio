@@ -5,7 +5,7 @@ import { projects } from "../../../_mock/projects";
 import { isEmpty } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import CardSkeleton from "../../../components/CardSkeleton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setLocalPercent,
   setTotalProjects,
@@ -36,6 +36,8 @@ const properties = [
 
 function Projects() {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+
   const [projectList, setProjectList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -87,7 +89,8 @@ function Projects() {
         height: "auto",
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
-        backgroundColor: "#f9fafb",
+        backgroundColor:
+        theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>

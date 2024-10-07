@@ -31,8 +31,12 @@ const ScrollToTopButton = () => {
         sx={{
           border: "1px solid #00dfc0",
           boxShadow: 5,
-          backgroundColor: "white",
-          color: "black"
+          color: "#10fddd",
+          backgroundColor: "#0d1a28",
+          "&:hover": {
+            backgroundColor: "#0b1a26",
+            border: "1px solid white",
+          },
         }}
       >
         <ArrowUpwardIcon />

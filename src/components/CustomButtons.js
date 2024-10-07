@@ -13,10 +13,11 @@ const ContainedButton = styled(Button)(({ theme }) => ({
 
 const OutlinedButton = styled(Button)(({ theme }) => ({
   borderColor: `var(--btn_border_color)`,
-  color: `var(--text_black)`,
+  color: theme === "light" ? `var(--text_black)` : "var(--text_white)",
   textTransform: "none",
 
   "&:hover": {
+    color: "var(--text_black)",
     backgroundColor: `var(--btn_bg_color)`,
     borderColor: `var(--btn_border_color)`,
     boxShadow: 5,
@@ -25,19 +26,19 @@ const OutlinedButton = styled(Button)(({ theme }) => ({
 
 const TextButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
-  color: "black",
+  color: theme === "light" ? "var(--text_black)" : "var(--text_white)",
 }));
 
-const DangerButton = styled(Button)(({ them }) => ({
+const DangerButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#FF5C5C",
-  color: "white",
+  color: theme === "light" ? "var(--text_black)" : "var(--text_white)",
   textTransform: "none",
   "&:hover": {
     backgroundColor: "#FF5C5C",
   },
 }));
 
-const WarningButton = styled(Button)(({ them }) => ({
+const WarningButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#FFC107",
   textTransform: "none",
 }));

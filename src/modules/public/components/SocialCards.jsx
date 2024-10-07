@@ -1,7 +1,7 @@
 import { Divider, IconButton, Stack } from "@mui/material";
 import React from "react";
 import { ContainedButton } from "../../../components/CustomButtons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../../redux/actions/pageActions";
 import { scrollToSection } from "../../../hooks/use-scroll-to-section";
 
@@ -11,6 +11,7 @@ function SocialCards({
   socials = [],
 }) {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
 
   const handleViewPage = (page) => {
     dispatch(setPage(page));
@@ -31,11 +32,13 @@ function SocialCards({
           <IconButton
             key={i}
             sx={{
-              backgroundColor: "white",
+              color: "#10fddd",
+              backgroundColor:
+                theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
               border: "1px solid #10fddd",
               borderRadius: "50%",
               "&:hover": {
-                backgroundColor: "#10fddd",
+                backgroundColor: "#0b1a26",
                 border: "1px solid white",
               },
             }}

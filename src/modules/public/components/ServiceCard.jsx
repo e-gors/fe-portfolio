@@ -2,8 +2,11 @@ import { Avatar, Box, Paper, Typography } from "@mui/material";
 import React from "react";
 import { OutlinedButton } from "../../../components/CustomButtons";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 function ServiceCard({ service = "Title", descriptions = [], image }) {
+  const theme = useSelector((state) => state.theme.theme);
+
   // State to track if descriptions are expanded or not
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -15,14 +18,12 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
   return (
     <Paper
       sx={{
-        backgroundColor: "#f9fafb",
         borderRadius: 2,
         padding: 2,
-        boxShadow: 4,
-        "&:hover": {
-          backgroundColor: "#f1e8ef",
-        },
+        boxShadow: theme === "light" ? 4 : 0,
         position: "relative",
+        backgroundColor:
+            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <Box
@@ -80,7 +81,7 @@ function ServiceCard({ service = "Title", descriptions = [], image }) {
           ))}
         </Box>
       </Box>
-      <OutlinedButton variant="outlined" onClick={toggleExpand}>
+      <OutlinedButton theme={theme} variant="outlined" onClick={toggleExpand}>
         {isExpanded ? "Show Less" : "Read More"} {/* Toggle button text */}
       </OutlinedButton>
     </Paper>

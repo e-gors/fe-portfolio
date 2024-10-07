@@ -3,6 +3,7 @@ import React from "react";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import PropTypes from "prop-types";
 import { getProfile } from "../../../utils/heplers";
+import { useSelector } from "react-redux";
 
 function FeedbackCard({
   message = "What they say?...",
@@ -13,14 +14,16 @@ function FeedbackCard({
   index,
   rating = 5,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
   return (
     <Box
       sx={{
-        boxShadow: 4,
+        boxShadow: theme === "light" ? 4 : 0,
         borderRadius: 1,
         position: "relative",
         padding: 3,
-        backgroundColor: "white",
+        backgroundColor:
+            theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
       }}
     >
       <FormatQuoteIcon

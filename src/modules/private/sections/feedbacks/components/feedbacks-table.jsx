@@ -154,6 +154,7 @@ export default function FeedbacksTable(props) {
                 {dataFiltered.map((row, i) => (
                   <FeedbacksTableRow
                     key={i}
+                    id={row.id}
                     guestName={row.guestName}
                     project={row.project}
                     message={row.message}
