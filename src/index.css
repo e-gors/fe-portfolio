@@ -1,8 +1,7 @@
 /* scrollbar */
-@import 'simplebar-react/dist/simplebar.min.css';
+@import "simplebar-react/dist/simplebar.min.css";
 
 :root {
-
   /* white background */
   --bg_light: #9b9a9c;
   --bg_lighter: #cac9cd;
@@ -12,10 +11,8 @@
   /* black background */
   --bg_dark: #6d6a6a;
   --bg_darker: #3e3b39;
-  --bg_darkest: #100c07;
+  --bg_darkest: #0d1a28ff;
   --bg_black: black;
-
-
 
   /* text white */
   --text_white: white;
@@ -29,12 +26,12 @@
   --text_darker: #3e3b39;
   --text_darkest: #100c07;
 
-
-
   /* Button Colors */
 
   --btn_border_color: #10fddd;
   --btn_bg_color: #10fddd;
+  --btn_dark_bg_color: black;
+  --btn_light_bg_color: black;
 
   /* button hover colors */
   --btn_hover_bg_color: #00dfc0;
@@ -43,14 +40,14 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

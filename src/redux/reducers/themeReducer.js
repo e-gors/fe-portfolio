@@ -1,7 +1,7 @@
 import { ActionTypes } from "../types/action-types";
 
 const initialState = {
-  theme: "light",
+  theme: "dark",
 };
 
 export const themeReducer = (state = initialState, { type, payload }) => {

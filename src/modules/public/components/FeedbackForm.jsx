@@ -21,18 +21,7 @@ import RatingComp from "./RatingComp";
 import { Validator } from "../../../utils/heplers";
 import publicHttp from "../../../utils/publicHttp";
 import { options, ToastNotification } from "../../../utils/toastConfig";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  minWidth: 320,
-  boxShadow: 24,
-  borderRadius: 2,
-  p: { xs: 2, md: 4 },
-};
+import { useSelector } from "react-redux";
 
 // get the string of Avatar Component
 const stringAvatar = (name) => {
@@ -67,6 +56,8 @@ function FeedbackForm({
   open,
   handleClose,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
+
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
@@ -173,7 +164,6 @@ function FeedbackForm({
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.status === 201) {
           ToastNotification("success", res.data.message, options);
           setFormValues({
@@ -200,6 +190,19 @@ function FeedbackForm({
       });
   };
 
+  // modal styling
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
+    minWidth: 320,
+    boxShadow: theme === "light" ? 24 : 0,
+    borderRadius: 2,
+    p: { xs: 2, md: 4 },
+  };
+
   return (
     <>
       <Modal
@@ -213,16 +216,16 @@ function FeedbackForm({
           <Box sx={{ width: "100%", position: "relative" }}>
             <IconButton
               edge="end"
-              color="inherit"
               onClick={handleClose}
               aria-label="close"
               sx={{
                 position: "absolute",
-                top: { xs: -10, md: -20 },
+                top: { xs: -15, md: -25 },
                 right: { xs: -5, md: -10 },
+                color: theme === "light" ? "red" : "#10fddd",
               }}
             >
-              <CloseIcon color="error" />
+              <CloseIcon />
             </IconButton>
           </Box>
           <Box>
@@ -251,9 +254,9 @@ function FeedbackForm({
               flexDirection="column"
               alignItems="center"
               mt={2}
-              component="label" // Make the Box act as a label
-              htmlFor="profile-upload" // Associate with the input
-              sx={{ cursor: "pointer" }} // Change cursor to pointer
+              component="label"
+              htmlFor="profile-upload"
+              sx={{ cursor: "pointer" }}
             >
               <Avatar
                 src={profileImage ? URL.createObjectURL(profileImage) : null}
@@ -273,7 +276,7 @@ function FeedbackForm({
               />
             </Box>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <Grid item xs={12} md={6}>
                 <FormField
                   name="guestName"
@@ -324,9 +327,11 @@ function FeedbackForm({
               name="rating"
               errors={formValues.errors}
             />
-            <FormHelperText error>
-              {ratingCustomError && ratingCustomError}
-            </FormHelperText>
+            {ratingCustomError && (
+              <FormHelperText error>
+                {ratingCustomError && ratingCustomError}
+              </FormHelperText>
+            )}
           </Box>
           <Stack direction="row" spacing={2}>
             <ContainedButton
@@ -337,7 +342,11 @@ function FeedbackForm({
             >
               Submit
             </ContainedButton>
-            <OutlinedButton variant="outlined" onClick={handleClose}>
+            <OutlinedButton
+              theme={theme}
+              variant="outlined"
+              onClick={handleClose}
+            >
               Cancel
             </OutlinedButton>
           </Stack>

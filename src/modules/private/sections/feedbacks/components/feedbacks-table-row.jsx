@@ -14,10 +14,13 @@ import IconButton from "@mui/material/IconButton";
 import Label from "../../../../../components/label";
 import Iconify from "../../../../../components/iconify";
 
+import Http from "../../../../../utils/Http";
+import { options, ToastNotification } from "../../../../../utils/toastConfig";
 // ----------------------------------------------------------------------
 
 export default function ServicesTableRow({
   selected,
+  id,
   guestName,
   project,
   message,
@@ -34,6 +37,22 @@ export default function ServicesTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleChangeStatus = (status, id) => {
+    Http.put(`feedbacks/${id}`, { status: status })
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === 200 || res.status === 200) {
+          handleCloseMenu();
+          ToastNotification("success", res.data.message, options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
+      .catch((error) => {
+        ToastNotification("error", error.message, options);
+      });
   };
 
   const statusColors = {
@@ -85,6 +104,34 @@ export default function ServicesTableRow({
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
+
+        {status === "pending" && (
+          <>
+            <MenuItem
+              onClick={() => handleChangeStatus("approved", id)}
+              sx={{ color: "green" }}
+            >
+              <Iconify icon="eva:checkmark-circle-2-fill" sx={{ mr: 2 }} />
+              Approved
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => handleChangeStatus("void", id)}
+              sx={{ color: "violet" }}
+            >
+              <Iconify icon="eva:alert-circle-fill" sx={{ mr: 2 }} />
+              Void
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => handleChangeStatus("declined", id)}
+              sx={{ color: "error.main" }}
+            >
+              <Iconify icon="eva:close-circle-fill" sx={{ mr: 2 }} />
+              Declined
+            </MenuItem>
+          </>
+        )}
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: "error.main" }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />

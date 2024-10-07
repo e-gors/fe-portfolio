@@ -6,6 +6,7 @@ import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
 import CardSkeleton from "../../../components/CardSkeleton";
 import { options, ToastNotification } from "../../../utils/toastConfig";
+import { useSelector } from "react-redux";
 
 const properties = [
   {
@@ -26,6 +27,8 @@ const properties = [
 ];
 
 function Services() {
+  const theme = useSelector((state) => state.theme.theme);
+
   const [serviceList, setServiceList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -44,7 +47,7 @@ function Services() {
   const fetchServices = (controller) => {
     setLoading(true);
     publicHttp
-      .get('services', { signal: controller.signal })
+      .get("services", { signal: controller.signal })
       .then((res) => {
         if (!isEmpty(res)) {
           setServiceList(res.data.data);
@@ -76,12 +79,15 @@ function Services() {
         height: "auto",
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
-        backgroundColor: "white",
+        backgroundColor:
+          theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
       }}
     >
       <Box mb={2}>
         <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>
-          <Typography variant="h3" gutterBottom>My Services</Typography>
+          <Typography variant="h3" gutterBottom>
+            My Services
+          </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Here you will find some of my services that I can offer with my
             skills and some other technologies.

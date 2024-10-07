@@ -5,12 +5,14 @@ import CustomTimeline from "../../../components/CustomTimeline";
 import { experiences } from "../../../_mock/experiences";
 import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTotalExperiences } from "../../../redux/actions/totalsActions";
 import { options, ToastNotification } from "../../../utils/toastConfig";
 
 function Experiences() {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+
   const [expList, setExpList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -101,7 +103,9 @@ function Experiences() {
         height: "auto",
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
-        backgroundColor: "white",
+        backgroundColor:
+          theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
+
       }}
     >
       <Grid container spacing={2}>

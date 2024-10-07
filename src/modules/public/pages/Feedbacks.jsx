@@ -10,7 +10,7 @@ import FeedbackCard from "../components/FeedbackCard";
 import publicHttp from "../../../utils/publicHttp";
 import { isEmpty } from "../../../utils/heplers";
 import CardSkeleton from "../../../components/CardSkeleton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setRates,
   setTotalReviuews,
@@ -37,6 +37,8 @@ const properties = [
 
 function Feedbacks() {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -91,7 +93,8 @@ function Feedbacks() {
       sx={{
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
-        backgroundColor: "#f9fafb",
+        backgroundColor:
+            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <FeedbackForm
@@ -115,7 +118,7 @@ function Feedbacks() {
               <ContainedButton variant="contained">
                 See all Feedback
               </ContainedButton>
-              <OutlinedButton variant="outlined" onClick={handleOpen}>
+              <OutlinedButton theme={theme} variant="outlined" onClick={handleOpen}>
                 Add Feedback
               </OutlinedButton>
             </Stack>

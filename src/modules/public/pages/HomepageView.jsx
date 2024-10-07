@@ -13,7 +13,11 @@ import {
 } from "../../../components/CustomButtons";
 import { useDispatch, useSelector } from "react-redux";
 import ContactCard from "../components/ContactCard";
-import { customRound, formatNumberToStr, Validator } from "../../../utils/heplers";
+import {
+  customRound,
+  formatNumberToStr,
+  Validator,
+} from "../../../utils/heplers";
 import FormField from "../../../components/FormField";
 import SendIcon from "@mui/icons-material/Send";
 import SocialCards from "../components/SocialCards";
@@ -134,7 +138,7 @@ function HomepageView() {
           overflow: "none",
           padding: { xs: "60px 5%", md: "3% 8%" },
           backgroundColor:
-            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
+            theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
         }}
       >
         <Grid
@@ -168,6 +172,7 @@ function HomepageView() {
                   My Services
                 </ContainedButton>
                 <OutlinedButton
+                  theme={theme}
                   variant="outlined"
                   onClick={() => handleViewPage("Portfolio")}
                 >
@@ -231,7 +236,8 @@ function HomepageView() {
           height: "auto",
           overflow: "none",
           padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "#f9fafb",
+          backgroundColor:
+            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
         }}
       >
         <Grid
@@ -310,8 +316,9 @@ function HomepageView() {
         sx={{
           overflow: "none",
           padding: { xs: "5%", md: "3% 10%" },
-          backgroundColor: "white",
           minHeight: { xs: "85vh", md: "auto" },
+          backgroundColor:
+            theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
         }}
       >
         <Grid container spacing={2}>
@@ -338,12 +345,12 @@ function HomepageView() {
               sx={{
                 boxShadow: 4,
                 padding: { xs: 2, md: 5 },
-                borderRadius: 1,
+                borderRadius: 2,
                 position: "absolute",
-                mt: 2,
                 left: 15,
-                bottom: { xs: -400, md: -200 },
-                backgroundColor: "white",
+                bottom: { xs: -400, md: -230, lg: -250 },
+                backgroundColor:
+                  theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
               }}
             >
               <Typography variant="h4">Say Something</Typography>

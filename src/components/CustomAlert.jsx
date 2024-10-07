@@ -15,6 +15,7 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import WarningIcon from "@mui/icons-material/Warning";
 import { DangerButton, OutlinedButton } from "./CustomButtons";
+import { useSelector } from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,6 +31,8 @@ export default function CustomAlert({
   severity,
   icon,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
+  
   return (
     <React.Fragment>
       <Dialog
@@ -70,7 +73,11 @@ export default function CustomAlert({
             <DangerButton onClick={handleContinue} variant="contained">
               {loading ? <CircularProgress size={24} /> : "Yes"}
             </DangerButton>
-            <OutlinedButton onClick={handleClose} variant="outlined">
+            <OutlinedButton
+              theme={theme}
+              onClick={handleClose}
+              variant="outlined"
+            >
               No
             </OutlinedButton>
           </DialogActions>

@@ -24,6 +24,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import Http from "../../../../../utils/Http";
 import SelectDropdown from "../../../../../components/SelectDropdown";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -54,6 +55,8 @@ function ProjectForm({
   open,
   handleClose,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
+  
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
@@ -323,7 +326,7 @@ function ProjectForm({
             >
               Submit
             </ContainedButton>
-            <OutlinedButton variant="outlined" onClick={handleClose}>
+            <OutlinedButton theme={theme} variant="outlined" onClick={handleClose}>
               Cancel
             </OutlinedButton>
           </Stack>

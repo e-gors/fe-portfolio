@@ -9,6 +9,7 @@ import {
   ToastNotification,
   ToastNotificationContainer,
 } from "../../../utils/toastConfig";
+import { useSelector } from "react-redux";
 
 function ProjectCard({
   type = "Landing Page",
@@ -17,7 +18,8 @@ function ProjectCard({
   link,
   picture = "/assets/bookease-not-finish.png",
 }) {
-
+  const theme = useSelector((state) => state.theme.theme);
+  
   const handleNavigate = (link) => {
     if (!isEmpty(link)) window.open(link, "_blank");
     else
@@ -47,6 +49,7 @@ function ProjectCard({
               {description}
             </Typography>
             <TextButton
+              theme={theme}
               variant="text"
               endIcon={<ArrowOutwardIcon />}
               onClick={() => handleNavigate(link)}

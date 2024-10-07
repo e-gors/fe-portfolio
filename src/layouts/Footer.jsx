@@ -3,22 +3,23 @@ import React from "react";
 import { ContainedButton } from "../components/CustomButtons";
 import SocialCards from "../modules/public/components/SocialCards";
 import { socials } from "../_mock/socials";
+import { useSelector } from "react-redux";
 
 function Footer() {
+  const theme = useSelector((state) => state.theme.theme);
   return (
     <Box
       sx={{
-        p: { xs: "150px 10px 25px", md: "200px 20px 50px" },
+        p: { xs: "150px 10px 25px", md: "200px 20px 50px", lg: "250px 30px 100px" },
+        backgroundColor:
+          theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5" sx={{ fontSize: { xs: 19, md: 36 } }}>
           Let's Work Together
         </Typography>
-        <ContainedButton
-          variant="contained"
-          sx={{ alignSelf: "center" }}
-        >
+        <ContainedButton variant="contained" sx={{ alignSelf: "center" }}>
           Let's Talk
         </ContainedButton>
       </Box>

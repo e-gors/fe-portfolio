@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import ListItemButton from "@mui/material/ListItemButton";
 
 import { usePathname, useRouter } from "../../routes/hooks";
-import { RouterLink } from "../../routes/components";
 
 import { useResponsive } from "../../hooks/use-responsive";
 
@@ -34,6 +33,8 @@ export default function Nav({
 }) {
   const pathname = usePathname();
 
+  const theme = useSelector((state) => state.theme.theme);
+
   const user = useSelector((state) => state.users.user);
 
   const upLg = useResponsive("up", "lg");
@@ -54,7 +55,10 @@ export default function Nav({
         display: "flex",
         borderRadius: 1.5,
         alignItems: "center",
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+        bgcolor:
+          theme === "light"
+            ? (theme) => alpha(theme.palette.grey[500], 0.12)
+            : "var(--bg_darkest)",
       }}
     >
       <Avatar
@@ -95,6 +99,7 @@ export default function Nav({
     <Scrollbar
       sx={{
         height: 1,
+        bgcolor: theme === "light" ? "white" : "black",
         "& .simplebar-content": {
           height: 1,
           display: "flex",

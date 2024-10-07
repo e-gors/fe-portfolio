@@ -23,6 +23,7 @@ import {
 } from "../../../../../components/CustomButtons";
 import SendIcon from "@mui/icons-material/Send";
 import Http from "../../../../../utils/Http";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -64,6 +65,8 @@ function ServiceForm({
   open,
   handleClose,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
+
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
@@ -328,7 +331,7 @@ function ServiceForm({
             >
               Submit
             </ContainedButton>
-            <OutlinedButton variant="outlined" onClick={handleClose}>
+            <OutlinedButton theme={theme} variant="outlined" onClick={handleClose}>
               Cancel
             </OutlinedButton>
           </Stack>

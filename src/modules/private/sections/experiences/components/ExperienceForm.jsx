@@ -28,6 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -58,6 +59,8 @@ function ExperienceForm({
   open,
   handleClose,
 }) {
+  const theme = useSelector((state) => state.theme.theme);
+
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
@@ -361,7 +364,7 @@ function ExperienceForm({
               >
                 Submit
               </ContainedButton>
-              <OutlinedButton variant="outlined" onClick={handleClose}>
+              <OutlinedButton theme={theme} variant="outlined" onClick={handleClose}>
                 Cancel
               </OutlinedButton>
             </Stack>

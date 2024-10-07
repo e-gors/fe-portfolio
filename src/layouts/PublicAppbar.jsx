@@ -8,17 +8,17 @@ import {
   Stack,
   ListItemButton,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Menu, LightModeTwoTone, DarkModeTwoTone } from "@mui/icons-material";
 import Logo from "../components/logo";
 import Nav from "./dashboard/nav";
 import { OutlinedButton } from "../components/CustomButtons";
 import { alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import publicHttp from "../utils/publicHttp";
-import axios from "axios";
 import { options, ToastNotification } from "../utils/toastConfig";
 import { setPage } from "../redux/actions/pageActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "../redux/actions/themeActions";
 
 function PublicAppBar({
   publicConfig,
@@ -29,7 +29,8 @@ function PublicAppBar({
   onDrawerOpen,
 }) {
   const dispatch = useDispatch();
-  
+  const theme = useSelector((state) => state.theme.theme);
+
   // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
     publicHttp
@@ -73,6 +74,11 @@ function PublicAppBar({
       });
   };
 
+  const handleChangeTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    dispatch(setTheme(newTheme));
+  };
+
   return (
     <AppBar
       enableColorOnDark
@@ -85,7 +91,7 @@ function PublicAppBar({
         height: 60,
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ px: { xs: 2, md: 5, lg: 10 } }}>
         <Toolbar
           sx={{
             minHeight: 60,
@@ -93,78 +99,101 @@ function PublicAppBar({
             justifyContent: "space-between",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }} onClick={() => dispatch(setPage("Home"))}>
-            <Logo sx={{ display: { xs: "none", md: "block" } }} />
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Nav
-              handlePageClick={handlePageClick}
-              selectedPage={selectedPage}
-              navConfig={publicConfig}
-              openNav={drawerOpen}
-              onCloseNav={() => onDrawerOpen(false)}
-            />
-          </Box>
-
-          <Stack
-            direction="row"
-            component="nav"
-            spacing={1}
-            sx={{ display: { xs: "none", md: "flex" } }}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => dispatch(setPage("Home"))}
           >
-            {publicConfig?.map((page, i) => {
-              const title = page.title;
-              const selected = selectedPage === title;
-              return (
-                <ListItemButton
-                  key={i}
-                  onClick={() => handlePageClick(page.title)}
-                  selected={selected}
-                  sx={{
-                    borderRadius: 0.75,
-                    typography: "body1",
-                    color: "text.secondary",
-                    textTransform: "none",
-                    fontWeight: "fontWeightMedium",
-                    transition: "0.3s",
-
-                    ...(selected && {
-                      color: "primary.main",
-                      fontWeight: "fontWeightSemiBold",
-                      bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, 0.08),
-                      "&:hover": {
-                        bgcolor: (theme) =>
-                          alpha(theme.palette.primary.main, 0.16),
-                      },
-                    }),
-                  }}
+            <Logo sx={{ display: { xs: "none", md: "block" } }} />
+            <Box sx={{ ml: { xs: 0, sm: 3, md: 5, lg: 10 } }}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "flex", md: "none" },
+                }}
+              >
+                <IconButton
+                  size="large"
+                  aria-label="menu"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
                 >
-                  {page.title}
-                </ListItemButton>
-              );
-            })}
-          </Stack>
+                  <Menu
+                    sx={{
+                      color:
+                        theme === "light"
+                          ? "var(--text_dark)"
+                          : "var(--text_white)",
+                    }}
+                  />
+                </IconButton>
+                <Nav
+                  handlePageClick={handlePageClick}
+                  selectedPage={selectedPage}
+                  navConfig={publicConfig}
+                  openNav={drawerOpen}
+                  onCloseNav={() => onDrawerOpen(false)}
+                />
+              </Box>
+
+              <Stack
+                direction="row"
+                component="nav"
+                spacing={1}
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                {publicConfig?.map((page, i) => {
+                  const title = page.title;
+                  const selected = selectedPage === title;
+                  return (
+                    <ListItemButton
+                      key={i}
+                      onClick={() => handlePageClick(page.title)}
+                      selected={selected}
+                      sx={{
+                        borderRadius: 0.75,
+                        typography: "body1",
+                        color: "text.secondary",
+                        textTransform: "none",
+                        fontWeight: "fontWeightMedium",
+                        transition: "0.3s",
+
+                        ...(selected && {
+                          color: "primary.main",
+                          fontWeight: "fontWeightSemiBold",
+                          bgcolor: (theme) =>
+                            alpha(theme.palette.primary.main, 0.08),
+                          "&:hover": {
+                            bgcolor: (theme) =>
+                              alpha(theme.palette.primary.main, 0.16),
+                          },
+                        }),
+                      }}
+                    >
+                      {page.title}
+                    </ListItemButton>
+                  );
+                })}
+              </Stack>
+            </Box>
+          </Box>
+
           <Stack direction="row" spacing={2}>
             <OutlinedButton
+              theme={theme}
               variant="outlined"
               size="small"
               onClick={handleDownloadResume}
             >
               Download CV
             </OutlinedButton>
-            {/* <CustomSwitch noLabel /> */}
+            <IconButton onClick={handleChangeTheme}>
+              {theme === "light" ? <DarkModeTwoTone /> : <LightModeTwoTone />}
+            </IconButton>
           </Stack>
         </Toolbar>
       </Container>
