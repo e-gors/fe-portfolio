@@ -130,6 +130,7 @@ function HomepageView() {
     <>
       <ToastNotificationContainer />
       <Box
+        component="section"
         id="home"
         sx={{
           minHeight: `calc(100vh - 60px)`,
@@ -230,6 +231,7 @@ function HomepageView() {
         </Grid>
       </Box>
       <Box
+        component="section"
         id="about"
         sx={{
           minHeight: `calc(100vh - 60px)`,
@@ -312,6 +314,7 @@ function HomepageView() {
       <Experiences />
       <Feedbacks />
       <Box
+        component="section"
         id="contact"
         sx={{
           overflow: "none",

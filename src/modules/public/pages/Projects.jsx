@@ -83,6 +83,7 @@ function Projects() {
 
   return (
     <Box
+      component="section"
       id="portfolio"
       sx={{
         minHeight: `calc(100vh - 60px)`,
@@ -90,7 +91,7 @@ function Projects() {
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
         backgroundColor:
-        theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
+          theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <Box sx={{ textAlign: { xs: "left", sm: "center" } }}>

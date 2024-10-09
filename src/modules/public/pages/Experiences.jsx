@@ -99,13 +99,13 @@ function Experiences() {
 
   return (
     <Box
+      component="section"
       sx={{
         height: "auto",
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
         backgroundColor:
           theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
-
       }}
     >
       <Grid container spacing={2}>

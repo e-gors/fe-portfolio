@@ -89,12 +89,13 @@ function Feedbacks() {
 
   return (
     <Box
+      component="section"
       id="testimonials"
       sx={{
         overflow: "none",
         padding: { xs: "5%", md: "3% 10%" },
         backgroundColor:
-            theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
+          theme === "light" ? "var(--bg_white)" : "var(--bg_black)",
       }}
     >
       <FeedbackForm
@@ -118,7 +119,11 @@ function Feedbacks() {
               <ContainedButton variant="contained">
                 See all Feedback
               </ContainedButton>
-              <OutlinedButton theme={theme} variant="outlined" onClick={handleOpen}>
+              <OutlinedButton
+                theme={theme}
+                variant="outlined"
+                onClick={handleOpen}
+              >
                 Add Feedback
               </OutlinedButton>
             </Stack>
