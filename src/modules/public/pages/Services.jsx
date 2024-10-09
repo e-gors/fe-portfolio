@@ -73,6 +73,7 @@ function Services() {
 
   return (
     <Box
+      component="section"
       id="services"
       sx={{
         minHeight: `calc(100vh - 60px)`,
