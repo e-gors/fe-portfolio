@@ -30,9 +30,11 @@ function PublicAppBar({
 }) {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.theme);
+  const [loading, setLoading] = React.useState(false);
 
   // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
+    setLoading(true);
     publicHttp
       .get("/resume/download", {
         responseType: "blob", // Receive the file as a Blob
@@ -64,6 +66,8 @@ function PublicAppBar({
         // Cleanup: Remove the link and revoke the Object URL
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
+
+        ToastNotification("success", "Resume downloaded successfully!", options);
       })
       .catch((err) => {
         ToastNotification(
@@ -71,6 +75,9 @@ function PublicAppBar({
           err?.response?.statusText ?? err.message,
           options
         );
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -188,8 +195,9 @@ function PublicAppBar({
               variant="outlined"
               size="small"
               onClick={handleDownloadResume}
+              disabled={loading}
             >
-              Download CV
+              {loading ? "Downloading..." : "Download CV"}
             </OutlinedButton>
             <IconButton onClick={handleChangeTheme}>
               {theme === "light" ? <DarkModeTwoTone /> : <LightModeTwoTone />}
