@@ -5,20 +5,22 @@ import Typography from "@mui/material/Typography";
 import { RouterLink } from "./components";
 
 import { ContainedButton } from "../components/CustomButtons";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
 export default function DevelopmentMode(props) {
+  const theme = useSelector((state) => state.theme.theme);
+
   return (
     <>
       <Container>
         <Box
           sx={{
-            py: 12,
-            maxWidth: 480,
-            mx: "auto",
+            backgroundColor:
+              theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
             display: "flex",
-            minHeight: "100vh",
+            height: "100vh",
             textAlign: "center",
             alignItems: "center",
             flexDirection: "column",

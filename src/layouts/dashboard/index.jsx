@@ -16,6 +16,8 @@ import DevelopmentMode from "../../routes/DevelopmentMode";
 
 export default function DashboardLayout({ development, children }) {
   const router = useRouter();
+
+  const theme = useSelector((state) => state.theme.theme);
   const user = useSelector((state) => state.users.user);
 
   const [openNav, setOpenNav] = useState(false);
@@ -49,7 +51,12 @@ export default function DashboardLayout({ development, children }) {
         />
 
         {development ? (
-          <Main>
+          <Main
+            sx={{
+              backgroundColor:
+                theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
+            }}
+          >
             <DevelopmentMode />
           </Main>
         ) : (
