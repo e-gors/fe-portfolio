@@ -51,3 +51,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.dynamic-text {
+  display: inline-block;
+  border-right: 2px solid; /* Simulate a blinking cursor */
+  padding-right: 2px; /* Space for the cursor */
+  animation: blink-caret 0.75s step-end infinite; /* Caret blinking animation */
+}
+
+@keyframes blink-caret {
+  50% {
+    border-color: transparent; /* Blink effect */
+  }
+}
