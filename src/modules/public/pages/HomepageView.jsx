@@ -218,10 +218,10 @@ function HomepageView() {
                   <Rating
                     readOnly
                     precision={0.5}
-                    value={customRound(Number(rating.toFixed(1))) ?? 5}
+                    value={customRound(Number(rating?.toFixed(1))) ?? 5}
                   />
                   <Typography variant="h6">
-                    {customRound(Number(rating.toFixed(1))) ?? 5} Star Ratings (
+                    {customRound(Number(rating?.toFixed(1))) ?? 5} Star Ratings (
                     {formatNumberToStr(reviews) ?? 0}+ reviews)
                   </Typography>
                 </Box>
