@@ -15,6 +15,7 @@ function Experiences() {
 
   const [expList, setExpList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [downloading, setDownloading] = React.useState(false);
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -54,6 +55,7 @@ function Experiences() {
 
   // when click, download the latest uploaded resume
   const handleDownloadResume = () => {
+    setDownloading(true);
     publicHttp
       .get("/resume/download", {
         responseType: "blob", // Receive the file as a Blob
@@ -85,6 +87,12 @@ function Experiences() {
         // Cleanup: Remove the link and revoke the Object URL
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
+
+        ToastNotification(
+          "success",
+          "Resume downloaded successfully!",
+          options
+        );
       })
       .catch((err) => {
         ToastNotification(
@@ -92,6 +100,9 @@ function Experiences() {
           err?.response?.statusText ?? err.message,
           options
         );
+      })
+      .finally(() => {
+        setDownloading(false);
       });
   };
 
@@ -119,8 +130,12 @@ function Experiences() {
               industries. I’m always interested in new, exciting, and
               challenging adventures.
             </Typography>
-            <ContainedButton variant="contained" onClick={handleDownloadResume}>
-              Download CV
+            <ContainedButton
+              variant="contained"
+              onClick={handleDownloadResume}
+              disabled={downloading}
+            >
+              {downloading ? "Downloading..." : "Download CV"}
             </ContainedButton>
           </Box>
         </Grid>
