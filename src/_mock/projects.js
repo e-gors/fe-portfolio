@@ -6,7 +6,7 @@ export const projects = [
     name: "Medical Service",
     description:
       "The most powerful software & app landing page for any kind of app and software marketing business.",
-    link: "localhost:3000",
+    link: "",
     picture: Project,
   },
   {
@@ -14,7 +14,7 @@ export const projects = [
     name: "Digital Banking",
     description:
       "The most powerful software & app landing page for any kind of app and software marketing business.",
-    link: "localhost:3000",
+    link: "",
     picture: Project,
   },
   {
@@ -22,7 +22,7 @@ export const projects = [
     name: "Branding Website",
     description:
       "The most powerful software & app landing page for any kind of app and software marketing business.",
-    link: "localhost:3000",
+    link: "",
     picture: Project,
   },
 ];
