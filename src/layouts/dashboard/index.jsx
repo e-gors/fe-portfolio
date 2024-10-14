@@ -50,18 +50,14 @@ export default function DashboardLayout({ development, children }) {
           onCloseNav={() => setOpenNav(false)}
         />
 
-        {development ? (
-          <Main
-            sx={{
-              backgroundColor:
-                theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
-            }}
-          >
-            <DevelopmentMode />
-          </Main>
-        ) : (
-          <Main>{children}</Main>
-        )}
+        <Main
+          sx={{
+            backgroundColor:
+              theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
+          }}
+        >
+          {development ? <DevelopmentMode /> : { children }}
+        </Main>
       </Box>
     </>
   );
