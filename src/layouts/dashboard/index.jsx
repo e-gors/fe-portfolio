@@ -56,7 +56,7 @@ export default function DashboardLayout({ development, children }) {
               theme === "light" ? "var(--bg_lightest)" : "var(--bg_darkest)",
           }}
         >
-          {development ? <DevelopmentMode /> : { children }}
+          {development ? <DevelopmentMode /> : children }
         </Main>
       </Box>
     </>
